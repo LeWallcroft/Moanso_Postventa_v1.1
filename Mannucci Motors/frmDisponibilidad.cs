@@ -144,17 +144,19 @@ namespace Mannucci_Motors
         {
             try
             {
-                // Obtener la lista de bahías activas de la capa de lógica
+                // Obtener la lista de bahías activas de la capa de lógica (CN_Bahia.ListarBahiasActivas)
                 List<Bahia> listaBahias = cnBahia.ListarBahiasActivas();
 
-                // Añadir una opción para 'Todas las bahías' al inicio
-                // Se usará BahiaId = 0 o NULL para representar "Todas"
-                listaBahias.Insert(0, new Bahia { BahiaId = 0, Tipo = "Todas las Bahías" });
+                // 1. Añadir la opción "Todas las bahías"
+                // Cambiamos el Tipo por el Nombre en el texto, aunque se usará el ID=0 para filtrar.
+                listaBahias.Insert(0, new Bahia { BahiaId = 0, Nombre = "Todas las Bahías" });
 
-                // Configurar el ComboBox (cmbBahia)
+                // Configurar el ComboBox (cmbBahias)
                 cmbBahia.DataSource = listaBahias;
-                // El campo que se mostrará al usuario (el Tipo de bahía)
-                cmbBahia.DisplayMember = "Tipo";
+
+                // 2. CAMBIO CLAVE: Mostrar el NOMBRE en lugar del Tipo
+                cmbBahia.DisplayMember = "Nombre";
+
                 // El campo que se guardará internamente (el ID)
                 cmbBahia.ValueMember = "BahiaId";
 

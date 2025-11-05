@@ -107,17 +107,18 @@ namespace Mannucci_Motors
             // La duración del slot
             TimeSpan duracionSlot = _slotCapacidad.HoraFin - _slotCapacidad.HoraInicio;
             nudDuracion.Value = (decimal)duracionSlot.TotalMinutes;
+            string tipoBahia = _slotCapacidad.Tipo;
 
             // 2. Cargar ComboBox de Servicios
             try
             {
                 // Usamos la Capa Lógica
-                List<Servicio> servicios = cnServicio.ListarServicios();
+                List<Servicio> servicios = cnServicio.ListarServicios(tipoBahia);
 
                 // Añadir un servicio Dummy si la lista está vacía
                 if (servicios.Count == 0)
                 {
-                    servicios.Insert(0, new Servicio { ServicioId = 0, Nombre = "-- No hay servicios activos --", DuracionMin = 0 });
+                    servicios.Insert(0, new Servicio { ServicioId = 0, Nombre = $"-- No hay servicios para {tipoBahia} --", DuracionMin = 0, Tipo = tipoBahia });
                 }
 
                 // Configuración del ComboBox
@@ -140,10 +141,22 @@ namespace Mannucci_Motors
             {
                 // Guarda el servicio seleccionado en la variable de estado
                 _servicioSeleccionado = servicio;
+
+                // Mostrar la duración del servicio en el nudDuracion
+                if (_servicioSeleccionado.ServicioId > 0)
+                {
+                    // La duración del servicio seleccionado debe ser menor o igual que la duración del slot (Validación opcional)
+                    nudDuracion.Value = _servicioSeleccionado.DuracionMin;
+                }
+                else
+                {
+                    nudDuracion.Value = 0;
+                }
             }
             else
             {
                 _servicioSeleccionado = null;
+                nudDuracion.Value = 0;
             }
         }
 
