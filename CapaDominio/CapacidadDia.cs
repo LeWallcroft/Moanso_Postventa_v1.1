@@ -9,14 +9,16 @@ namespace CapaDominio
     public class CapacidadDia
     {
         public int CapacidadId { get; set; }
-        public string Bahia { get; set; } // Nombre de la bahía
-        public TimeSpan HoraInicio { get; set; } // Mapea TIME en SQL
-        public TimeSpan HoraFin { get; set; } // Mapea TIME en SQL
+        public DateTime Fecha { get; set; }
+        public string Bahia { get; set; }
+        public int BahiaId { get; set; }
+        public TimeSpan HoraInicio { get; set; }
+        public TimeSpan HoraFin { get; set; }
         public int CapacidadMax { get; set; }
         public int CapacidadReservada { get; set; }
-        public int CuposLibres { get; set; } // Campo calculado en el SP
+        public int CuposLibres { get; set; }
+        public string Tipo { get; set; }
 
-        // Propiedad para mostrar la hora en el DataGrid de forma amigable
         public string RangoHorario => $"{HoraInicio:hh\\:mm} - {HoraFin:hh\\:mm}";
     }
 }

@@ -12,17 +12,48 @@ namespace CapaLogicaNegocio
     {
         private CD_Servicio cdServicio = new CD_Servicio();
 
-        // Método para listar servicios activos
+        public List<Servicio> ListarServicios(string tipoBahia)
+        {
+            try
+            {
+                var todosServicios = cdServicio.ListarServiciosActivos();
+
+                // DEBUG: Ver qué estamos recibiendo
+                Console.WriteLine($"=== FILTRANDO SERVICIOS ===");
+                Console.WriteLine($"Tipo de bahía recibido: '{tipoBahia}'");
+                Console.WriteLine($"Total de servicios: {todosServicios.Count}");
+
+                foreach (var servicio in todosServicios)
+                {
+                    Console.WriteLine($"Servicio: {servicio.Nombre}, Tipo: '{servicio.Tipo}'");
+                }
+
+                // Filtrado más flexible
+                var serviciosFiltrados = todosServicios
+                    .Where(s => s.Tipo != null &&
+                           s.Tipo.Trim().ToLower() == tipoBahia.Trim().ToLower())
+                    .ToList();
+
+                Console.WriteLine($"Servicios después del filtro: {serviciosFiltrados.Count}");
+
+                return serviciosFiltrados;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al filtrar servicios por tipo de bahía: " + ex.Message);
+            }
+        }
+
         public List<Servicio> ListarServicios()
         {
-            // No se requieren validaciones complejas aquí, solo recuperar la lista activa.
             return cdServicio.ListarServiciosActivos();
         }
 
-        // Método auxiliar para obtener Duración, ya que el SP solo da ID y Nombre
         public int ObtenerDuracionMin(int servicioId)
         {
-            return 120; // 120 minutos por defecto, hasta que se implemente la búsqueda correcta.
+            var servicio = cdServicio.ListarServiciosActivos()
+                                .FirstOrDefault(s => s.ServicioId == servicioId);
+            return servicio?.DuracionMin ?? 120;
         }
     }
 }
