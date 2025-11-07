@@ -16,6 +16,7 @@ namespace Mannucci_Motors
     {
         private CN_Bahia cnBahia = new CN_Bahia();
         private CN_Cita cnCita = new CN_Cita();
+        private List<Bahia> bahiasActivas = new List<Bahia>();
 
         public frmDisponibilidad()
         {
@@ -41,6 +42,7 @@ namespace Mannucci_Motors
 
         private void btnRefrescar_Click(object sender, EventArgs e)
         {
+            CargarBahias();
             CargarDisponibilidad();
         }
 
@@ -83,12 +85,32 @@ namespace Mannucci_Motors
             try
             {
                 DateTime fechaSeleccionada = mcFecha.SelectionStart.Date;
-                int? bahiaId = cmbBahia.SelectedValue as int?;
-                if (bahiaId == 0) bahiaId = null;
+                int? bahiaId = null;
+
+                // Manejar correctamente la selección del ComboBox
+                if (cmbBahia.SelectedValue != null && cmbBahia.SelectedValue is int selectedId && selectedId > 0)
+                {
+                    bahiaId = selectedId;
+                }
 
                 List<CapacidadDia> disponibilidad = cnCita.ObtenerDisponibilidad(fechaSeleccionada, bahiaId);
 
-                dgvFranjas.DataSource = disponibilidad;
+                // FILTRAR SOLO BAHÍAS ACTIVAS - OPCIÓN 1: Por lista de bahías activas
+                var nombresBahiasActivas = bahiasActivas.Select(b => b.Nombre).ToList();
+                var disponibilidadFiltrada = disponibilidad.Where(d => nombresBahiasActivas.Contains(d.Bahia)).ToList();
+
+                // OPCIÓN 2: Si hay un patrón en los nombres de bahías inhabilitadas
+                // var disponibilidadFiltrada = disponibilidad.Where(d => !d.Bahia.ToLower().Contains("inhabilitada")).ToList();
+
+                // Limpiar el evento temporalmente para evitar conflictos
+                dgvFranjas.CellFormatting -= DgvFranjas_CellFormatting;
+
+                dgvFranjas.DataSource = null;
+                dgvFranjas.DataSource = disponibilidadFiltrada;
+
+                // Reasignar el evento
+                dgvFranjas.CellFormatting += DgvFranjas_CellFormatting;
+
                 AjustarDataGrid();
 
             }
@@ -101,30 +123,50 @@ namespace Mannucci_Motors
 
         private void AjustarDataGrid()
         {
+            if (dgvFranjas.Columns.Count == 0) return;
+
             // Ocultar columnas que no queremos mostrar
-            dgvFranjas.Columns["CapacidadId"].Visible = false;
-            dgvFranjas.Columns["HoraInicio"].Visible = false;
-            dgvFranjas.Columns["HoraFin"].Visible = false;
-            dgvFranjas.Columns["BahiaId"].Visible = false; // Ocultamos BahiaId si no quieres mostrarlo
-            dgvFranjas.Columns["Fecha"].Visible = false;
-            dgvFranjas.Columns["Tipo"].Visible = false;
+            var columnasOcultar = new[] { "CapacidadId", "HoraInicio", "HoraFin", "BahiaId", "Fecha", "Tipo" };
+
+            foreach (string columna in columnasOcultar)
+            {
+                if (dgvFranjas.Columns.Contains(columna))
+                    dgvFranjas.Columns[columna].Visible = false;
+            }
 
             // Renombrar columnas
-            dgvFranjas.Columns["RangoHorario"].HeaderText = "HORA";
-            dgvFranjas.Columns["Bahia"].HeaderText = "BAHÍA";
-            dgvFranjas.Columns["CapacidadMax"].HeaderText = "CAP. MÁX";
-            dgvFranjas.Columns["CapacidadReservada"].HeaderText = "RESERVAS";
-            dgvFranjas.Columns["CuposLibres"].HeaderText = "DISPONIBLE";
+            if (dgvFranjas.Columns.Contains("RangoHorario"))
+                dgvFranjas.Columns["RangoHorario"].HeaderText = "HORA";
 
-            // Configurar el evento para cambiar colores dinámicamente
-            dgvFranjas.CellFormatting += DgvFranjas_CellFormatting;
+            if (dgvFranjas.Columns.Contains("Bahia"))
+                dgvFranjas.Columns["Bahia"].HeaderText = "BAHÍA";
+
+            if (dgvFranjas.Columns.Contains("CapacidadMax"))
+                dgvFranjas.Columns["CapacidadMax"].HeaderText = "CAP. MÁX";
+
+            if (dgvFranjas.Columns.Contains("CapacidadReservada"))
+                dgvFranjas.Columns["CapacidadReservada"].HeaderText = "RESERVAS";
+
+            if (dgvFranjas.Columns.Contains("CuposLibres"))
+                dgvFranjas.Columns["CuposLibres"].HeaderText = "DISPONIBLE";
 
             // Ajustar ancho de columnas
-            dgvFranjas.Columns["RangoHorario"].Width = 120;
-            dgvFranjas.Columns["Bahia"].Width = 150;
-            dgvFranjas.Columns["CapacidadMax"].Width = 80;
-            dgvFranjas.Columns["CapacidadReservada"].Width = 80;
-            dgvFranjas.Columns["CuposLibres"].Width = 100;
+            dgvFranjas.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.None;
+
+            if (dgvFranjas.Columns.Contains("RangoHorario"))
+                dgvFranjas.Columns["RangoHorario"].Width = 120;
+
+            if (dgvFranjas.Columns.Contains("Bahia"))
+                dgvFranjas.Columns["Bahia"].Width = 150;
+
+            if (dgvFranjas.Columns.Contains("CapacidadMax"))
+                dgvFranjas.Columns["CapacidadMax"].Width = 80;
+
+            if (dgvFranjas.Columns.Contains("CapacidadReservada"))
+                dgvFranjas.Columns["CapacidadReservada"].Width = 80;
+
+            if (dgvFranjas.Columns.Contains("CuposLibres"))
+                dgvFranjas.Columns["CuposLibres"].Width = 100;
         }
 
         private void DgvFranjas_CellFormatting(object sender, DataGridViewCellFormattingEventArgs e)
@@ -177,12 +219,19 @@ namespace Mannucci_Motors
         {
             try
             {
-                List<Bahia> listaBahias = cnBahia.ListarBahiasActivas();
-                listaBahias.Insert(0, new Bahia { BahiaId = 0, Nombre = "Todas las Bahías" });
+                // Limpiar el DataSource primero
+                cmbBahia.DataSource = null;
 
-                cmbBahia.DataSource = listaBahias;
+                bahiasActivas = cnBahia.ListarBahiasActivas();
+                var listaParaCombo = new List<Bahia>(bahiasActivas);
+                listaParaCombo.Insert(0, new Bahia { BahiaId = 0, Nombre = "Todas las Bahías" });
+
+                cmbBahia.DataSource = listaParaCombo;
                 cmbBahia.DisplayMember = "Nombre";
                 cmbBahia.ValueMember = "BahiaId";
+
+                // Forzar actualización
+                cmbBahia.Refresh();
 
             }
             catch (Exception ex)

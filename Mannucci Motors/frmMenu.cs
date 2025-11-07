@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CapaPresentacion;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -118,7 +119,7 @@ namespace Mannucci_Motors
 
         private void mnuAdminBahias_Click(object sender, EventArgs e)
         {
-
+            OpenMdiSingle<frmBahias>();
         }
 
         private void mnuAdminTecnicos_Click(object sender, EventArgs e)

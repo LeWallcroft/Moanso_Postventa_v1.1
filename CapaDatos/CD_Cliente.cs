@@ -37,7 +37,7 @@ namespace CapaDatos
                             Apellidos = reader["Apellidos"].ToString(),
                             Email = reader["Email"].ToString(),
                             // Telefono1 es el que se usa en la BD para el principal
-                            Telefono = reader["Telefono1"].ToString(),
+                            Telefono = reader["Telefono"].ToString(),
                             DNI = dni
                         };
                     }
@@ -70,7 +70,7 @@ namespace CapaDatos
             int clienteId = 0;
 
             // El DNI está mapeado como Documento en la entidad Cliente original, pero usamos DNI aquí
-            string query = "INSERT INTO dbo.Clientes (DNI, Nombres, Apellidos, Email, Telefono1, Direccion) " +
+            string query = "INSERT INTO dbo.Clientes (DNI, Nombres, Apellidos, Email, Telefono, Direccion) " +
                            "OUTPUT INSERTED.ClienteId " +
                            "VALUES (@DNI, @Nombres, @Apellidos, @Email, @Telefono1, NULL)";
 
@@ -83,7 +83,7 @@ namespace CapaDatos
                 cmd.Parameters.AddWithValue("@Nombres", cliente.Nombres);
                 cmd.Parameters.AddWithValue("@Apellidos", cliente.Apellidos);
                 cmd.Parameters.AddWithValue("@Email", (object)cliente.Email ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@Telefono1", (object)cliente.Telefono ?? DBNull.Value);
+                cmd.Parameters.AddWithValue("@Telefono", (object)cliente.Telefono ?? DBNull.Value);
 
                 try
                 {

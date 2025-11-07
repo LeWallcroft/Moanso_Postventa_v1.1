@@ -46,11 +46,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-  <Content Include="connections.local.config">
-    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-  </Content>
+    <Content Include="connections.local.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="frmBahias.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmBahias.Designer.cs">
+      <DependentUpon>frmBahias.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmDisponibilidad.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -83,6 +89,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="frmBahias.resx">
+      <DependentUpon>frmBahias.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmDisponibilidad.resx">
       <DependentUpon>frmDisponibilidad.cs</DependentUpon>
     </EmbeddedResource>

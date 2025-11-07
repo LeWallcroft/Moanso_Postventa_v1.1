@@ -12,5 +12,9 @@ namespace CapaDominio
         public string Nombre { get; set; }
         public string Tipo { get; set; }
         public bool Activo { get; set; }
+
+        // Propiedades de visualización
+        public string EstadoDisplay => Activo ? "Activa" : "Inactiva";
+        public string InformacionCompleta => $"{Nombre} - {Tipo}";
     }
 }
