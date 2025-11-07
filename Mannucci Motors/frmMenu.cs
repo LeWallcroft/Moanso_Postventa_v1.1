@@ -51,7 +51,6 @@ namespace Mannucci_Motors
                 child.Close();
         }
 
-
         private T OpenMdiSingle<T>() where T : Form, new()
         {
             var existing = this.MdiChildren.OfType<T>().FirstOrDefault();
@@ -63,10 +62,35 @@ namespace Mannucci_Motors
                 return existing;
             }
 
-            var frm = new T { MdiParent = this, StartPosition = FormStartPosition.CenterParent, WindowState = FormWindowState.Maximized };
+            var frm = new T
+            {
+                MdiParent = this,
+                StartPosition = FormStartPosition.Manual,
+                WindowState = FormWindowState.Normal
+            };
+
             frm.Show();
+
+            int x = (this.ClientSize.Width - frm.Width) / 2;
+            int y = (this.ClientSize.Height - frm.Height) / 2;
+
+            frm.Location = new Point(Math.Max(0, x), Math.Max(0, y));
+
+            if (this.menuMain != null)
+                this.menuMain.Enabled = false;
+
+            frm.FormClosed += (s, e) =>
+            {
+                if (this.menuMain != null)
+                    this.menuMain.Enabled = true;
+            };
+
+            frm.BringToFront();
+            frm.Activate();
+
             return frm;
         }
+
 
         private void ApplyRolePermissions()
         {
@@ -94,7 +118,7 @@ namespace Mannucci_Motors
 
         private void mnuServiciosCatalogo_Click(object sender, EventArgs e)
         {
-
+            OpenMdiSingle<frmCatalogo>();
         }
 
         private void mnuTallerDiagnos_Click(object sender, EventArgs e)

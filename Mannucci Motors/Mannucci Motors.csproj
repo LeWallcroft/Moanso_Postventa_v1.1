@@ -46,16 +46,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="connections.local.config">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-  </ItemGroup>
-  <ItemGroup>
     <Compile Include="frmBahias.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="frmBahias.Designer.cs">
       <DependentUpon>frmBahias.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmCatalogo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmCatalogo.Designer.cs">
+      <DependentUpon>frmCatalogo.cs</DependentUpon>
     </Compile>
     <Compile Include="frmDisponibilidad.cs">
       <SubType>Form</SubType>
@@ -92,6 +93,9 @@
     <EmbeddedResource Include="frmBahias.resx">
       <DependentUpon>frmBahias.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmCatalogo.resx">
+      <DependentUpon>frmCatalogo.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmDisponibilidad.resx">
       <DependentUpon>frmDisponibilidad.cs</DependentUpon>
     </EmbeddedResource>
@@ -113,6 +117,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <None Include="connections.local" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
