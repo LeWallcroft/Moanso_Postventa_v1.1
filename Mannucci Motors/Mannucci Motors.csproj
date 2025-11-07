@@ -56,11 +56,6 @@
     </Compile>
     <Compile Include="frmBahias.Designer.cs">
       <DependentUpon>frmBahias.cs</DependentUpon>
-    <Compile Include="frmDiagnostico.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmDiagnostico.Designer.cs">
-      <DependentUpon>frmDiagnostico.cs</DependentUpon>
     </Compile>
     <Compile Include="frmDisponibilidad.cs">
       <SubType>Form</SubType>
@@ -94,13 +89,8 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-
     <EmbeddedResource Include="frmBahias.resx">
       <DependentUpon>frmBahias.cs</DependentUpon>
-
-    <EmbeddedResource Include="frmDiagnostico.resx">
-      <DependentUpon>frmDiagnostico.cs</DependentUpon>
-
     </EmbeddedResource>
     <EmbeddedResource Include="frmDisponibilidad.resx">
       <DependentUpon>frmDisponibilidad.cs</DependentUpon>
