@@ -50,10 +50,21 @@ namespace Mannucci_Motors
 
         private void ConfigurarControles()
         {
+
+            this.tabControl1.Appearance = TabAppearance.FlatButtons;
+
+            this.tabControl1.ItemSize = new Size(0, 1);
+
+            this.tabControl1.SizeMode = TabSizeMode.Fixed;
+
             nudDuracion.Minimum = 0;
             nudDuracion.Maximum = 480;
             nudDuracion.ReadOnly = true;
             _fechaCita = DateTime.Today;
+
+            this.txtBuscarDni.MaxLength = 8;
+            this.txtTelefonoCliente.MaxLength = 9;
+
         }
 
         private void InicializarWizard()
@@ -64,12 +75,9 @@ namespace Mannucci_Motors
 
         private void TabControlCita_Selecting(object sender, TabControlCancelEventArgs e)
         {
-            if (e.Action == TabControlAction.Selecting)
+            if (e.TabPageIndex != tabControl1.SelectedIndex)
             {
-                if (e.TabPageIndex > tabControl1.SelectedIndex + 1)
-                {
-                    e.Cancel = true;
-                }
+                e.Cancel = true;
             }
         }
 
@@ -152,7 +160,7 @@ namespace Mannucci_Motors
             }
 
             CargarPaso2_BuscarCliente();
-            tabControl1.SelectedIndex = 1;
+            this.tabControl1.SelectedIndex = this.tabControl1.SelectedIndex + 1;
         }
 
         // -------------------------------------------------------------------
@@ -256,6 +264,7 @@ namespace Mannucci_Motors
         {
             if (fila.DataBoundItem is Vehiculo vehiculo)
             {
+                _vehiculoSeleccionado = vehiculo;
                 LlenarCamposVehiculo(vehiculo);
             }
         }
@@ -283,7 +292,7 @@ namespace Mannucci_Motors
 
         private void EstablecerCamposClienteReadOnly(bool readOnly)
         {
-            txtBuscarDni.ReadOnly = readOnly;
+            txtBuscarDni.ReadOnly = false;
             txtNombreCliente.ReadOnly = readOnly;
             txtApellidosCliente.ReadOnly = readOnly;
             txtDniCliente.ReadOnly = readOnly;
@@ -305,6 +314,15 @@ namespace Mannucci_Motors
         {
             try
             {
+                CN_Marca cnMarca = new CN_Marca();
+                CN_Modelo cnModelo = new CN_Modelo();
+
+                // 1. Obtener/Crear ID de la Marca
+                int marcaIdReal = cnMarca.ProcesarMarca(txtMarcaVehiculo.Text.Trim());
+
+                // 2. Obtener/Crear ID del Modelo
+                int modeloIdReal = cnModelo.ProcesarModelo(marcaIdReal, txtModeloVehiculo.Text.Trim());
+
                 if (_clienteActual == null)
                 {
                     if (string.IsNullOrWhiteSpace(txtNombreCliente.Text) ||
@@ -348,8 +366,9 @@ namespace Mannucci_Motors
                     Placa = txtPlacaVehiculo.Text.Trim(),
                     VIN = txtVinVehiculo.Text.Trim(),
                     Anio = anio,
-                    MarcaId = 1,
-                    ModeloId = 1,
+                    MarcaId = marcaIdReal,
+                    ModeloId = modeloIdReal,
+                    // Datos extra para el DGV
                     Marca = txtMarcaVehiculo.Text.Trim(),
                     Modelo = txtModeloVehiculo.Text.Trim()
                 };
@@ -393,7 +412,13 @@ namespace Mannucci_Motors
             }
 
             CargarPaso3_DetallesAdicionales();
-            tabControl1.SelectedIndex = 2;
+            this.tabControl1.SelectedIndex = this.tabControl1.SelectedIndex + 1; // Avanza
+        }
+
+        private void btnNuevoVehiculo_Click(object sender, EventArgs e)
+        {
+            LimpiarCamposVehiculo(); 
+            EstablecerCamposVehiculoReadOnly(false); 
         }
 
         // -------------------------------------------------------------------
@@ -410,21 +435,34 @@ namespace Mannucci_Motors
 
         private void DeterminarEstadoGarantia()
         {
-            if (_vehiculoSeleccionado == null)
+            lblGarantia.BackColor = System.Drawing.Color.LightGray; // Resetear color
+
+            if (_vehiculoSeleccionado == null || _vehiculoSeleccionado.VehiculoId <= 0)
             {
-                lblGarantia.Text = "No Aplica (Vehículo sin datos)";
+                lblGarantia.Text = "No Aplica (Vehículo no seleccionado)";
                 return;
             }
 
-            if (_vehiculoSeleccionado.Anio >= (DateTime.Now.Year - 1))
+            // Llamada a la Capa Lógica
+            Garantia garantia = cnVehiculo.ObtenerGarantia(_vehiculoSeleccionado.VehiculoId);
+
+            if (garantia == null)
             {
-                lblGarantia.Text = "VIGENTE (Fecha o KM no verificado)";
-                lblGarantia.BackColor = System.Drawing.Color.LightGreen;
+                lblGarantia.Text = "No Registrada";
             }
             else
             {
-                lblGarantia.Text = "VENCIDA (Modelo Antiguo)";
-                lblGarantia.BackColor = System.Drawing.Color.LightSalmon;
+                // Mostrar el estado real de la BD
+                lblGarantia.Text = $"{garantia.Estado} hasta {garantia.FechaFin:dd/MM/yyyy}";
+
+                if (garantia.Estado == "Vigente")
+                {
+                    lblGarantia.BackColor = System.Drawing.Color.LightGreen;
+                }
+                else // Vencida
+                {
+                    lblGarantia.BackColor = System.Drawing.Color.LightSalmon;
+                }
             }
         }
 
@@ -536,6 +574,21 @@ namespace Mannucci_Motors
         {
             this.DialogResult = DialogResult.Cancel;
             this.Close();
+        }
+
+        private void btnAtras_Click(object sender, EventArgs e)
+        {
+            tabControl1.SelectedIndex = 0;
+        }
+
+        private void btnAtras2_Click(object sender, EventArgs e)
+        {
+            tabControl1.SelectedIndex = 1;
+        }
+
+        private void btnAtras3_Click(object sender, EventArgs e)
+        {
+            tabControl1.SelectedIndex = 2;
         }
     }
 

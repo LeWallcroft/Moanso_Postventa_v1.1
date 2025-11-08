@@ -87,6 +87,13 @@
             this.btnRegistrarCita = new System.Windows.Forms.Button();
             this.label19 = new System.Windows.Forms.Label();
             this.dgvResumenCita = new System.Windows.Forms.DataGridView();
+            this.btnNuevoVehiculo = new System.Windows.Forms.Button();
+            this.btnAtras = new System.Windows.Forms.Button();
+            this.btnAtras2 = new System.Windows.Forms.Button();
+            this.btnAtras3 = new System.Windows.Forms.Button();
+            this.label16 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.nudDuracion)).BeginInit();
@@ -109,6 +116,7 @@
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Controls.Add(this.tabPage4);
+            this.tabControl1.ItemSize = new System.Drawing.Size(1, 0);
             this.tabControl1.Location = new System.Drawing.Point(12, 12);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
@@ -117,6 +125,7 @@
             // 
             // tabPage1
             // 
+            this.tabPage1.Controls.Add(this.label16);
             this.tabPage1.Controls.Add(this.btnContinuar1);
             this.tabPage1.Controls.Add(this.label2);
             this.tabPage1.Controls.Add(this.nudDuracion);
@@ -146,7 +155,7 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label2.Location = new System.Drawing.Point(82, 257);
+            this.label2.Location = new System.Drawing.Point(82, 305);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(77, 20);
             this.label2.TabIndex = 4;
@@ -154,7 +163,7 @@
             // 
             // nudDuracion
             // 
-            this.nudDuracion.Location = new System.Drawing.Point(228, 257);
+            this.nudDuracion.Location = new System.Drawing.Point(228, 305);
             this.nudDuracion.Name = "nudDuracion";
             this.nudDuracion.Size = new System.Drawing.Size(120, 20);
             this.nudDuracion.TabIndex = 3;
@@ -163,7 +172,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(82, 170);
+            this.label1.Location = new System.Drawing.Point(82, 238);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(68, 20);
             this.label1.TabIndex = 2;
@@ -173,7 +182,7 @@
             // 
             this.cmbServicio.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbServicio.FormattingEnabled = true;
-            this.cmbServicio.Location = new System.Drawing.Point(228, 169);
+            this.cmbServicio.Location = new System.Drawing.Point(228, 240);
             this.cmbServicio.Name = "cmbServicio";
             this.cmbServicio.Size = new System.Drawing.Size(186, 21);
             this.cmbServicio.TabIndex = 1;
@@ -185,7 +194,7 @@
             this.groupBox1.Controls.Add(this.lblHorario);
             this.groupBox1.Controls.Add(this.lblFecha);
             this.groupBox1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox1.Location = new System.Drawing.Point(49, 31);
+            this.groupBox1.Location = new System.Drawing.Point(44, 106);
             this.groupBox1.Name = "groupBox1";
             this.groupBox1.Size = new System.Drawing.Size(825, 89);
             this.groupBox1.TabIndex = 0;
@@ -224,6 +233,8 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.label21);
+            this.tabPage2.Controls.Add(this.btnAtras);
             this.tabPage2.Controls.Add(this.groupBox4);
             this.tabPage2.Controls.Add(this.label9);
             this.tabPage2.Controls.Add(this.btnContinuar2);
@@ -240,6 +251,7 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.btnNuevoVehiculo);
             this.groupBox4.Controls.Add(this.txtVinVehiculo);
             this.groupBox4.Controls.Add(this.label20);
             this.groupBox4.Controls.Add(this.label13);
@@ -302,7 +314,7 @@
             // btnRegistrarVehiculo
             // 
             this.btnRegistrarVehiculo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRegistrarVehiculo.Location = new System.Drawing.Point(84, 342);
+            this.btnRegistrarVehiculo.Location = new System.Drawing.Point(25, 339);
             this.btnRegistrarVehiculo.Name = "btnRegistrarVehiculo";
             this.btnRegistrarVehiculo.Size = new System.Drawing.Size(131, 31);
             this.btnRegistrarVehiculo.TabIndex = 3;
@@ -367,7 +379,7 @@
             // btnContinuar2
             // 
             this.btnContinuar2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnContinuar2.Location = new System.Drawing.Point(698, 45);
+            this.btnContinuar2.Location = new System.Drawing.Point(607, 76);
             this.btnContinuar2.Name = "btnContinuar2";
             this.btnContinuar2.Size = new System.Drawing.Size(99, 31);
             this.btnContinuar2.TabIndex = 4;
@@ -382,6 +394,7 @@
             this.dgvVehiculosRegistrados.Name = "dgvVehiculosRegistrados";
             this.dgvVehiculosRegistrados.Size = new System.Drawing.Size(536, 189);
             this.dgvVehiculosRegistrados.TabIndex = 2;
+            this.dgvVehiculosRegistrados.CellClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvVehiculosRegistrados_CellClick);
             // 
             // groupBox3
             // 
@@ -524,6 +537,8 @@
             // 
             // tabPage3
             // 
+            this.tabPage3.Controls.Add(this.label22);
+            this.tabPage3.Controls.Add(this.btnAtras2);
             this.tabPage3.Controls.Add(this.btnContinuar3);
             this.tabPage3.Controls.Add(this.groupBox6);
             this.tabPage3.Controls.Add(this.groupBox5);
@@ -538,7 +553,7 @@
             // btnContinuar3
             // 
             this.btnContinuar3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnContinuar3.Location = new System.Drawing.Point(384, 415);
+            this.btnContinuar3.Location = new System.Drawing.Point(274, 415);
             this.btnContinuar3.Name = "btnContinuar3";
             this.btnContinuar3.Size = new System.Drawing.Size(116, 40);
             this.btnContinuar3.TabIndex = 2;
@@ -553,7 +568,7 @@
             this.groupBox6.Controls.Add(this.cmbTecnico);
             this.groupBox6.Controls.Add(this.label17);
             this.groupBox6.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox6.Location = new System.Drawing.Point(38, 232);
+            this.groupBox6.Location = new System.Drawing.Point(38, 266);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Size = new System.Drawing.Size(801, 120);
             this.groupBox6.TabIndex = 1;
@@ -602,9 +617,9 @@
             this.groupBox5.Controls.Add(this.txtKilometrajeVehiculo);
             this.groupBox5.Controls.Add(this.label14);
             this.groupBox5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.groupBox5.Location = new System.Drawing.Point(38, 59);
+            this.groupBox5.Location = new System.Drawing.Point(28, 102);
             this.groupBox5.Name = "groupBox5";
-            this.groupBox5.Size = new System.Drawing.Size(801, 106);
+            this.groupBox5.Size = new System.Drawing.Size(833, 106);
             this.groupBox5.TabIndex = 0;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "Información del Vehículo";
@@ -613,7 +628,7 @@
             // 
             this.lblGarantia.AutoSize = true;
             this.lblGarantia.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblGarantia.Location = new System.Drawing.Point(615, 45);
+            this.lblGarantia.Location = new System.Drawing.Point(596, 45);
             this.lblGarantia.Name = "lblGarantia";
             this.lblGarantia.Size = new System.Drawing.Size(126, 20);
             this.lblGarantia.TabIndex = 3;
@@ -648,6 +663,7 @@
             // 
             // tabPage4
             // 
+            this.tabPage4.Controls.Add(this.btnAtras3);
             this.tabPage4.Controls.Add(this.btnCancelarCita);
             this.tabPage4.Controls.Add(this.btnRegistrarCita);
             this.tabPage4.Controls.Add(this.label19);
@@ -662,7 +678,7 @@
             // btnCancelarCita
             // 
             this.btnCancelarCita.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCancelarCita.Location = new System.Drawing.Point(496, 443);
+            this.btnCancelarCita.Location = new System.Drawing.Point(623, 468);
             this.btnCancelarCita.Name = "btnCancelarCita";
             this.btnCancelarCita.Size = new System.Drawing.Size(127, 44);
             this.btnCancelarCita.TabIndex = 3;
@@ -673,7 +689,7 @@
             // btnRegistrarCita
             // 
             this.btnRegistrarCita.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnRegistrarCita.Location = new System.Drawing.Point(254, 443);
+            this.btnRegistrarCita.Location = new System.Drawing.Point(176, 468);
             this.btnRegistrarCita.Name = "btnRegistrarCita";
             this.btnRegistrarCita.Size = new System.Drawing.Size(127, 44);
             this.btnRegistrarCita.TabIndex = 2;
@@ -684,20 +700,94 @@
             // label19
             // 
             this.label19.AutoSize = true;
-            this.label19.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label19.Location = new System.Drawing.Point(30, 22);
+            this.label19.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label19.Location = new System.Drawing.Point(330, 27);
             this.label19.Name = "label19";
-            this.label19.Size = new System.Drawing.Size(148, 20);
+            this.label19.Size = new System.Drawing.Size(218, 25);
             this.label19.TabIndex = 1;
             this.label19.Text = "Resumen de la Cita";
             // 
             // dgvResumenCita
             // 
             this.dgvResumenCita.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvResumenCita.Location = new System.Drawing.Point(16, 59);
+            this.dgvResumenCita.Location = new System.Drawing.Point(15, 82);
             this.dgvResumenCita.Name = "dgvResumenCita";
             this.dgvResumenCita.Size = new System.Drawing.Size(860, 347);
             this.dgvResumenCita.TabIndex = 0;
+            // 
+            // btnNuevoVehiculo
+            // 
+            this.btnNuevoVehiculo.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnNuevoVehiculo.Location = new System.Drawing.Point(163, 339);
+            this.btnNuevoVehiculo.Name = "btnNuevoVehiculo";
+            this.btnNuevoVehiculo.Size = new System.Drawing.Size(121, 31);
+            this.btnNuevoVehiculo.TabIndex = 10;
+            this.btnNuevoVehiculo.Text = "Nuevo Vehículo";
+            this.btnNuevoVehiculo.UseVisualStyleBackColor = true;
+            this.btnNuevoVehiculo.Click += new System.EventHandler(this.btnNuevoVehiculo_Click);
+            // 
+            // btnAtras
+            // 
+            this.btnAtras.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAtras.Location = new System.Drawing.Point(767, 76);
+            this.btnAtras.Name = "btnAtras";
+            this.btnAtras.Size = new System.Drawing.Size(99, 31);
+            this.btnAtras.TabIndex = 7;
+            this.btnAtras.Text = "Atras";
+            this.btnAtras.UseVisualStyleBackColor = true;
+            this.btnAtras.Click += new System.EventHandler(this.btnAtras_Click);
+            // 
+            // btnAtras2
+            // 
+            this.btnAtras2.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAtras2.Location = new System.Drawing.Point(464, 415);
+            this.btnAtras2.Name = "btnAtras2";
+            this.btnAtras2.Size = new System.Drawing.Size(116, 40);
+            this.btnAtras2.TabIndex = 3;
+            this.btnAtras2.Text = "Atras";
+            this.btnAtras2.UseVisualStyleBackColor = true;
+            this.btnAtras2.Click += new System.EventHandler(this.btnAtras2_Click);
+            // 
+            // btnAtras3
+            // 
+            this.btnAtras3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAtras3.Location = new System.Drawing.Point(405, 468);
+            this.btnAtras3.Name = "btnAtras3";
+            this.btnAtras3.Size = new System.Drawing.Size(127, 44);
+            this.btnAtras3.TabIndex = 4;
+            this.btnAtras3.Text = "Atras";
+            this.btnAtras3.UseVisualStyleBackColor = true;
+            this.btnAtras3.Click += new System.EventHandler(this.btnAtras3_Click);
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label16.Location = new System.Drawing.Point(350, 37);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(197, 25);
+            this.label16.TabIndex = 6;
+            this.label16.Text = "Horario de la Cita";
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label21.Location = new System.Drawing.Point(661, 19);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(166, 25);
+            this.label21.TabIndex = 8;
+            this.label21.Text = "Buscar Cliente";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label22.Location = new System.Drawing.Point(324, 38);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(227, 25);
+            this.label22.TabIndex = 4;
+            this.label22.Text = "Detalles Adicionales";
             // 
             // frmNuevaCita
             // 
@@ -724,6 +814,7 @@
             this.groupBox2.ResumeLayout(false);
             this.groupBox2.PerformLayout();
             this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
             this.groupBox6.ResumeLayout(false);
             this.groupBox6.PerformLayout();
             this.groupBox5.ResumeLayout(false);
@@ -796,5 +887,12 @@
         private System.Windows.Forms.DataGridView dgvResumenCita;
         private System.Windows.Forms.TextBox txtVinVehiculo;
         private System.Windows.Forms.Label label20;
+        private System.Windows.Forms.Button btnNuevoVehiculo;
+        private System.Windows.Forms.Button btnAtras;
+        private System.Windows.Forms.Button btnAtras2;
+        private System.Windows.Forms.Button btnAtras3;
+        private System.Windows.Forms.Label label16;
+        private System.Windows.Forms.Label label21;
+        private System.Windows.Forms.Label label22;
     }
 }
