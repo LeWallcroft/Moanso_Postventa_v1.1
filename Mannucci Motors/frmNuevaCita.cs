@@ -590,6 +590,16 @@ namespace Mannucci_Motors
         {
             tabControl1.SelectedIndex = 2;
         }
+
+        private void dgvResumenCita_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void tabPage2_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 
     // Clase auxiliar para el resumen
