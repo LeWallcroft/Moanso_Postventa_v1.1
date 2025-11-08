@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static Mannucci_Motors.frmDiagnosticoTablaCliente;
 
 namespace Mannucci_Motors
 {
@@ -15,6 +16,16 @@ namespace Mannucci_Motors
         public frmDiagnostico()
         {
             InitializeComponent();
+        }
+
+        private void btnBuscarClienteDiagnostico_Click(object sender, EventArgs e)
+        {
+            frmDiagnosticoTablaCliente frm = new frmDiagnosticoTablaCliente();
+        }
+
+        private void frmDiagnostico_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
