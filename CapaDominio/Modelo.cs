@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace CapaDominio
 {
-    internal class Modelo
+    public class Modelo
     {
+        public int ModeloId { get; set; }
+        public int MarcaId { get; set; } // FK
+        public string Nombre { get; set; }
     }
 }

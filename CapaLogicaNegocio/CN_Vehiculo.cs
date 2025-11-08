@@ -36,5 +36,11 @@ namespace CapaLogicaNegocio
 
             return nuevoVehiculoId;
         }
+
+        public Garantia ObtenerGarantia(int vehiculoId)
+        {
+            if (vehiculoId <= 0) return null;
+            return cdVehiculo.ConsultarGarantiaPorVehiculo(vehiculoId);
+        }
     }
 }
