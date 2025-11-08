@@ -46,5 +46,37 @@ namespace CapaDatos
             }
             return vehiculoId;
         }
+
+        public Garantia ConsultarGarantiaPorVehiculo(int vehiculoId)
+        {
+            Garantia garantia = null;
+            string query = "SELECT TOP 1 GarantiaId, FechaInicio, FechaFin, Estado, KmMax " +
+                           "FROM dbo.Garantias WHERE VehiculoId = @VehiculoId " +
+                           "ORDER BY FechaFin DESC"; // Obtener la más reciente
+
+            using (SqlConnection con = conexion.AbrirConexion())
+            {
+                SqlCommand cmd = new SqlCommand(query, con);
+                cmd.Parameters.AddWithValue("@VehiculoId", vehiculoId);
+
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        garantia = new Garantia
+                        {
+                            GarantiaId = Convert.ToInt32(reader["GarantiaId"]),
+                            VehiculoId = vehiculoId,
+                            FechaInicio = Convert.ToDateTime(reader["FechaInicio"]),
+                            FechaFin = Convert.ToDateTime(reader["FechaFin"]),
+                            Estado = reader["Estado"].ToString(),
+                            KmMax = reader["KmMax"] == DBNull.Value ? (int?)null : Convert.ToInt32(reader["KmMax"])
+                        };
+                    }
+                }
+            }
+            return garantia;
+        }
     }
+
 }
