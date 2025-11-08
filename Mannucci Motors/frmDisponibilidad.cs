@@ -258,5 +258,15 @@ namespace Mannucci_Motors
                 }
             }
         }
+
+        private void frmDisponibilidad_Load(object sender, EventArgs e)
+        {
+
+        }
+
+        private void dgvFranjas_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
     }
 }
