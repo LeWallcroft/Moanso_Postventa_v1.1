@@ -36,7 +36,7 @@ namespace CapaLogicaNegocio
                 throw new Exception("Los Nombres son obligatorios.");
             if (string.IsNullOrWhiteSpace(cliente.Apellidos))
                 throw new Exception("Los Apellidos son obligatorios.");
-
+            
             // Llamada a la Capa Datos para la inserción
             int nuevoClienteId = cdCliente.CrearCliente(cliente);
 

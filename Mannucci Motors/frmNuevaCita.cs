@@ -21,6 +21,8 @@ namespace Mannucci_Motors
         private CN_Vehiculo cnVehiculo = new CN_Vehiculo();
         private CN_Cita cnCita = new CN_Cita();
 
+        OrdenTrabajo ordenTrabajo = new OrdenTrabajo();
+
         // ------------------ VARIABLES DE ESTADO DEL WIZARD ------------------
         private CapacidadDia _slotCapacidad;
         private DateTime _fechaCita;
@@ -589,6 +591,21 @@ namespace Mannucci_Motors
         private void btnAtras3_Click(object sender, EventArgs e)
         {
             tabControl1.SelectedIndex = 2;
+        }
+
+        private void dgvResumenCita_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+
+        private void tabPage2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void btnOrdenTrabajo_Click(object sender, EventArgs e)
+        {
+            ordenTrabajo.Show();
         }
     }
 

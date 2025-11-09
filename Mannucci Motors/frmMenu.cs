@@ -133,7 +133,7 @@ namespace Mannucci_Motors
 
         private void mnuTallerOT_Click(object sender, EventArgs e)
         {
-
+            OpenMdiSingle<OrdenTrabajo>();
         }
 
         private void mnuAdminUsuarios_Click(object sender, EventArgs e)

@@ -72,7 +72,7 @@ namespace CapaDatos
             // El DNI está mapeado como Documento en la entidad Cliente original, pero usamos DNI aquí
             string query = "INSERT INTO dbo.Clientes (DNI, Nombres, Apellidos, Email, Telefono, Direccion) " +
                            "OUTPUT INSERTED.ClienteId " +
-                           "VALUES (@DNI, @Nombres, @Apellidos, @Email, @Telefono1, NULL)";
+                           "VALUES (@DNI, @Nombres, @Apellidos, @Email, @Telefono, NULL)";
 
             using (SqlConnection con = conexion.AbrirConexion())
             {
