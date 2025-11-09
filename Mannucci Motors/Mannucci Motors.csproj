@@ -46,6 +46,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="connections.local.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
     <Compile Include="frmBahias.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -57,6 +62,18 @@
     </Compile>
     <Compile Include="frmCatalogo.Designer.cs">
       <DependentUpon>frmCatalogo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmDiagnostico.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmDiagnostico.Designer.cs">
+      <DependentUpon>frmDiagnostico.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmDiagnosticoTablaCliente.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmDiagnosticoTablaCliente.Designer.cs">
+      <DependentUpon>frmDiagnosticoTablaCliente.cs</DependentUpon>
     </Compile>
     <Compile Include="frmDisponibilidad.cs">
       <SubType>Form</SubType>
@@ -102,6 +119,12 @@
     <EmbeddedResource Include="frmCatalogo.resx">
       <DependentUpon>frmCatalogo.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmDiagnostico.resx">
+      <DependentUpon>frmDiagnostico.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmDiagnosticoTablaCliente.resx">
+      <DependentUpon>frmDiagnosticoTablaCliente.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmDisponibilidad.resx">
       <DependentUpon>frmDisponibilidad.cs</DependentUpon>
     </EmbeddedResource>
@@ -126,7 +149,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <None Include="connections.local.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

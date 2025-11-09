@@ -123,7 +123,7 @@ namespace Mannucci_Motors
 
         private void mnuTallerDiagnos_Click(object sender, EventArgs e)
         {
-
+            OpenMdiSingle<frmDiagnostico>();
         }
 
         private void mnuTallerPresupuestos_Click(object sender, EventArgs e)
