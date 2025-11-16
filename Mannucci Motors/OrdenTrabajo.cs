@@ -16,8 +16,8 @@ namespace Mannucci_Motors
         public OrdenTrabajo()
         {
             InitializeComponent();
-            CN_OrdenTrabajo CN_OT= new CN_OrdenTrabajo();
-            DGV_ORDENTRABAJO.DataSource = CN_OT.Listar_Cita2();
+            /*CN_OrdenTrabajo CN_OT= new CN_OrdenTrabajo();*/
+            /*DGV_ORDENTRABAJO.DataSource = CN_OT.Listar_Cita2();*/
         }
 
         private void OrdenTrabajo_Load(object sender, EventArgs e)
