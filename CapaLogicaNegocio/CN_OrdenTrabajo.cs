@@ -8,7 +8,7 @@ using CapaDatos;
 using System.Data.SqlClient;
 using System.Data;
 namespace CapaLogicaNegocio
-{
+{/*
     public class CN_OrdenTrabajo
     {
         CD_OrdenTrabajo cot = new CD_OrdenTrabajo();
@@ -17,6 +17,6 @@ namespace CapaLogicaNegocio
             // Se podrían añadir validaciones de fecha aquí
             return cot.ListarCitas();
         }
-
-    }
+        
+    }*/
 }
