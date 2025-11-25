@@ -30,15 +30,19 @@
         {
             this.lblTitulo = new System.Windows.Forms.Label();
             this.gbDatos = new System.Windows.Forms.GroupBox();
+            this.txtEmail = new System.Windows.Forms.TextBox();
+            this.txtApellido = new System.Windows.Forms.TextBox();
+            this.txtNombre = new System.Windows.Forms.TextBox();
+            this.lblEmail = new System.Windows.Forms.Label();
+            this.lblApellido = new System.Windows.Forms.Label();
+            this.lblNombre = new System.Windows.Forms.Label();
             this.lblRol = new System.Windows.Forms.Label();
             this.lblPassword = new System.Windows.Forms.Label();
-            this.lblUsername = new System.Windows.Forms.Label();
             this.btnCancelar = new System.Windows.Forms.Button();
             this.chkActivo = new System.Windows.Forms.CheckBox();
             this.btnGuardar = new System.Windows.Forms.Button();
             this.cbRol = new System.Windows.Forms.ComboBox();
             this.txtPassword = new System.Windows.Forms.TextBox();
-            this.txtUsername = new System.Windows.Forms.TextBox();
             this.dgvUsuarios = new System.Windows.Forms.DataGridView();
             this.btnNuevo = new System.Windows.Forms.Button();
             this.btnEditar = new System.Windows.Forms.Button();
@@ -59,27 +63,79 @@
             // 
             // gbDatos
             // 
+            this.gbDatos.Controls.Add(this.txtEmail);
+            this.gbDatos.Controls.Add(this.txtApellido);
+            this.gbDatos.Controls.Add(this.txtNombre);
+            this.gbDatos.Controls.Add(this.lblEmail);
+            this.gbDatos.Controls.Add(this.lblApellido);
+            this.gbDatos.Controls.Add(this.lblNombre);
             this.gbDatos.Controls.Add(this.lblRol);
             this.gbDatos.Controls.Add(this.lblPassword);
-            this.gbDatos.Controls.Add(this.lblUsername);
             this.gbDatos.Controls.Add(this.btnCancelar);
             this.gbDatos.Controls.Add(this.chkActivo);
             this.gbDatos.Controls.Add(this.btnGuardar);
             this.gbDatos.Controls.Add(this.cbRol);
             this.gbDatos.Controls.Add(this.txtPassword);
-            this.gbDatos.Controls.Add(this.txtUsername);
             this.gbDatos.Location = new System.Drawing.Point(254, 71);
             this.gbDatos.Name = "gbDatos";
-            this.gbDatos.Size = new System.Drawing.Size(313, 244);
+            this.gbDatos.Size = new System.Drawing.Size(313, 290);
             this.gbDatos.TabIndex = 1;
             this.gbDatos.TabStop = false;
             this.gbDatos.Text = "Datos del Usuario";
             this.gbDatos.Visible = false;
             // 
+            // txtEmail
+            // 
+            this.txtEmail.Location = new System.Drawing.Point(98, 95);
+            this.txtEmail.Name = "txtEmail";
+            this.txtEmail.Size = new System.Drawing.Size(180, 20);
+            this.txtEmail.TabIndex = 2;
+            // 
+            // txtApellido
+            // 
+            this.txtApellido.Location = new System.Drawing.Point(98, 65);
+            this.txtApellido.Name = "txtApellido";
+            this.txtApellido.Size = new System.Drawing.Size(180, 20);
+            this.txtApellido.TabIndex = 1;
+            // 
+            // txtNombre
+            // 
+            this.txtNombre.Location = new System.Drawing.Point(98, 35);
+            this.txtNombre.Name = "txtNombre";
+            this.txtNombre.Size = new System.Drawing.Size(180, 20);
+            this.txtNombre.TabIndex = 0;
+            // 
+            // lblEmail
+            // 
+            this.lblEmail.AutoSize = true;
+            this.lblEmail.Location = new System.Drawing.Point(30, 98);
+            this.lblEmail.Name = "lblEmail";
+            this.lblEmail.Size = new System.Drawing.Size(35, 13);
+            this.lblEmail.TabIndex = 13;
+            this.lblEmail.Text = "Email:";
+            // 
+            // lblApellido
+            // 
+            this.lblApellido.AutoSize = true;
+            this.lblApellido.Location = new System.Drawing.Point(30, 68);
+            this.lblApellido.Name = "lblApellido";
+            this.lblApellido.Size = new System.Drawing.Size(47, 13);
+            this.lblApellido.TabIndex = 12;
+            this.lblApellido.Text = "Apellido:";
+            // 
+            // lblNombre
+            // 
+            this.lblNombre.AutoSize = true;
+            this.lblNombre.Location = new System.Drawing.Point(30, 38);
+            this.lblNombre.Name = "lblNombre";
+            this.lblNombre.Size = new System.Drawing.Size(47, 13);
+            this.lblNombre.TabIndex = 11;
+            this.lblNombre.Text = "Nombre:";
+            // 
             // lblRol
             // 
             this.lblRol.AutoSize = true;
-            this.lblRol.Location = new System.Drawing.Point(30, 132);
+            this.lblRol.Location = new System.Drawing.Point(30, 158);
             this.lblRol.Name = "lblRol";
             this.lblRol.Size = new System.Drawing.Size(26, 13);
             this.lblRol.TabIndex = 10;
@@ -88,28 +144,19 @@
             // lblPassword
             // 
             this.lblPassword.AutoSize = true;
-            this.lblPassword.Location = new System.Drawing.Point(30, 92);
+            this.lblPassword.Location = new System.Drawing.Point(30, 128);
             this.lblPassword.Name = "lblPassword";
             this.lblPassword.Size = new System.Drawing.Size(64, 13);
             this.lblPassword.TabIndex = 9;
             this.lblPassword.Text = "Contraseña:";
             // 
-            // lblUsername
-            // 
-            this.lblUsername.AutoSize = true;
-            this.lblUsername.Location = new System.Drawing.Point(30, 49);
-            this.lblUsername.Name = "lblUsername";
-            this.lblUsername.Size = new System.Drawing.Size(46, 13);
-            this.lblUsername.TabIndex = 8;
-            this.lblUsername.Text = "Usuario:";
-            // 
             // btnCancelar
             // 
             this.btnCancelar.BackColor = System.Drawing.Color.LightCoral;
-            this.btnCancelar.Location = new System.Drawing.Point(168, 184);
+            this.btnCancelar.Location = new System.Drawing.Point(168, 230);
             this.btnCancelar.Name = "btnCancelar";
             this.btnCancelar.Size = new System.Drawing.Size(75, 23);
-            this.btnCancelar.TabIndex = 7;
+            this.btnCancelar.TabIndex = 6;
             this.btnCancelar.Text = "&CANCELAR";
             this.btnCancelar.UseVisualStyleBackColor = false;
             this.btnCancelar.Click += new System.EventHandler(this.btnCancelar_Click);
@@ -119,20 +166,20 @@
             this.chkActivo.AutoSize = true;
             this.chkActivo.Checked = true;
             this.chkActivo.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.chkActivo.Location = new System.Drawing.Point(214, 131);
+            this.chkActivo.Location = new System.Drawing.Point(214, 157);
             this.chkActivo.Name = "chkActivo";
             this.chkActivo.Size = new System.Drawing.Size(95, 17);
-            this.chkActivo.TabIndex = 3;
+            this.chkActivo.TabIndex = 4;
             this.chkActivo.Text = "Usuario Activo";
             this.chkActivo.UseVisualStyleBackColor = true;
             // 
             // btnGuardar
             // 
             this.btnGuardar.BackColor = System.Drawing.Color.LightGreen;
-            this.btnGuardar.Location = new System.Drawing.Point(49, 184);
+            this.btnGuardar.Location = new System.Drawing.Point(49, 230);
             this.btnGuardar.Name = "btnGuardar";
             this.btnGuardar.Size = new System.Drawing.Size(75, 23);
-            this.btnGuardar.TabIndex = 6;
+            this.btnGuardar.TabIndex = 5;
             this.btnGuardar.Text = "&GUARDAR";
             this.btnGuardar.UseVisualStyleBackColor = false;
             this.btnGuardar.Click += new System.EventHandler(this.btnGuardar_Click);
@@ -140,24 +187,17 @@
             // cbRol
             // 
             this.cbRol.FormattingEnabled = true;
-            this.cbRol.Location = new System.Drawing.Point(98, 129);
+            this.cbRol.Location = new System.Drawing.Point(98, 155);
             this.cbRol.Name = "cbRol";
             this.cbRol.Size = new System.Drawing.Size(100, 21);
-            this.cbRol.TabIndex = 2;
+            this.cbRol.TabIndex = 3;
             // 
             // txtPassword
             // 
-            this.txtPassword.Location = new System.Drawing.Point(98, 92);
+            this.txtPassword.Location = new System.Drawing.Point(98, 125);
             this.txtPassword.Name = "txtPassword";
-            this.txtPassword.Size = new System.Drawing.Size(100, 20);
-            this.txtPassword.TabIndex = 1;
-            // 
-            // txtUsername
-            // 
-            this.txtUsername.Location = new System.Drawing.Point(98, 49);
-            this.txtUsername.Name = "txtUsername";
-            this.txtUsername.Size = new System.Drawing.Size(100, 20);
-            this.txtUsername.TabIndex = 0;
+            this.txtPassword.Size = new System.Drawing.Size(180, 20);
+            this.txtPassword.TabIndex = 2;
             // 
             // dgvUsuarios
             // 
@@ -169,6 +209,7 @@
             this.dgvUsuarios.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvUsuarios.Size = new System.Drawing.Size(774, 244);
             this.dgvUsuarios.TabIndex = 2;
+            this.dgvUsuarios.SelectionChanged += new System.EventHandler(this.dgvUsuarios_SelectionChanged);
             // 
             // btnNuevo
             // 
@@ -236,7 +277,6 @@
         private System.Windows.Forms.CheckBox chkActivo;
         private System.Windows.Forms.ComboBox cbRol;
         private System.Windows.Forms.TextBox txtPassword;
-        private System.Windows.Forms.TextBox txtUsername;
         private System.Windows.Forms.Button btnNuevo;
         private System.Windows.Forms.Button btnEditar;
         private System.Windows.Forms.Button btnEliminar;
@@ -244,6 +284,11 @@
         private System.Windows.Forms.Button btnCancelar;
         private System.Windows.Forms.Label lblRol;
         private System.Windows.Forms.Label lblPassword;
-        private System.Windows.Forms.Label lblUsername;
+        private System.Windows.Forms.TextBox txtEmail;
+        private System.Windows.Forms.TextBox txtApellido;
+        private System.Windows.Forms.TextBox txtNombre;
+        private System.Windows.Forms.Label lblEmail;
+        private System.Windows.Forms.Label lblApellido;
+        private System.Windows.Forms.Label lblNombre;
     }
 }

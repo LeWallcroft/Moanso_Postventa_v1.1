@@ -13,7 +13,6 @@ namespace Mannucci_Motors
         private List<Usuario> listaUsuarios;
         private bool isNuevo = false;
 
-
         public frmUsuarios()
         {
             InitializeComponent();
@@ -21,8 +20,8 @@ namespace Mannucci_Motors
 
         private void frmUsuarios_Load(object sender, EventArgs e)
         {
-            // Llenar combobox de roles
-            cbRol.Items.AddRange(new string[] { "Admin", "Asesor" });
+            // SOLO CAMBIO: Roles según la nueva BD
+            cbRol.Items.AddRange(new string[] { "Administrador", "Asesor" });
 
             CargarUsuarios();
             HabilitarBotones(true);
@@ -35,20 +34,25 @@ namespace Mannucci_Motors
                 listaUsuarios = cnUsuario.ListarUsuarios();
                 dgvUsuarios.DataSource = listaUsuarios;
 
-                // Configurar columnas
-                dgvUsuarios.Columns["UsuarioId"].HeaderText = "ID";
-                dgvUsuarios.Columns["UsuarioId"].Width = 50;
-                dgvUsuarios.Columns["Username"].HeaderText = "Usuario";
+                // SOLO CAMBIO: Nombres de columnas según nuevo modelo
+                dgvUsuarios.Columns["UsuariosID"].HeaderText = "ID";
+                dgvUsuarios.Columns["UsuariosID"].Width = 50;
+                dgvUsuarios.Columns["Nombre"].HeaderText = "Nombre";
+                dgvUsuarios.Columns["Nombre"].Width = 100;
+                dgvUsuarios.Columns["Apellido"].HeaderText = "Apellido";
+                dgvUsuarios.Columns["Apellido"].Width = 100;
+                dgvUsuarios.Columns["Email"].HeaderText = "Email";
+                dgvUsuarios.Columns["Email"].Width = 150;
                 dgvUsuarios.Columns["Rol"].HeaderText = "Rol";
                 dgvUsuarios.Columns["Rol"].Width = 100;
                 dgvUsuarios.Columns["Activo"].HeaderText = "Activo";
                 dgvUsuarios.Columns["Activo"].Width = 60;
-                dgvUsuarios.Columns["UltimoAcceso"].HeaderText = "Último Acceso";
-                dgvUsuarios.Columns["UltimoAcceso"].Width = 150;
+                dgvUsuarios.Columns["UltimoLogin"].HeaderText = "Último Login";
+                dgvUsuarios.Columns["UltimoLogin"].Width = 150;
 
-                // Ocultar columnas
-                if (dgvUsuarios.Columns.Contains("Password"))
-                    dgvUsuarios.Columns["Password"].Visible = false;
+                // Ocultar columnas que no queremos mostrar
+                if (dgvUsuarios.Columns.Contains("PasswordHash"))
+                    dgvUsuarios.Columns["PasswordHash"].Visible = false;
             }
             catch (Exception ex)
             {
@@ -67,7 +71,9 @@ namespace Mannucci_Motors
 
         private void LimpiarFormulario()
         {
-            txtUsername.Text = "";
+            txtNombre.Text = "";
+            txtApellido.Text = "";
+            txtEmail.Text = "";
             txtPassword.Text = "";
             cbRol.SelectedIndex = -1;
             chkActivo.Checked = true;
@@ -87,7 +93,7 @@ namespace Mannucci_Motors
             isNuevo = true;
             LimpiarFormulario();
             HabilitarBotones(false);
-            txtUsername.Focus();
+            txtNombre.Focus();
         }
 
         private void btnEditar_Click(object sender, EventArgs e)
@@ -97,7 +103,9 @@ namespace Mannucci_Motors
                 isNuevo = false;
 
                 DataGridViewRow row = dgvUsuarios.SelectedRows[0];
-                txtUsername.Text = row.Cells["Username"].Value.ToString();
+                txtNombre.Text = row.Cells["Nombre"].Value.ToString();
+                txtApellido.Text = row.Cells["Apellido"].Value.ToString();
+                txtEmail.Text = row.Cells["Email"].Value.ToString();
                 cbRol.Text = row.Cells["Rol"].Value.ToString();
                 chkActivo.Checked = Convert.ToBoolean(row.Cells["Activo"].Value);
                 txtPassword.Text = "Dejar en blanco para no cambiar";
@@ -105,7 +113,7 @@ namespace Mannucci_Motors
                 txtPassword.UseSystemPasswordChar = false;
 
                 HabilitarBotones(false);
-                txtUsername.Focus();
+                txtNombre.Focus();
             }
         }
 
@@ -114,10 +122,10 @@ namespace Mannucci_Motors
             if (dgvUsuarios.SelectedRows.Count > 0)
             {
                 DataGridViewRow row = dgvUsuarios.SelectedRows[0];
-                string username = row.Cells["Username"].Value.ToString();
-                int usuarioId = Convert.ToInt32(row.Cells["UsuarioId"].Value);
+                string nombreCompleto = $"{row.Cells["Nombre"].Value} {row.Cells["Apellido"].Value}";
+                int usuariosID = Convert.ToInt32(row.Cells["UsuariosID"].Value);
 
-                if (MessageBox.Show($"¿Está seguro de eliminar al usuario '{username}'?",
+                if (MessageBox.Show($"¿Está seguro de eliminar al usuario '{nombreCompleto}'?",
                                   "Confirmar Eliminación",
                                   MessageBoxButtons.YesNo,
                                   MessageBoxIcon.Question) == DialogResult.Yes)
@@ -125,7 +133,7 @@ namespace Mannucci_Motors
                     try
                     {
                         string mensaje;
-                        bool resultado = cnUsuario.EliminarUsuario(usuarioId, out mensaje);
+                        bool resultado = cnUsuario.EliminarUsuario(usuariosID, out mensaje);
 
                         if (resultado)
                         {
@@ -150,10 +158,24 @@ namespace Mannucci_Motors
             try
             {
                 // Validaciones
-                if (string.IsNullOrWhiteSpace(txtUsername.Text))
+                if (string.IsNullOrWhiteSpace(txtNombre.Text))
                 {
-                    MostrarMensaje("El nombre de usuario es requerido", true);
-                    txtUsername.Focus();
+                    MostrarMensaje("El nombre es requerido", true);
+                    txtNombre.Focus();
+                    return;
+                }
+
+                if (string.IsNullOrWhiteSpace(txtApellido.Text))
+                {
+                    MostrarMensaje("El apellido es requerido", true);
+                    txtApellido.Focus();
+                    return;
+                }
+
+                if (string.IsNullOrWhiteSpace(txtEmail.Text))
+                {
+                    MostrarMensaje("El email es requerido", true);
+                    txtEmail.Focus();
                     return;
                 }
 
@@ -173,8 +195,10 @@ namespace Mannucci_Motors
 
                 Usuario usuario = new Usuario
                 {
-                    Username = txtUsername.Text.Trim(),
-                    Password = txtPassword.Text,
+                    Nombre = txtNombre.Text.Trim(),
+                    Apellido = txtApellido.Text.Trim(),
+                    Email = txtEmail.Text.Trim(),
+                    PasswordHash = txtPassword.Text,
                     Rol = cbRol.Text,
                     Activo = chkActivo.Checked
                 };
@@ -188,7 +212,7 @@ namespace Mannucci_Motors
                 }
                 else
                 {
-                    usuario.UsuarioId = Convert.ToInt32(dgvUsuarios.SelectedRows[0].Cells["UsuarioId"].Value);
+                    usuario.UsuariosID = Convert.ToInt32(dgvUsuarios.SelectedRows[0].Cells["UsuariosID"].Value);
                     resultado = cnUsuario.EditarUsuario(usuario, out mensaje);
                 }
 

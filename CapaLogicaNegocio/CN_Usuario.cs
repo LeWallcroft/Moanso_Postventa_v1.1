@@ -9,12 +9,12 @@ namespace CapaLogicaNegocio
     {
         private CD_Usuario cdUsuario = new CD_Usuario();
 
-        public Usuario Login(string username, string password)
+        // CORREGIDO: Cambio de username a email
+        public Usuario Login(string email, string password)
         {
-            return cdUsuario.Login(username, password);
+            return cdUsuario.Login(email, password);
         }
 
-        // MÉTODOS NUEVOS QUE FALTAN:
         public List<Usuario> ListarUsuarios()
         {
             return cdUsuario.ListarUsuarios();
@@ -24,13 +24,26 @@ namespace CapaLogicaNegocio
         {
             mensaje = string.Empty;
 
-            if (string.IsNullOrEmpty(usuario.Username))
+            // VALIDACIONES ACTUALIZADAS para el nuevo modelo
+            if (string.IsNullOrEmpty(usuario.Nombre))
             {
-                mensaje = "El nombre de usuario no puede estar vacío";
+                mensaje = "El nombre no puede estar vacío";
                 return false;
             }
 
-            if (string.IsNullOrEmpty(usuario.Password))
+            if (string.IsNullOrEmpty(usuario.Apellido))
+            {
+                mensaje = "El apellido no puede estar vacío";
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(usuario.Email))
+            {
+                mensaje = "El email no puede estar vacío";
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(usuario.PasswordHash))
             {
                 mensaje = "La contraseña no puede estar vacía";
                 return false;
@@ -42,6 +55,20 @@ namespace CapaLogicaNegocio
                 return false;
             }
 
+            // Validar formato de email
+            if (!IsValidEmail(usuario.Email))
+            {
+                mensaje = "El formato del email no es válido";
+                return false;
+            }
+
+            // Validar rol permitido
+            if (!IsValidRol(usuario.Rol))
+            {
+                mensaje = "El rol especificado no es válido";
+                return false;
+            }
+
             return cdUsuario.RegistrarUsuario(usuario, out mensaje);
         }
 
@@ -49,9 +76,22 @@ namespace CapaLogicaNegocio
         {
             mensaje = string.Empty;
 
-            if (string.IsNullOrEmpty(usuario.Username))
+            // VALIDACIONES ACTUALIZADAS
+            if (string.IsNullOrEmpty(usuario.Nombre))
             {
-                mensaje = "El nombre de usuario no puede estar vacío";
+                mensaje = "El nombre no puede estar vacío";
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(usuario.Apellido))
+            {
+                mensaje = "El apellido no puede estar vacío";
+                return false;
+            }
+
+            if (string.IsNullOrEmpty(usuario.Email))
+            {
+                mensaje = "El email no puede estar vacío";
                 return false;
             }
 
@@ -61,12 +101,40 @@ namespace CapaLogicaNegocio
                 return false;
             }
 
+            // Validar formato de email
+            if (!IsValidEmail(usuario.Email))
+            {
+                mensaje = "El formato del email no es válido";
+                return false;
+            }
+
             return cdUsuario.EditarUsuario(usuario, out mensaje);
         }
 
-        public bool EliminarUsuario(int usuarioId, out string mensaje)
+        public bool EliminarUsuario(int usuariosID, out string mensaje)
         {
-            return cdUsuario.EliminarUsuario(usuarioId, out mensaje);
+            return cdUsuario.EliminarUsuario(usuariosID, out mensaje);
+        }
+
+        // MÉTODOS DE VALIDACIÓN
+        private bool IsValidEmail(string email)
+        {
+            try
+            {
+                var addr = new System.Net.Mail.MailAddress(email);
+                return addr.Address == email;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private bool IsValidRol(string rol)
+        {
+            // CORREGIDO: Usar los roles correctos de la base de datos
+            var rolesPermitidos = new List<string> { "administrador", "asesor" };
+            return rolesPermitidos.Contains(rol.ToLower());
         }
     }
 }
