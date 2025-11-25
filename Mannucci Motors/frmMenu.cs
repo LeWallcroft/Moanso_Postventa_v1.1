@@ -12,7 +12,6 @@ using static Mannucci_Motors.frmLogin;
 
 namespace Mannucci_Motors
 {
-
     public partial class frmMenu : Form
     {
         private Timer _clock;
@@ -22,16 +21,18 @@ namespace Mannucci_Motors
             InitializeComponent();
             this.IsMdiContainer = true;
             this.WindowState = FormWindowState.Maximized;
-
         }
 
         private void frmMenu_Load(object sender, EventArgs e)
         {
-            // Mostrar nombre de usuario y rol desde la sesión guardada en frmLogin
+            // SOLO CAMBIO ESTO: Usar Nombre y Apellido en lugar de Username
             if (lblUser != null)
-                lblUser.Text = $"Usuario: {Sesion.UsuarioActual.Username} | Rol: {Sesion.UsuarioActual.Rol}";
+            {
+                string nombreCompleto = $"{Sesion.UsuarioActual.Nombre} {Sesion.UsuarioActual.Apellido}";
+                lblUser.Text = $"Usuario: {nombreCompleto} | Rol: {Sesion.UsuarioActual.Rol}";
+            }
 
-            // Iniciar reloj
+            // Iniciar reloj (igual que antes)
             _clock = new Timer { Interval = 1000 };
             _clock.Tick += (_, __) =>
             {
@@ -40,7 +41,7 @@ namespace Mannucci_Motors
             };
             _clock.Start();
 
-            // Aplicar permisos según el rol del usuario
+            // Aplicar permisos según el rol del usuario (igual que antes)
             ApplyRolePermissions();
         }
 
@@ -91,26 +92,26 @@ namespace Mannucci_Motors
             return frm;
         }
 
-
         private void ApplyRolePermissions()
         {
-            // Verificar si el rol es Admin y mostrar u ocultar la pestaña de Admin
-            if (Sesion.UsuarioActual.Rol == "Admin")
+            // CORREGIDO: Usar los roles correctos en minúscula
+            if (Sesion.UsuarioActual.Rol.ToLower() == "administrador")
             {
-                if (mnuAdmin != null) mnuAdmin.Visible = true;  // Mostrar la pestaña Admin
+                if (mnuAdmin != null) mnuAdmin.Visible = true;
             }
             else
             {
-                if (mnuAdmin != null) mnuAdmin.Visible = false; // Ocultar la pestaña Admin
+                if (mnuAdmin != null) mnuAdmin.Visible = false;
             }
 
-            // Personalización adicional dependiendo del rol del usuario
-            if (Sesion.UsuarioActual.Rol == "Asesor")
+            // Personalización adicional para asesor
+            if (Sesion.UsuarioActual.Rol.ToLower() == "asesor")
             {
                 if (mnuAdmin != null) mnuAdmin.Visible = false;
             }
         }
 
+        // LOS MÉTODOS DE LOS MENÚS SE MANTIENEN EXACTAMENTE IGUAL
         private void mnuAgendaDisponibilidad_Click(object sender, EventArgs e)
         {
             OpenMdiSingle<frmDisponibilidad>();
@@ -128,7 +129,7 @@ namespace Mannucci_Motors
 
         private void mnuTallerPresupuestos_Click(object sender, EventArgs e)
         {
-
+            // Mantengo tu código original
         }
 
         private void mnuTallerOT_Click(object sender, EventArgs e)
@@ -148,12 +149,12 @@ namespace Mannucci_Motors
 
         private void mnuAdminTecnicos_Click(object sender, EventArgs e)
         {
-
+            // Mantengo tu código original
         }
 
         private void mnuAdminReportes_Click(object sender, EventArgs e)
         {
-
+            // Mantengo tu código original
         }
     }
 }
