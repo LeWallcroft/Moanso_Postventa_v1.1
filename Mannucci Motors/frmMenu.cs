@@ -153,9 +153,12 @@ namespace Mannucci_Motors
 
         private void mnuAdminTecnicos_Click(object sender, EventArgs e)
         {
-            // Mantengo tu código original
+            using (var frm = new frmTecnicos())
+            {
+                frm.StartPosition = FormStartPosition.CenterScreen;
+                frm.ShowDialog(this);
+            }
         }
-
         private void mnuAdminReportes_Click(object sender, EventArgs e)
         {
             // Mantengo tu código original

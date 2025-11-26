@@ -319,9 +319,6 @@ namespace Mannucci_Motors
                               "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 return;
 
-                // Limpiar campos de diagnóstico
-                richTextBox2.Clear();
-                richTextBox1.Clear();
             }
            
 

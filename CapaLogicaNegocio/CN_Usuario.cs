@@ -108,6 +108,13 @@ namespace CapaLogicaNegocio
                 return false;
             }
 
+            // Validar rol permitido
+            if (!IsValidRol(usuario.Rol))
+            {
+                mensaje = "El rol especificado no es válido";
+                return false;
+            }
+
             return cdUsuario.EditarUsuario(usuario, out mensaje);
         }
 
@@ -116,7 +123,21 @@ namespace CapaLogicaNegocio
             return cdUsuario.EliminarUsuario(usuariosID, out mensaje);
         }
 
+        // ✅ CORRECCIÓN: Agregar este método para obtener técnicos
+        public List<Usuario> ListarTecnicos()
+        {
+            return cdUsuario.ListarUsuariosPorRol("Tecnico");
+        }
+
+        // ✅ CORRECCIÓN: Agregar este método para obtener técnicos activos
+        public List<Usuario> ListarTecnicosActivos()
+        {
+            var todosUsuarios = cdUsuario.ListarUsuarios();
+            return todosUsuarios.FindAll(u => u.Rol == "Tecnico" && u.Activo);
+        }
+
         // MÉTODOS DE VALIDACIÓN
+
         private bool IsValidEmail(string email)
         {
             try
@@ -130,11 +151,30 @@ namespace CapaLogicaNegocio
             }
         }
 
+        // ✅ CORRECCIÓN CRÍTICA: Agregar "Tecnico" a los roles permitidos
         private bool IsValidRol(string rol)
         {
-            // CORREGIDO: Usar los roles correctos de la base de datos
-            var rolesPermitidos = new List<string> { "administrador", "asesor" };
+            // ✅ CORREGIDO: Ahora incluye "Tecnico"
+            var rolesPermitidos = new List<string> { "administrador", "asesor", "tecnico" };
             return rolesPermitidos.Contains(rol.ToLower());
+        }
+
+        // ✅ MÉTODO ADICIONAL: Obtener usuario por ID
+        public Usuario ObtenerUsuarioPorId(int usuariosID)
+        {
+            return cdUsuario.ObtenerUsuarioPorId(usuariosID);
+        }
+
+        // ✅ MÉTODO ADICIONAL: Cambiar contraseña
+        public bool CambiarPassword(int usuariosID, string nuevaPassword, out string mensaje)
+        {
+            if (string.IsNullOrEmpty(nuevaPassword))
+            {
+                mensaje = "La contraseña no puede estar vacía";
+                return false;
+            }
+
+            return cdUsuario.CambiarPassword(usuariosID, nuevaPassword, out mensaje);
         }
     }
 }

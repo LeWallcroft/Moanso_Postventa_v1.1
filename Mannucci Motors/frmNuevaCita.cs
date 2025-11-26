@@ -96,6 +96,94 @@ namespace Mannucci_Motors
         {
             try
             {
+                if (_slotCapacidad == null)
+                {
+                    // Evitar NullReference: establecer valores por defecto cuando no hay slot
+                    lblFecha.Text = _fechaCita.ToShortDateString();
+                    lblHorario.Text = "N/A";
+                    lblBahia.Text = "N/A";
+                    nudDuracion.Value = 0;
+                    cmbServicio.DataSource = null;
+                    return;
+                }
+
+                if (_slotCapacidad == null)
+                {
+                    // Evitar NullReference: establecer valores por defecto cuando no hay slot
+                    lblFecha.Text = _fechaCita.ToShortDateString();
+                    lblHorario.Text = "N/A";
+                    lblBahia.Text = "N/A";
+                    nudDuracion.Value = 0;
+                    cmbServicio.DataSource = null;
+                    return;
+                }
+
+                if (_slotCapacidad == null)
+                {
+                    // Evitar NullReference: establecer valores por defecto cuando no hay slot
+                    lblFecha.Text = _fechaCita.ToShortDateString();
+                    lblHorario.Text = "N/A";
+                    lblBahia.Text = "N/A";
+                    nudDuracion.Value = 0;
+                    cmbServicio.DataSource = null;
+                    return;
+                }
+
+                if (_slotCapacidad == null)
+                {
+                    // Evitar NullReference: establecer valores por defecto cuando no hay slot
+                    lblFecha.Text = _fechaCita.ToShortDateString();
+                    lblHorario.Text = "N/A";
+                    lblBahia.Text = "N/A";
+                    nudDuracion.Value = 0;
+                    cmbServicio.DataSource = null;
+                    return;
+                }
+
+                if (_slotCapacidad == null)
+                {
+                    // Evitar NullReference: establecer valores por defecto cuando no hay slot
+                    lblFecha.Text = _fechaCita.ToShortDateString();
+                    lblHorario.Text = "N/A";
+                    lblBahia.Text = "N/A";
+                    nudDuracion.Value = 0;
+                    cmbServicio.DataSource = null;
+                    return;
+                }
+
+                if (_slotCapacidad == null)
+                {
+                    // Evitar NullReference: establecer valores por defecto cuando no hay slot
+                    lblFecha.Text = _fechaCita.ToShortDateString();
+                    lblHorario.Text = "N/A";
+                    lblBahia.Text = "N/A";
+                    nudDuracion.Value = 0;
+                    cmbServicio.DataSource = null;
+                    return;
+                }
+
+                if (_slotCapacidad == null)
+                {
+                    // Evitar NullReference: establecer valores por defecto cuando no hay slot
+                    lblFecha.Text = _fechaCita.ToShortDateString();
+                    lblHorario.Text = "N/A";
+                    lblBahia.Text = "N/A";
+                    nudDuracion.Value = 0;
+                    cmbServicio.DataSource = null;
+                    return;
+                }
+
+                if (_slotCapacidad == null)
+                {
+                    // Evitar NullReference: establecer valores por defecto cuando no hay slot
+                    lblFecha.Text = _fechaCita.ToShortDateString();
+                    lblHorario.Text = "N/A";
+                    lblBahia.Text = "N/A";
+                    nudDuracion.Value = 0;
+                    cmbServicio.DataSource = null;
+                    return;
+                }
+
                 // 1. Mostrar información básica
                 lblFecha.Text = _fechaCita.ToShortDateString();
                 lblHorario.Text = _slotCapacidad.RangoHorario;
@@ -472,12 +560,13 @@ namespace Mannucci_Motors
         {
             try
             {
-                List<Tecnico> tecnicos = cnTecnico.ListarTecnicos();
-                tecnicos.Insert(0, new Tecnico { TecnicoId = 0, Nombre = "-- Seleccionar Técnico --" });
-
+                List<Tecnico> tecnicos = cnTecnico.ListarTodosLosTecnicos();
+                tecnicos.Insert(0, new Tecnico { TecnicoID = 0, Usuario = null, Especialidad = string.Empty, FechaContratacion = DateTime.MinValue, Salario = 0, Disponible = false, Activo = false });
+                // Puedes establecer el nombre de visualización si tienes una propiedad adecuada, por ejemplo:
+                // tecnicos[0].NombreCompleto = "-- Seleccionar Técnico --";
                 cmbTecnico.DataSource = tecnicos;
-                cmbTecnico.DisplayMember = "Nombre";
-                cmbTecnico.ValueMember = "TecnicoId";
+                cmbTecnico.DisplayMember = "NombreCompleto";
+                cmbTecnico.ValueMember = "TecnicoID";
                 cmbTecnico.SelectedIndex = 0;
             }
             catch (Exception ex)
@@ -512,7 +601,7 @@ namespace Mannucci_Motors
 
         private void MostrarResumen()
         {
-            string nombreTecnico = _tecnicoSeleccionado?.Nombre ?? "N/A";
+            string nombreTecnico = _tecnicoSeleccionado?.NombreCompleto ?? "N/A";
 
             List<ResumenItem> resumen = new List<ResumenItem>();
 
@@ -549,7 +638,6 @@ namespace Mannucci_Motors
                 ClienteId = _clienteActual.ClienteId,
                 VehiculoId = _vehiculoSeleccionado.VehiculoId,
                 ServicioId = _servicioSeleccionado.ServicioId,
-                TecnicoId = _tecnicoSeleccionado.TecnicoId,
                 FechaCita = _fechaCita,
             };
 
