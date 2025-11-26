@@ -144,7 +144,11 @@ namespace Mannucci_Motors
 
         private void mnuAdminBahias_Click(object sender, EventArgs e)
         {
-            OpenMdiSingle<frmBahias>();
+            using (var frm = new frmBahias())
+            {
+                frm.StartPosition = FormStartPosition.CenterScreen;
+                frm.ShowDialog(this);
+            }
         }
 
         private void mnuAdminTecnicos_Click(object sender, EventArgs e)

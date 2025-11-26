@@ -9,19 +9,7 @@ namespace CapaLogicaNegocio
     {
         private CD_Bahia cdBahia = new CD_Bahia();
 
-        public List<Bahia> ListarBahiasActivas()
-        {
-            try
-            {
-                return cdBahia.ListarActivas();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Error en capa de negocio al listar bahías: " + ex.Message);
-            }
-        }
-
-        // NUEVO MÉTODO: Listar todas las bahías (activas e inactivas)
+        // MÉTODO PRINCIPAL: Listar todas las bahías
         public List<Bahia> ListarTodasLasBahias()
         {
             try
@@ -30,11 +18,13 @@ namespace CapaLogicaNegocio
             }
             catch (Exception ex)
             {
-                throw new Exception("Error en capa de negocio al listar todas las bahías: " + ex.Message);
+                throw new Exception("Error al listar bahías: " + ex.Message);
             }
         }
 
-        public bool CrearBahia(string nombre, string tipo, out string mensaje)
+        // MÉTODO: Crear bahía completa
+        public bool CrearBahiaCompleta(string nombre, string descripcion, int capacidad,
+                                      int estadoId, int? usuarioId, out string mensaje)
         {
             mensaje = string.Empty;
             try
@@ -44,18 +34,24 @@ namespace CapaLogicaNegocio
                     mensaje = "El nombre de la bahía es requerido";
                     return false;
                 }
-                if (string.IsNullOrWhiteSpace(tipo))
+                if (string.IsNullOrWhiteSpace(descripcion))
                 {
-                    mensaje = "El tipo de bahía es requerido";
+                    mensaje = "La descripción es requerida";
                     return false;
                 }
-                if (nombre.Length > 50)
+                if (capacidad <= 0)
                 {
-                    mensaje = "El nombre no puede tener más de 50 caracteres";
+                    mensaje = "La capacidad debe ser mayor a 0";
+                    return false;
+                }
+                if (nombre.Length > 100)
+                {
+                    mensaje = "El nombre no puede tener más de 100 caracteres";
                     return false;
                 }
 
-                string resultado = cdBahia.CrearBahia(nombre.Trim(), tipo);
+                string resultado = cdBahia.CrearBahiaCompleta(nombre.Trim(), descripcion.Trim(),
+                                                             capacidad, estadoId, usuarioId);
                 mensaje = resultado;
                 return resultado.Contains("éxito");
             }
@@ -66,7 +62,9 @@ namespace CapaLogicaNegocio
             }
         }
 
-        public bool ModificarBahia(int bahiaId, string nombre, string tipo, out string mensaje)
+        // MÉTODO: Actualizar bahía completa
+        public bool ActualizarBahiaCompleta(int bahiaId, string nombre, string descripcion,
+                                           int capacidad, int estadoId, int? usuarioId, out string mensaje)
         {
             mensaje = string.Empty;
             try
@@ -76,28 +74,36 @@ namespace CapaLogicaNegocio
                     mensaje = "El nombre de la bahía es requerido";
                     return false;
                 }
-                if (string.IsNullOrWhiteSpace(tipo))
+                if (string.IsNullOrWhiteSpace(descripcion))
                 {
-                    mensaje = "El tipo de bahía es requerido";
+                    mensaje = "La descripción es requerida";
                     return false;
                 }
-                if (nombre.Length > 50)
+                if (capacidad <= 0)
                 {
-                    mensaje = "El nombre no puede tener más de 50 caracteres";
+                    mensaje = "La capacidad debe ser mayor a 0";
+                    return false;
+                }
+                if (nombre.Length > 100)
+                {
+                    mensaje = "El nombre no puede tener más de 100 caracteres";
                     return false;
                 }
 
-                string resultado = cdBahia.ModificarBahia(bahiaId, nombre.Trim(), tipo);
+                string resultado = cdBahia.ActualizarBahiaCompleta(bahiaId, nombre.Trim(),
+                                                                  descripcion.Trim(), capacidad,
+                                                                  estadoId, usuarioId);
                 mensaje = resultado;
                 return resultado.Contains("éxito");
             }
             catch (Exception ex)
             {
-                mensaje = "Error al modificar bahía: " + ex.Message;
+                mensaje = "Error al actualizar bahía: " + ex.Message;
                 return false;
             }
         }
 
+        // MÉTODO: Inhabilitar bahía
         public bool InhabilitarBahia(int bahiaId, out string mensaje)
         {
             mensaje = string.Empty;
@@ -114,7 +120,7 @@ namespace CapaLogicaNegocio
             }
         }
 
-        // NUEVO MÉTODO: Habilitar bahía
+        // MÉTODO: Habilitar bahía
         public bool HabilitarBahia(int bahiaId, out string mensaje)
         {
             mensaje = string.Empty;
