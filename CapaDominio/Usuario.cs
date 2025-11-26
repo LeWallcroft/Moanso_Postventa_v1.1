@@ -14,6 +14,21 @@ namespace CapaDominio
         public DateTime FechaRegistro { get; set; }
         public DateTime? UltimoLogin { get; set; }
         public bool Activo { get; set; }
+    }
 
+    // Clase estática para definir los roles del sistema
+    public static class RolesSistema
+    {
+        public const string Administrador = "Administrador";
+        public const string Asesor = "Asesor";
+        public const string Tecnico = "Tecnico";
+
+        // Propiedad para obtener todos los roles
+        public static List<string> TodosLosRoles => new List<string>
+        {
+            Administrador,
+            Asesor,
+            Tecnico
+        };
     }
 }

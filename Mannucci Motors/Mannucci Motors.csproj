@@ -99,6 +99,12 @@
     <Compile Include="frmNuevaCita.Designer.cs">
       <DependentUpon>frmNuevaCita.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmTecnicos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmTecnicos.Designer.cs">
+      <DependentUpon>frmTecnicos.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmUsuarios.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -136,6 +142,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmNuevaCita.resx">
       <DependentUpon>frmNuevaCita.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmTecnicos.resx">
+      <DependentUpon>frmTecnicos.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="OrdenTrabajo.resx">
       <DependentUpon>OrdenTrabajo.cs</DependentUpon>

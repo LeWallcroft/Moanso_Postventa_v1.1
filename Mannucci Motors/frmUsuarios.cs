@@ -20,8 +20,8 @@ namespace Mannucci_Motors
 
         private void frmUsuarios_Load(object sender, EventArgs e)
         {
-            // SOLO CAMBIO: Roles según la nueva BD
-            cbRol.Items.AddRange(new string[] { "Administrador", "Asesor" });
+            // CAMBIO: Agregar el rol "Tecnico" a la lista de roles
+            cbRol.Items.AddRange(new string[] { "Administrador", "Asesor", "Tecnico" });
 
             CargarUsuarios();
             HabilitarBotones(true);
@@ -244,6 +244,38 @@ namespace Mannucci_Motors
         {
             btnEditar.Enabled = dgvUsuarios.SelectedRows.Count > 0;
             btnEliminar.Enabled = dgvUsuarios.SelectedRows.Count > 0;
+        }
+
+        // CAMBIO: Método para filtrar usuarios por rol (opcional, si quieres agregar filtros)
+        private void FiltrarUsuariosPorRol(string rol)
+        {
+            if (listaUsuarios != null)
+            {
+                if (string.IsNullOrEmpty(rol))
+                {
+                    dgvUsuarios.DataSource = listaUsuarios;
+                }
+                else
+                {
+                    var usuariosFiltrados = listaUsuarios.FindAll(u => u.Rol == rol);
+                    dgvUsuarios.DataSource = usuariosFiltrados;
+                }
+            }
+        }
+
+        // CAMBIO: Método para obtener solo técnicos (útil para otros formularios)
+        public List<Usuario> ObtenerTecnicos()
+        {
+            try
+            {
+                return cnUsuario.ListarUsuarios().FindAll(u => u.Rol == "Tecnico" && u.Activo);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al obtener técnicos: {ex.Message}", "Error",
+                              MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return new List<Usuario>();
+            }
         }
     }
 }
