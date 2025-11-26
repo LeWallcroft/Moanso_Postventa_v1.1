@@ -48,6 +48,7 @@
     <Compile Include="Cita_2.cs" />
     <Compile Include="Cliente.cs" />
     <Compile Include="Diagnostico.cs" />
+    <Compile Include="EstadoBahia.cs" />
     <Compile Include="Garantia.cs" />
     <Compile Include="Marca.cs" />
     <Compile Include="Modelo.cs" />

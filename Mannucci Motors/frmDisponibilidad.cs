@@ -222,7 +222,6 @@ namespace Mannucci_Motors
                 // Limpiar el DataSource primero
                 cmbBahia.DataSource = null;
 
-                bahiasActivas = cnBahia.ListarBahiasActivas();
                 var listaParaCombo = new List<Bahia>(bahiasActivas);
                 listaParaCombo.Insert(0, new Bahia { BahiaId = 0, Nombre = "Todas las Bahías" });
 
