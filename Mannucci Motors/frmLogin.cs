@@ -25,20 +25,17 @@ namespace Mannucci_Motors
         {
             InitializeComponent();
 
+            // EVITAR que el formulario se pueda redimensionar
+            this.FormBorderStyle = FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
+
             // Configuración inicial del formulario
-            this.AcceptButton = btnLogin; // Enter para login
-            this.CancelButton = btn_Salir; // ESC para salir
+            this.AcceptButton = btnLogin;
+            this.CancelButton = btn_Salir;
 
             // Establecer foco en el campo de email
             this.Load += (s, e) => txtEmail.Focus();
-        }
-
-        private void Logout(object sender, FormClosedEventArgs e)
-        {
-            txtEmail.Text = "";
-            txtContraseña.Text = "";
-            this.Show();
-            txtEmail.Focus();
         }
 
         private void btnLogin_Click_1(object sender, EventArgs e)
@@ -71,13 +68,9 @@ namespace Mannucci_Motors
 
                 if (usuarioLogueado != null)
                 {
-                    // Guardar la sesión del usuario
+                    // Guardar la sesión del usuario en ambas ubicaciones para compatibilidad
                     Sesion.UsuarioActual = usuarioLogueado;
-
-                    // Mostrar mensaje de bienvenida (CORREGIDO: usar Nombre y Apellido)
-                    string nombreCompleto = $"{Sesion.UsuarioActual.Nombre} {Sesion.UsuarioActual.Apellido}";
-                    MessageBox.Show($"Bienvenido, {nombreCompleto} ({Sesion.UsuarioActual.Rol})",
-                                    "Login Exitoso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    CN_Usuario.UsuarioActual = usuarioLogueado;
 
                     // Registrar el acceso en logs si es necesario
                     RegistrarAcceso();
@@ -107,6 +100,20 @@ namespace Mannucci_Motors
                 Cursor = Cursors.Default;
                 btnLogin.Enabled = true;
             }
+        }
+
+        // CORREGIDO: Un solo método Logout
+        private void Logout(object sender, FormClosedEventArgs e)
+        {
+            txtEmail.Text = "";
+            txtContraseña.Text = "";
+
+            // Limpiar sesión en ambas ubicaciones
+            Sesion.UsuarioActual = null;
+            CN_Usuario.UsuarioActual = null;
+
+            this.Show();
+            txtEmail.Focus();
         }
 
         private void btn_Salir_Click(object sender, EventArgs e)
@@ -161,10 +168,11 @@ namespace Mannucci_Motors
                            MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        // CORREGIDO: Limpiar sesión al cerrar el formulario de login
+        // CORREGIDO: Un solo método OnFormClosed
         protected override void OnFormClosed(FormClosedEventArgs e)
         {
             Sesion.UsuarioActual = null;
+            CN_Usuario.UsuarioActual = null;
             base.OnFormClosed(e);
         }
     }

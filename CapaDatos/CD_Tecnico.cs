@@ -244,6 +244,8 @@ namespace CapaDatos
                 {
                     cmd.ExecuteNonQuery();
                     mensaje = mensajeParam.Value.ToString();
+
+                    // ✅ CORRECCIÓN: Misma lógica de retorno que ActivarTecnico
                     return !mensaje.Contains("Error");
                 }
                 catch (Exception ex)
@@ -259,22 +261,22 @@ namespace CapaDatos
             mensaje = string.Empty;
             using (SqlConnection con = conexion.AbrirConexion())
             {
-                // ✅ MEJORA: Usar stored procedure en lugar de consulta directa
-                SqlCommand cmd = new SqlCommand("UPDATE Tecnico SET Activo = 1, Disponible = 1 WHERE TecnicoID = @TecnicoID", con);
+                // ✅ CORRECCIÓN: Usar stored procedure en lugar de consulta directa
+                SqlCommand cmd = new SqlCommand("sp_Tecnico_Activar", con);
+                cmd.CommandType = CommandType.StoredProcedure;
                 cmd.Parameters.AddWithValue("@TecnicoID", tecnicoId);
+
+                SqlParameter mensajeParam = new SqlParameter("@Mensaje", SqlDbType.VarChar, 500);
+                mensajeParam.Direction = ParameterDirection.Output;
+                cmd.Parameters.Add(mensajeParam);
+
                 try
                 {
-                    int rowsAffected = cmd.ExecuteNonQuery();
-                    if (rowsAffected > 0)
-                    {
-                        mensaje = "Técnico activado con éxito";
-                        return true;
-                    }
-                    else
-                    {
-                        mensaje = "Error: No se encontró el técnico especificado";
-                        return false;
-                    }
+                    cmd.ExecuteNonQuery();
+                    mensaje = mensajeParam.Value.ToString();
+
+                    // ✅ CORRECCIÓN: Retornar true si fue exitoso
+                    return !mensaje.Contains("Error");
                 }
                 catch (Exception ex)
                 {
@@ -341,24 +343,48 @@ namespace CapaDatos
 
         private Tecnico CrearTecnicoDesdeReader(SqlDataReader reader)
         {
-            return new Tecnico
+            try
             {
-                TecnicoID = Convert.ToInt32(reader["TecnicoID"]),
-                UsuariosId = reader["UsuariosID"] != DBNull.Value ? Convert.ToInt32(reader["UsuariosID"]) : (int?)null,
-                Especialidad = reader["Especialidad"].ToString(),
-                FechaContratacion = Convert.ToDateTime(reader["FechaContratacion"]),
-                Salario = Convert.ToDecimal(reader["Salario"]),
-                Disponible = Convert.ToBoolean(reader["Disponible"]),
-                Activo = Convert.ToBoolean(reader["Activo"]),
-                Usuario = new Usuario
+                var tecnico = new Tecnico
                 {
-                    UsuariosID = reader["UsuariosID"] != DBNull.Value ? Convert.ToInt32(reader["UsuariosID"]) : 0,
+                    TecnicoID = Convert.ToInt32(reader["TecnicoID"]),
+                    UsuariosId = reader["UsuariosID"] != DBNull.Value ? Convert.ToInt32(reader["UsuariosID"]) : (int?)null,
+                    Especialidad = reader["Especialidad"].ToString(),
+                    FechaContratacion = Convert.ToDateTime(reader["FechaContratacion"]),
+                    Salario = Convert.ToDecimal(reader["Salario"]),
+                    Disponible = Convert.ToBoolean(reader["Disponible"]),
+                    Activo = Convert.ToBoolean(reader["Activo"])
+                };
+
+                // ✅ CORRECCIÓN DEFINITIVA: Usar SOLO las columnas que existen
+                tecnico.Usuario = new Usuario
+                {
+                    UsuariosID = tecnico.UsuariosId ?? 0,
                     Nombre = reader["Nombre"] != DBNull.Value ? reader["Nombre"].ToString() : string.Empty,
                     Apellido = reader["Apellido"] != DBNull.Value ? reader["Apellido"].ToString() : string.Empty,
                     Email = reader["Email"] != DBNull.Value ? reader["Email"].ToString() : string.Empty,
-                    Rol = reader["Rol"] != DBNull.Value ? reader["Rol"].ToString() : string.Empty
-                }
-            };
+                    Rol = "Tecnico", // ✅ VALOR FIJO porque todos son técnicos
+                    Activo = true // ✅ VALOR FIJO porque el SP ya filtra por activos
+                };
+
+                return tecnico;
+            }
+            catch (Exception ex)
+            {
+                // ✅ MEJOR MENSAJE DE ERROR para debugging
+                throw new Exception($"Error al crear técnico desde reader. Columnas disponibles: {GetColumnNames(reader)}. Error: {ex.Message}");
+            }
+        }
+
+        // ✅ MÉTODO AUXILIAR para debugging
+        private string GetColumnNames(SqlDataReader reader)
+        {
+            var columns = new List<string>();
+            for (int i = 0; i < reader.FieldCount; i++)
+            {
+                columns.Add(reader.GetName(i));
+            }
+            return string.Join(", ", columns);
         }
     }
 }

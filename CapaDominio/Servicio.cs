@@ -8,12 +8,21 @@ namespace CapaDominio
 {
     public class Servicio
     {
-        public int ServicioId { get; set; }
-        public string Codigo { get; set; }
+        public int ServicioID { get; set; }
+        public int? CategoriaservicioID { get; set; }
+        public int? UsuariosID { get; set; }
+        public int? TiposervicioID { get; set; }
         public string Nombre { get; set; }
-        public decimal PrecioBase { get; set; }
-        public int DuracionMin { get; set; }
+        public string Descripcion { get; set; }
+        public decimal Precio { get; set; }
+        public int DuracionEstimada { get; set; }
+        public bool RequiereRepuestos { get; set; }
+        public DateTime FechaCreacion { get; set; }
         public bool Activo { get; set; }
-        public string Tipo { get; set; }
+
+        // Propiedades de navegación (opcionales, para mostrar info relacionada)
+        public string CategoriaNombre { get; set; }
+        public string TipoNombre { get; set; }
+        public string UsuarioCreacion { get; set; }
     }
 }

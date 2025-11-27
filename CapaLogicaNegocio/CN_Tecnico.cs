@@ -92,6 +92,7 @@ namespace CapaLogicaNegocio
             }
         }
 
+
         // ✅ CORRECCIÓN: Método corregido para usar el nuevo retorno bool
         public bool ActualizarTecnico(int tecnicoId, int? usuarioId, string especialidad,
                                      DateTime fechaContratacion, decimal salario, bool disponible,

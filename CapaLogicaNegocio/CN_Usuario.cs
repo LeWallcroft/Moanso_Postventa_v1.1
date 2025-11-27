@@ -9,10 +9,17 @@ namespace CapaLogicaNegocio
     {
         private CD_Usuario cdUsuario = new CD_Usuario();
 
-        // CORREGIDO: Cambio de username a email
+        // Propiedad para acceder al usuario actual sin crear dependencia circular
+        public static Usuario UsuarioActual { get; set; }
+
         public Usuario Login(string email, string password)
         {
-            return cdUsuario.Login(email, password);
+            var usuario = cdUsuario.Login(email, password);
+            if (usuario != null)
+            {
+                UsuarioActual = usuario;
+            }
+            return usuario;
         }
 
         public List<Usuario> ListarUsuarios()
@@ -24,7 +31,6 @@ namespace CapaLogicaNegocio
         {
             mensaje = string.Empty;
 
-            // VALIDACIONES ACTUALIZADAS para el nuevo modelo
             if (string.IsNullOrEmpty(usuario.Nombre))
             {
                 mensaje = "El nombre no puede estar vacío";
@@ -55,14 +61,12 @@ namespace CapaLogicaNegocio
                 return false;
             }
 
-            // Validar formato de email
             if (!IsValidEmail(usuario.Email))
             {
                 mensaje = "El formato del email no es válido";
                 return false;
             }
 
-            // Validar rol permitido
             if (!IsValidRol(usuario.Rol))
             {
                 mensaje = "El rol especificado no es válido";
@@ -76,7 +80,6 @@ namespace CapaLogicaNegocio
         {
             mensaje = string.Empty;
 
-            // VALIDACIONES ACTUALIZADAS
             if (string.IsNullOrEmpty(usuario.Nombre))
             {
                 mensaje = "El nombre no puede estar vacío";
@@ -101,14 +104,12 @@ namespace CapaLogicaNegocio
                 return false;
             }
 
-            // Validar formato de email
             if (!IsValidEmail(usuario.Email))
             {
                 mensaje = "El formato del email no es válido";
                 return false;
             }
 
-            // Validar rol permitido
             if (!IsValidRol(usuario.Rol))
             {
                 mensaje = "El rol especificado no es válido";
@@ -118,9 +119,29 @@ namespace CapaLogicaNegocio
             return cdUsuario.EditarUsuario(usuario, out mensaje);
         }
 
-        public bool EliminarUsuario(int usuariosID, out string mensaje)
+        // NUEVO: Método para cambiar estado del usuario (Habilitar/Inhabilitar)
+        public bool CambiarEstadoUsuario(int usuariosID, bool nuevoEstado, out string mensaje)
         {
-            return cdUsuario.EliminarUsuario(usuariosID, out mensaje);
+            mensaje = string.Empty;
+
+            // Validar que el usuario existe
+            var usuario = cdUsuario.ObtenerUsuarioPorId(usuariosID);
+            if (usuario == null)
+            {
+                mensaje = "El usuario no existe";
+                return false;
+            }
+
+            // Validar que no se está intentando cambiar el estado del usuario actual
+            if (UsuarioActual != null &&
+                UsuarioActual.UsuariosID == usuariosID &&
+                !nuevoEstado)
+            {
+                mensaje = "No puede inhabilitar su propio usuario";
+                return false;
+            }
+
+            return cdUsuario.CambiarEstadoUsuario(usuariosID, nuevoEstado, out mensaje);
         }
 
         // ✅ CORRECCIÓN: Agregar este método para obtener técnicos
@@ -154,7 +175,6 @@ namespace CapaLogicaNegocio
         // ✅ CORRECCIÓN CRÍTICA: Agregar "Tecnico" a los roles permitidos
         private bool IsValidRol(string rol)
         {
-            // ✅ CORREGIDO: Ahora incluye "Tecnico"
             var rolesPermitidos = new List<string> { "administrador", "asesor", "tecnico" };
             return rolesPermitidos.Contains(rol.ToLower());
         }
@@ -175,6 +195,12 @@ namespace CapaLogicaNegocio
             }
 
             return cdUsuario.CambiarPassword(usuariosID, nuevaPassword, out mensaje);
+        }
+
+        // NUEVO: Método para cerrar sesión
+        public void CerrarSesion()
+        {
+            UsuarioActual = null;
         }
     }
 }

@@ -1,82 +1,163 @@
-﻿using CapaDominio;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using CapaDatos;
+using Dominio;
 
 namespace CapaDatos
 {
     public class CD_Vehiculo
     {
-        private CD_Conexion conexion = new CD_Conexion();
-
-        // Método: Creación de un nuevo vehículo
-        public int CrearVehiculo(Vehiculo vehiculo)
+        public List<Vehiculo> ListarPorCliente(int clienteID)
         {
-            int vehiculoId = 0;
+            List<Vehiculo> vehiculos = new List<Vehiculo>();
+            SqlConnection con = null;
 
-            // La consulta asume que ya tenemos MarcaId y ModeloId, que es lo que la tabla Vehiculos requiere.
-            string query = "INSERT INTO dbo.Vehiculos (ClienteId, Placa, VIN, MarcaId, ModeloId, Anio) " +
-                           "OUTPUT INSERTED.VehiculoId " +
-                           "VALUES (@ClienteId, @Placa, @VIN, @MarcaId, @ModeloId, @Anio)";
-
-            using (SqlConnection con = conexion.AbrirConexion())
+            try
             {
-                SqlCommand cmd = new SqlCommand(query, con);
-                cmd.CommandType = CommandType.Text;
-
-                cmd.Parameters.AddWithValue("@ClienteId", vehiculo.ClienteId);
-                cmd.Parameters.AddWithValue("@Placa", vehiculo.Placa);
-                cmd.Parameters.AddWithValue("@VIN", (object)vehiculo.VIN ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@MarcaId", vehiculo.MarcaId);
-                cmd.Parameters.AddWithValue("@ModeloId", vehiculo.ModeloId);
-                cmd.Parameters.AddWithValue("@Anio", vehiculo.Anio);
-
-                try
+                using (con = new CD_Conexion().AbrirConexion())
                 {
-                    vehiculoId = (int)cmd.ExecuteScalar();
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception("Error al registrar un nuevo vehículo: " + ex.Message);
+                    SqlCommand cmd = new SqlCommand("sp_Vehiculo_ListarPorCliente", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@ClienteID", clienteID);
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+
+                    while (reader.Read())
+                    {
+                        Vehiculo vehiculo = new Vehiculo
+                        {
+                            VehiculoID = Convert.ToInt32(reader["VehiculoID"]),
+                            Placa = reader["Placa"].ToString(),
+                            VIN = reader["VIN"] != DBNull.Value ? reader["VIN"].ToString() : string.Empty,
+                            Color = reader["Color"] != DBNull.Value ? reader["Color"].ToString() : string.Empty,
+                            Anio = reader["Anio"] != DBNull.Value ? Convert.ToInt32(reader["Anio"]) : (int?)null,
+                            Kilometraje = reader["Kilometraje"] != DBNull.Value ? Convert.ToInt32(reader["Kilometraje"]) : (int?)null,
+                            Combustible = reader["Combustible"] != DBNull.Value ? reader["Combustible"].ToString() : string.Empty,
+                            Transmision = reader["Transmision"] != DBNull.Value ? reader["Transmision"].ToString() : string.Empty,
+                            Modelo = reader["Modelo"].ToString(),
+                            Marca = reader["Marca"].ToString(),
+                            TipoVehiculo = reader["TipoVehiculo"] != DBNull.Value ? reader["TipoVehiculo"].ToString() : string.Empty,
+                            FechaRegistro = Convert.ToDateTime(reader["FechaRegistro"])
+                        };
+
+                        vehiculos.Add(vehiculo);
+                    }
+
+                    reader.Close();
                 }
             }
-            return vehiculoId;
+            catch (Exception ex)
+            {
+                throw new Exception("Error al listar vehículos del cliente: " + ex.Message);
+            }
+            finally
+            {
+                if (con != null && con.State == ConnectionState.Open)
+                    con.Close();
+            }
+
+            return vehiculos;
         }
 
-        public Garantia ConsultarGarantiaPorVehiculo(int vehiculoId)
+        public Vehiculo BuscarPorPlaca(string placa)
         {
-            Garantia garantia = null;
-            string query = "SELECT TOP 1 GarantiaId, FechaInicio, FechaFin, Estado, KmMax " +
-                           "FROM dbo.Garantias WHERE VehiculoId = @VehiculoId " +
-                           "ORDER BY FechaFin DESC"; // Obtener la más reciente
+            Vehiculo vehiculo = null;
+            SqlConnection con = null;
 
-            using (SqlConnection con = conexion.AbrirConexion())
+            try
             {
-                SqlCommand cmd = new SqlCommand(query, con);
-                cmd.Parameters.AddWithValue("@VehiculoId", vehiculoId);
-
-                using (SqlDataReader reader = cmd.ExecuteReader())
+                using (con = new CD_Conexion().AbrirConexion())
                 {
+                    SqlCommand cmd = new SqlCommand("sp_Vehiculo_BuscarPorPlaca", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@Placa", placa);
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+
                     if (reader.Read())
                     {
-                        garantia = new Garantia
+                        vehiculo = new Vehiculo
                         {
-                            GarantiaId = Convert.ToInt32(reader["GarantiaId"]),
-                            VehiculoId = vehiculoId,
-                            FechaInicio = Convert.ToDateTime(reader["FechaInicio"]),
-                            FechaFin = Convert.ToDateTime(reader["FechaFin"]),
-                            Estado = reader["Estado"].ToString(),
-                            KmMax = reader["KmMax"] == DBNull.Value ? (int?)null : Convert.ToInt32(reader["KmMax"])
+                            VehiculoID = Convert.ToInt32(reader["VehiculoID"]),
+                            Placa = reader["Placa"].ToString(),
+                            VIN = reader["VIN"] != DBNull.Value ? reader["VIN"].ToString() : string.Empty,
+                            Color = reader["Color"] != DBNull.Value ? reader["Color"].ToString() : string.Empty,
+                            Anio = reader["Anio"] != DBNull.Value ? Convert.ToInt32(reader["Anio"]) : (int?)null,
+                            Kilometraje = reader["Kilometraje"] != DBNull.Value ? Convert.ToInt32(reader["Kilometraje"]) : (int?)null,
+                            Combustible = reader["Combustible"] != DBNull.Value ? reader["Combustible"].ToString() : string.Empty,
+                            Transmision = reader["Transmision"] != DBNull.Value ? reader["Transmision"].ToString() : string.Empty,
+                            ClienteID = Convert.ToInt32(reader["ClienteID"]),
+                            ClienteDNI = reader["ClienteDNI"].ToString(),
+                            ClienteNombre = reader["ClienteNombre"].ToString(),
+                            ClienteApellido = reader["ClienteApellido"].ToString(),
+                            Modelo = reader["Modelo"].ToString(),
+                            Marca = reader["Marca"].ToString(),
+                            TipoVehiculo = reader["TipoVehiculo"] != DBNull.Value ? reader["TipoVehiculo"].ToString() : string.Empty,
+                            FechaRegistro = Convert.ToDateTime(reader["FechaRegistro"])
                         };
                     }
+
+                    reader.Close();
                 }
             }
-            return garantia;
+            catch (Exception ex)
+            {
+                throw new Exception("Error al buscar vehículo por placa: " + ex.Message);
+            }
+            finally
+            {
+                if (con != null && con.State == ConnectionState.Open)
+                    con.Close();
+            }
+
+            return vehiculo;
+        }
+
+        public string RegistrarVehiculo(Vehiculo vehiculo, int usuarioID = 0)
+        {
+            string mensaje = string.Empty;
+            SqlConnection con = null;
+
+            try
+            {
+                using (con = new CD_Conexion().AbrirConexion())
+                {
+                    SqlCommand cmd = new SqlCommand("sp_Vehiculo_Registrar", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@ClienteID", vehiculo.ClienteID);
+                    cmd.Parameters.AddWithValue("@ModeloID", vehiculo.ModeloID);
+                    cmd.Parameters.AddWithValue("@Placa", vehiculo.Placa);
+                    cmd.Parameters.AddWithValue("@VIN", (object)vehiculo.VIN ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Color", (object)vehiculo.Color ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Anio", (object)vehiculo.Anio ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Kilometraje", (object)vehiculo.Kilometraje ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Combustible", (object)vehiculo.Combustible ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Transmision", (object)vehiculo.Transmision ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@UsuarioID", usuarioID > 0 ? (object)usuarioID : DBNull.Value);
+
+                    SqlParameter outputParam = new SqlParameter("@Mensaje", SqlDbType.VarChar, 500);
+                    outputParam.Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add(outputParam);
+
+                    cmd.ExecuteNonQuery();
+
+                    mensaje = outputParam.Value.ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+                mensaje = "Error al registrar vehículo: " + ex.Message;
+            }
+            finally
+            {
+                if (con != null && con.State == ConnectionState.Open)
+                    con.Close();
+            }
+
+            return mensaje;
         }
     }
-
 }
