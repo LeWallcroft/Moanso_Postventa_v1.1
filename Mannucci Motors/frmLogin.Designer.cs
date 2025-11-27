@@ -28,9 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmLogin));
             this.pnl_titulo_form = new System.Windows.Forms.Panel();
             this.label21 = new System.Windows.Forms.Label();
-            this.pctImagen = new System.Windows.Forms.PictureBox();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
@@ -39,181 +39,205 @@
             this.txtContraseña = new System.Windows.Forms.TextBox();
             this.btn_Salir = new System.Windows.Forms.Button();
             this.btnLogin = new System.Windows.Forms.Button();
+            this.panelLogin = new System.Windows.Forms.Panel();
+            this.lblBienvenido = new System.Windows.Forms.Label();
             this.pnl_titulo_form.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pctImagen)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
+            this.panelLogin.SuspendLayout();
             this.SuspendLayout();
             // 
             // pnl_titulo_form
             // 
-            this.pnl_titulo_form.BackColor = System.Drawing.Color.Red;
+            this.pnl_titulo_form.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.pnl_titulo_form.Controls.Add(this.label21);
             this.pnl_titulo_form.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnl_titulo_form.Location = new System.Drawing.Point(0, 0);
             this.pnl_titulo_form.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.pnl_titulo_form.Name = "pnl_titulo_form";
-            this.pnl_titulo_form.Size = new System.Drawing.Size(1156, 68);
+            this.pnl_titulo_form.Size = new System.Drawing.Size(1000, 115);
             this.pnl_titulo_form.TabIndex = 10;
             // 
             // label21
             // 
             this.label21.AutoSize = true;
-            this.label21.Font = new System.Drawing.Font("Verdana", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label21.Font = new System.Drawing.Font("Microsoft Sans Serif", 14F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label21.ForeColor = System.Drawing.Color.White;
-            this.label21.Location = new System.Drawing.Point(361, 22);
+            this.label21.Location = new System.Drawing.Point(300, 35);
             this.label21.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(249, 29);
+            this.label21.Size = new System.Drawing.Size(363, 44);
             this.label21.TabIndex = 0;
-            this.label21.Text = "Inicio de Sesión ";
-            // 
-            // pctImagen
-            // 
-            this.pctImagen.Location = new System.Drawing.Point(16, 75);
-            this.pctImagen.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.pctImagen.Name = "pctImagen";
-            this.pctImagen.Size = new System.Drawing.Size(688, 496);
-            this.pctImagen.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
-            this.pctImagen.TabIndex = 19;
-            this.pctImagen.TabStop = false;
+            this.label21.Text = "INICIO DE SESIÓN";
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(845, 104);
+            this.pictureBox1.BackColor = System.Drawing.Color.White;
+            this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
+            this.pictureBox1.Location = new System.Drawing.Point(300, 58);
             this.pictureBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(153, 138);
-            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
+            this.pictureBox1.Size = new System.Drawing.Size(400, 192);
+            this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 20;
             this.pictureBox1.TabStop = false;
             // 
             // label3
             // 
-            this.label3.Font = new System.Drawing.Font("Verdana", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.SystemColors.ControlDarkDark;
-            this.label3.Location = new System.Drawing.Point(741, 276);
+            this.label3.BackColor = System.Drawing.Color.White;
+            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.label3.Location = new System.Drawing.Point(100, 269);
             this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(360, 67);
+            this.label3.Size = new System.Drawing.Size(800, 77);
             this.label3.TabIndex = 21;
-            this.label3.Text = "Sistema de Mannuci Motors \r\nver.1.1";
+            this.label3.Text = "MANNUCCI MOTORS";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label4.ForeColor = System.Drawing.Color.Black;
-            this.label4.Location = new System.Drawing.Point(741, 376);
+            this.label4.BackColor = System.Drawing.Color.White;
+            this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.label4.Location = new System.Drawing.Point(100, 423);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(89, 20);
+            this.label4.Size = new System.Drawing.Size(127, 29);
             this.label4.TabIndex = 23;
-            this.label4.Text = "Usuario(*)";
+            this.label4.Text = "USUARIO";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label5.ForeColor = System.Drawing.Color.Black;
-            this.label5.Location = new System.Drawing.Point(712, 427);
+            this.label5.BackColor = System.Drawing.Color.White;
+            this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.label5.Location = new System.Drawing.Point(100, 519);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(118, 20);
+            this.label5.Size = new System.Drawing.Size(190, 29);
             this.label5.TabIndex = 22;
-            this.label5.Text = "Contraseña(*)";
+            this.label5.Text = "CONTRASEÑA";
             // 
             // txtEmail
             // 
+            this.txtEmail.BackColor = System.Drawing.Color.White;
             this.txtEmail.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtEmail.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtEmail.Location = new System.Drawing.Point(845, 369);
+            this.txtEmail.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtEmail.ForeColor = System.Drawing.Color.Black;
+            this.txtEmail.Location = new System.Drawing.Point(300, 413);
             this.txtEmail.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.txtEmail.MaxLength = 150; // CORREGIDO: 150 caracteres para email
+            this.txtEmail.MaxLength = 150;
             this.txtEmail.Name = "txtEmail";
-            this.txtEmail.Size = new System.Drawing.Size(246, 30);
+            this.txtEmail.Size = new System.Drawing.Size(598, 35);
             this.txtEmail.TabIndex = 24;
-            this.txtEmail.Width = 250; // Asegurar ancho suficiente
             // 
             // txtContraseña
             // 
+            this.txtContraseña.BackColor = System.Drawing.Color.White;
             this.txtContraseña.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.txtContraseña.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtContraseña.Location = new System.Drawing.Point(845, 421);
+            this.txtContraseña.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtContraseña.ForeColor = System.Drawing.Color.Black;
+            this.txtContraseña.Location = new System.Drawing.Point(300, 510);
             this.txtContraseña.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.txtContraseña.MaxLength = 255; // CORREGIDO: 255 caracteres para password
+            this.txtContraseña.MaxLength = 255;
             this.txtContraseña.Name = "txtContraseña";
-            this.txtContraseña.PasswordChar = '*';
-            this.txtContraseña.Size = new System.Drawing.Size(246, 30);
+            this.txtContraseña.PasswordChar = '•';
+            this.txtContraseña.Size = new System.Drawing.Size(598, 35);
             this.txtContraseña.TabIndex = 25;
-            this.txtContraseña.Width = 250; // Asegurar ancho suficiente
             // 
             // btn_Salir
             // 
-            this.btn_Salir.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(62)))), ((int)(((byte)(62)))), ((int)(((byte)(63)))));
+            this.btn_Salir.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.btn_Salir.FlatAppearance.BorderSize = 0;
             this.btn_Salir.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btn_Salir.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btn_Salir.ForeColor = System.Drawing.Color.Gainsboro;
-            this.btn_Salir.Location = new System.Drawing.Point(916, 485);
+            this.btn_Salir.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btn_Salir.ForeColor = System.Drawing.Color.White;
+            this.btn_Salir.Location = new System.Drawing.Point(540, 615);
             this.btn_Salir.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btn_Salir.Name = "btn_Salir";
-            this.btn_Salir.Size = new System.Drawing.Size(192, 65);
+            this.btn_Salir.Size = new System.Drawing.Size(200, 67);
             this.btn_Salir.TabIndex = 27;
-            this.btn_Salir.Text = "Salir";
+            this.btn_Salir.Text = "SALIR";
             this.btn_Salir.UseVisualStyleBackColor = false;
             this.btn_Salir.Click += new System.EventHandler(this.btn_Salir_Click);
             // 
             // btnLogin
             // 
-            this.btnLogin.BackColor = System.Drawing.Color.Red;
+            this.btnLogin.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+            this.btnLogin.FlatAppearance.BorderSize = 0;
             this.btnLogin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.btnLogin.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnLogin.ForeColor = System.Drawing.Color.WhiteSmoke;
-            this.btnLogin.Location = new System.Drawing.Point(716, 485);
+            this.btnLogin.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnLogin.ForeColor = System.Drawing.Color.White;
+            this.btnLogin.Location = new System.Drawing.Point(300, 615);
             this.btnLogin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnLogin.Name = "btnLogin";
-            this.btnLogin.Size = new System.Drawing.Size(192, 65);
+            this.btnLogin.Size = new System.Drawing.Size(230, 67);
             this.btnLogin.TabIndex = 26;
-            this.btnLogin.Text = "Iniciar Sesión";
+            this.btnLogin.Text = "INICIAR SESIÓN";
             this.btnLogin.UseVisualStyleBackColor = false;
             this.btnLogin.Click += new System.EventHandler(this.btnLogin_Click_1);
             // 
+            // panelLogin
+            // 
+            this.panelLogin.BackColor = System.Drawing.Color.White;
+            this.panelLogin.Controls.Add(this.lblBienvenido);
+            this.panelLogin.Controls.Add(this.pictureBox1);
+            this.panelLogin.Controls.Add(this.btn_Salir);
+            this.panelLogin.Controls.Add(this.label3);
+            this.panelLogin.Controls.Add(this.btnLogin);
+            this.panelLogin.Controls.Add(this.label5);
+            this.panelLogin.Controls.Add(this.txtContraseña);
+            this.panelLogin.Controls.Add(this.label4);
+            this.panelLogin.Controls.Add(this.txtEmail);
+            this.panelLogin.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panelLogin.Location = new System.Drawing.Point(0, 115);
+            this.panelLogin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panelLogin.Name = "panelLogin";
+            this.panelLogin.Size = new System.Drawing.Size(1000, 750);
+            this.panelLogin.TabIndex = 28;
+            // 
+            // lblBienvenido
+            // 
+            this.lblBienvenido.BackColor = System.Drawing.Color.White;
+            this.lblBienvenido.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.lblBienvenido.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.lblBienvenido.Location = new System.Drawing.Point(100, 346);
+            this.lblBienvenido.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.lblBienvenido.Name = "lblBienvenido";
+            this.lblBienvenido.Size = new System.Drawing.Size(800, 38);
+            this.lblBienvenido.TabIndex = 28;
+            this.lblBienvenido.Text = "Ingrese sus credenciales para continuar";
+            this.lblBienvenido.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
             // frmLogin
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 25F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.WhiteSmoke;
-            this.ClientSize = new System.Drawing.Size(1156, 576);
-            this.Controls.Add(this.btn_Salir);
-            this.Controls.Add(this.btnLogin);
-            this.Controls.Add(this.txtEmail);
-            this.Controls.Add(this.txtContraseña);
-            this.Controls.Add(this.label4);
-            this.Controls.Add(this.label5);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.pictureBox1);
-            this.Controls.Add(this.pctImagen);
+            this.BackColor = System.Drawing.Color.White;
+            this.ClientSize = new System.Drawing.Size(1000, 865);
+            this.Controls.Add(this.panelLogin);
             this.Controls.Add(this.pnl_titulo_form);
-            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmLogin";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
-            this.Text = "frmLogin";
+            this.Text = "Inicio de Sesión - Mannucci Motors";
             this.pnl_titulo_form.ResumeLayout(false);
             this.pnl_titulo_form.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.pctImagen)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
+            this.panelLogin.ResumeLayout(false);
+            this.panelLogin.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
         #endregion
         private System.Windows.Forms.Panel pnl_titulo_form;
         private System.Windows.Forms.Label label21;
-        private System.Windows.Forms.PictureBox pctImagen;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
@@ -222,5 +246,7 @@
         private System.Windows.Forms.TextBox txtContraseña;
         private System.Windows.Forms.Button btn_Salir;
         private System.Windows.Forms.Button btnLogin;
+        private System.Windows.Forms.Panel panelLogin;
+        private System.Windows.Forms.Label lblBienvenido;
     }
 }

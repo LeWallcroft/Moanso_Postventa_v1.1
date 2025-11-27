@@ -1,14 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace CapaDominio
+﻿namespace Dominio
 {
     public class Marca
     {
-        public int MarcaId { get; set; }
+        public int MarcaID { get; set; }
         public string Nombre { get; set; }
+        public string Descripcion { get; set; }
+        public string PaisOrigen { get; set; }
     }
 }

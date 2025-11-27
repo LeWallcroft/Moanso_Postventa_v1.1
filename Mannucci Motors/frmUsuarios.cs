@@ -1,5 +1,6 @@
 ﻿using CapaDominio;
 using CapaLogicaNegocio;
+using CapaDominio.Utilidades;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -20,11 +21,23 @@ namespace Mannucci_Motors
 
         private void frmUsuarios_Load(object sender, EventArgs e)
         {
-            // CAMBIO: Agregar el rol "Tecnico" a la lista de roles
+            // Agregar el rol "Tecnico" a la lista de roles
             cbRol.Items.AddRange(new string[] { "Administrador", "Asesor", "Tecnico" });
 
             CargarUsuarios();
             HabilitarBotones(true);
+
+            // Asegurar que el GroupBox esté centrado inicialmente
+            CentrarGroupBox();
+        }
+
+        // Método para centrar el GroupBox
+        private void CentrarGroupBox()
+        {
+            gbDatos.Location = new Point(
+                (this.ClientSize.Width - gbDatos.Width) / 2,
+                (this.ClientSize.Height - gbDatos.Height) / 2
+            );
         }
 
         private void CargarUsuarios()
@@ -34,7 +47,7 @@ namespace Mannucci_Motors
                 listaUsuarios = cnUsuario.ListarUsuarios();
                 dgvUsuarios.DataSource = listaUsuarios;
 
-                // SOLO CAMBIO: Nombres de columnas según nuevo modelo
+                // Nombres de columnas según nuevo modelo
                 dgvUsuarios.Columns["UsuariosID"].HeaderText = "ID";
                 dgvUsuarios.Columns["UsuariosID"].Width = 50;
                 dgvUsuarios.Columns["Nombre"].HeaderText = "Nombre";
@@ -48,11 +61,14 @@ namespace Mannucci_Motors
                 dgvUsuarios.Columns["Activo"].HeaderText = "Activo";
                 dgvUsuarios.Columns["Activo"].Width = 60;
                 dgvUsuarios.Columns["UltimoLogin"].HeaderText = "Último Login";
-                dgvUsuarios.Columns["UltimoLogin"].Width = 150;
+                dgvUsuarios.Columns["UltimoLogin"].Width = 100;
 
                 // Ocultar columnas que no queremos mostrar
                 if (dgvUsuarios.Columns.Contains("PasswordHash"))
                     dgvUsuarios.Columns["PasswordHash"].Visible = false;
+
+                // Actualizar el texto del botón basado en la selección actual
+                ActualizarBotonEstado();
             }
             catch (Exception ex)
             {
@@ -61,12 +77,47 @@ namespace Mannucci_Motors
             }
         }
 
+        // Método para actualizar el texto del botón de estado
+        private void ActualizarBotonEstado()
+        {
+            if (dgvUsuarios.SelectedRows.Count > 0)
+            {
+                DataGridViewRow row = dgvUsuarios.SelectedRows[0];
+                bool estaActivo = Convert.ToBoolean(row.Cells["Activo"].Value);
+
+                if (estaActivo)
+                {
+                    btnCambiarEstado.Text = "INHABILITAR";
+                    btnCambiarEstado.BackColor = Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
+                }
+                else
+                {
+                    btnCambiarEstado.Text = "HABILITAR";
+                    btnCambiarEstado.BackColor = Color.FromArgb(((int)(((byte)(0)))), ((int)(((byte)(192)))), ((int)(((byte)(0)))));
+                }
+            }
+            else
+            {
+                btnCambiarEstado.Text = "CAMBIAR ESTADO";
+                btnCambiarEstado.BackColor = Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            }
+        }
+
         private void HabilitarBotones(bool estado)
         {
             btnNuevo.Enabled = estado;
             btnEditar.Enabled = estado && dgvUsuarios.SelectedRows.Count > 0;
-            btnEliminar.Enabled = estado && dgvUsuarios.SelectedRows.Count > 0;
+            btnCambiarEstado.Enabled = estado && dgvUsuarios.SelectedRows.Count > 0;
             gbDatos.Visible = !estado;
+
+            // Controlar la visibilidad del DataGridView cuando el formulario está activo
+            dgvUsuarios.Visible = estado;
+
+            // Actualizar el botón de estado cuando se habilitan/deshabilitan los botones
+            if (estado)
+            {
+                ActualizarBotonEstado();
+            }
         }
 
         private void LimpiarFormulario()
@@ -75,6 +126,8 @@ namespace Mannucci_Motors
             txtApellido.Text = "";
             txtEmail.Text = "";
             txtPassword.Text = "";
+            txtPassword.ForeColor = Color.Black;
+            txtPassword.UseSystemPasswordChar = true;
             cbRol.SelectedIndex = -1;
             chkActivo.Checked = true;
         }
@@ -92,6 +145,8 @@ namespace Mannucci_Motors
         {
             isNuevo = true;
             LimpiarFormulario();
+
+            CentrarGroupBox();
             HabilitarBotones(false);
             txtNombre.Focus();
         }
@@ -112,31 +167,48 @@ namespace Mannucci_Motors
                 txtPassword.ForeColor = Color.Gray;
                 txtPassword.UseSystemPasswordChar = false;
 
+                CentrarGroupBox();
                 HabilitarBotones(false);
                 txtNombre.Focus();
             }
+            else
+            {
+                MessageBox.Show("Por favor, seleccione un usuario para editar.", "Advertencia",
+                               MessageBoxButtons.OK, MessageBoxIcon.Warning);
+            }
         }
 
-        private void btnEliminar_Click(object sender, EventArgs e)
+        // Evento para cambiar estado (Habilitar/Inhabilitar)
+        private void btnCambiarEstado_Click(object sender, EventArgs e)
         {
             if (dgvUsuarios.SelectedRows.Count > 0)
             {
                 DataGridViewRow row = dgvUsuarios.SelectedRows[0];
                 string nombreCompleto = $"{row.Cells["Nombre"].Value} {row.Cells["Apellido"].Value}";
                 int usuariosID = Convert.ToInt32(row.Cells["UsuariosID"].Value);
+                bool estaActivo = Convert.ToBoolean(row.Cells["Activo"].Value);
+                string rol = row.Cells["Rol"].Value.ToString();
 
-                if (MessageBox.Show($"¿Está seguro de eliminar al usuario '{nombreCompleto}'?",
-                                  "Confirmar Eliminación",
+                string accion = estaActivo ? "inhabilitar" : "habilitar";
+                string mensajeConfirmacion = estaActivo ?
+                    $"¿Está seguro de INHABILITAR al usuario '{nombreCompleto}'?\n\nEl usuario no podrá acceder al sistema." :
+                    $"¿Está seguro de HABILITAR al usuario '{nombreCompleto}'?\n\nEl usuario podrá acceder al sistema nuevamente.";
+
+                if (MessageBox.Show(mensajeConfirmacion,
+                                  $"Confirmar {accion.ToUpper()}",
                                   MessageBoxButtons.YesNo,
                                   MessageBoxIcon.Question) == DialogResult.Yes)
                 {
                     try
                     {
                         string mensaje;
-                        bool resultado = cnUsuario.EliminarUsuario(usuariosID, out mensaje);
+                        bool resultado = cnUsuario.CambiarEstadoUsuario(usuariosID, !estaActivo, out mensaje);
 
                         if (resultado)
                         {
+                            // NOTIFICAR EL CAMBIO A OTROS FORMULARIOS
+                            SincronizadorGlobal.NotificarEstadoUsuarioCambiado(usuariosID, !estaActivo);
+
                             MostrarMensaje(mensaje);
                             CargarUsuarios();
                         }
@@ -147,9 +219,14 @@ namespace Mannucci_Motors
                     }
                     catch (Exception ex)
                     {
-                        MostrarMensaje($"Error al eliminar usuario: {ex.Message}", true);
+                        MostrarMensaje($"Error al {accion} usuario: {ex.Message}", true);
                     }
                 }
+            }
+            else
+            {
+                MessageBox.Show("Por favor, seleccione un usuario para cambiar su estado.", "Advertencia",
+                               MessageBoxButtons.OK, MessageBoxIcon.Warning);
             }
         }
 
@@ -193,12 +270,18 @@ namespace Mannucci_Motors
                     return;
                 }
 
+                string password = txtPassword.Text;
+                if (!isNuevo && password == "Dejar en blanco para no cambiar")
+                {
+                    password = "";
+                }
+
                 Usuario usuario = new Usuario
                 {
                     Nombre = txtNombre.Text.Trim(),
                     Apellido = txtApellido.Text.Trim(),
                     Email = txtEmail.Text.Trim(),
-                    PasswordHash = txtPassword.Text,
+                    PasswordHash = password,
                     Rol = cbRol.Text,
                     Activo = chkActivo.Checked
                 };
@@ -243,27 +326,32 @@ namespace Mannucci_Motors
         private void dgvUsuarios_SelectionChanged(object sender, EventArgs e)
         {
             btnEditar.Enabled = dgvUsuarios.SelectedRows.Count > 0;
-            btnEliminar.Enabled = dgvUsuarios.SelectedRows.Count > 0;
+            btnCambiarEstado.Enabled = dgvUsuarios.SelectedRows.Count > 0;
+
+            // Actualizar el botón de estado cuando cambia la selección
+            ActualizarBotonEstado();
         }
 
-        // CAMBIO: Método para filtrar usuarios por rol (opcional, si quieres agregar filtros)
-        private void FiltrarUsuariosPorRol(string rol)
+        private void txtPassword_Enter(object sender, EventArgs e)
         {
-            if (listaUsuarios != null)
+            if (!isNuevo && txtPassword.Text == "Dejar en blanco para no cambiar")
             {
-                if (string.IsNullOrEmpty(rol))
-                {
-                    dgvUsuarios.DataSource = listaUsuarios;
-                }
-                else
-                {
-                    var usuariosFiltrados = listaUsuarios.FindAll(u => u.Rol == rol);
-                    dgvUsuarios.DataSource = usuariosFiltrados;
-                }
+                txtPassword.Text = "";
+                txtPassword.ForeColor = Color.Black;
+                txtPassword.UseSystemPasswordChar = true;
             }
         }
 
-        // CAMBIO: Método para obtener solo técnicos (útil para otros formularios)
+        private void txtPassword_Leave(object sender, EventArgs e)
+        {
+            if (!isNuevo && string.IsNullOrEmpty(txtPassword.Text))
+            {
+                txtPassword.Text = "Dejar en blanco para no cambiar";
+                txtPassword.ForeColor = Color.Gray;
+                txtPassword.UseSystemPasswordChar = false;
+            }
+        }
+
         public List<Usuario> ObtenerTecnicos()
         {
             try

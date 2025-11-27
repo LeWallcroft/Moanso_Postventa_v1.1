@@ -57,12 +57,6 @@
     <Compile Include="frmBahias.Designer.cs">
       <DependentUpon>frmBahias.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmCatalogo.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmCatalogo.Designer.cs">
-      <DependentUpon>frmCatalogo.cs</DependentUpon>
-    </Compile>
     <Compile Include="frmDiagnostico.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -81,6 +75,12 @@
     <Compile Include="frmDisponibilidad.Designer.cs">
       <DependentUpon>frmDisponibilidad.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmGestionClientes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmGestionClientes.Designer.cs">
+      <DependentUpon>frmGestionClientes.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmLogin.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -98,6 +98,30 @@
     </Compile>
     <Compile Include="frmNuevaCita.Designer.cs">
       <DependentUpon>frmNuevaCita.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmReportes.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmReportes.Designer.cs">
+      <DependentUpon>frmReportes.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmRepuestoDetalle.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmRepuestoDetalle.Designer.cs">
+      <DependentUpon>frmRepuestoDetalle.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmRepuestos.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmRepuestos.Designer.cs">
+      <DependentUpon>frmRepuestos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmServicios.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmServicios.Designer.cs">
+      <DependentUpon>frmServicios.cs</DependentUpon>
     </Compile>
     <Compile Include="frmTecnicos.cs">
       <SubType>Form</SubType>
@@ -122,17 +146,14 @@
     <EmbeddedResource Include="frmBahias.resx">
       <DependentUpon>frmBahias.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmCatalogo.resx">
-      <DependentUpon>frmCatalogo.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="frmDiagnostico.resx">
       <DependentUpon>frmDiagnostico.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmDiagnosticoTablaCliente.resx">
       <DependentUpon>frmDiagnosticoTablaCliente.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmDisponibilidad.resx">
-      <DependentUpon>frmDisponibilidad.cs</DependentUpon>
+    <EmbeddedResource Include="frmGestionClientes.resx">
+      <DependentUpon>frmGestionClientes.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmLogin.resx">
       <DependentUpon>frmLogin.cs</DependentUpon>
@@ -140,8 +161,8 @@
     <EmbeddedResource Include="frmMenu.resx">
       <DependentUpon>frmMenu.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="frmNuevaCita.resx">
-      <DependentUpon>frmNuevaCita.cs</DependentUpon>
+    <EmbeddedResource Include="frmServicios.resx">
+      <DependentUpon>frmServicios.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmTecnicos.resx">
       <DependentUpon>frmTecnicos.cs</DependentUpon>

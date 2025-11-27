@@ -1,101 +1,100 @@
-﻿using CapaDominio;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using CapaDatos;
+using Dominio;
 
 namespace CapaDatos
 {
     public class CD_Cliente
     {
-        private CD_Conexion conexion = new CD_Conexion();
-
-        // Método 1: Búsqueda por DNI (Usa sp_Recepcion_BuscarClienteYVehiculos)
-        public Cliente BuscarClienteYVehiculos(string dni, out List<Vehiculo> vehiculos)
+        public Cliente BuscarPorDNI(string dni)
         {
-            Cliente clienteEncontrado = null;
-            vehiculos = new List<Vehiculo>();
+            Cliente cliente = null;
+            SqlConnection con = null;
 
-            using (SqlConnection con = conexion.AbrirConexion())
+            try
             {
-                SqlCommand cmd = new SqlCommand("sp_Recepcion_BuscarClienteYVehiculos", con);
-                cmd.CommandType = CommandType.StoredProcedure;
-                cmd.Parameters.AddWithValue("@DNI", dni);
-
-                using (SqlDataReader reader = cmd.ExecuteReader())
+                using (con = new CD_Conexion().AbrirConexion())
                 {
-                    // Primer Resultado: Cliente
+                    SqlCommand cmd = new SqlCommand("sp_Cliente_BuscarPorDNI", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+                    cmd.Parameters.AddWithValue("@DNI", dni);
+
+                    SqlDataReader reader = cmd.ExecuteReader();
+
                     if (reader.Read())
                     {
-                        clienteEncontrado = new Cliente
+                        cliente = new Cliente
                         {
-                            ClienteId = Convert.ToInt32(reader["ClienteId"]),
-                            Nombres = reader["Nombres"].ToString(),
-                            Apellidos = reader["Apellidos"].ToString(),
-                            Email = reader["Email"].ToString(),
-                            // Telefono1 es el que se usa en la BD para el principal
-                            Telefono = reader["Telefono"].ToString(),
-                            DNI = dni
+                            ClienteID = Convert.ToInt32(reader["ClienteID"]),
+                            DNI = reader["DNI"].ToString(),
+                            Nombre = reader["Nombre"].ToString(),
+                            Apellido = reader["Apellido"].ToString(),
+                            Email = reader["Email"] != DBNull.Value ? reader["Email"].ToString() : string.Empty,
+                            Telefono = reader["Telefono"] != DBNull.Value ? reader["Telefono"].ToString() : string.Empty,
+                            Direccion = reader["Direccion"] != DBNull.Value ? reader["Direccion"].ToString() : string.Empty,
+                            FechaRegistro = Convert.ToDateTime(reader["FechaRegistro"]),
+                            Activo = Convert.ToBoolean(reader["Activo"])
                         };
                     }
 
-                    // Segundo Resultado: Vehículos del Cliente
-                    if (reader.NextResult())
-                    {
-                        while (reader.Read())
-                        {
-                            vehiculos.Add(new Vehiculo
-                            {
-                                VehiculoId = Convert.ToInt32(reader["VehiculoId"]),
-                                Placa = reader["Placa"].ToString(),
-                                // VIN puede ser NULL
-                                VIN = reader["VIN"] == DBNull.Value ? null : reader["VIN"].ToString(),
-                                Marca = reader["MarcaNombre"].ToString(),
-                                Modelo = reader["ModeloNombre"].ToString(),
-                                Anio = Convert.ToInt32(reader["Anio"])
-                            });
-                        }
-                    }
+                    reader.Close();
                 }
             }
-            return clienteEncontrado;
+            catch (Exception ex)
+            {
+                throw new Exception("Error al buscar cliente por DNI: " + ex.Message);
+            }
+            finally
+            {
+                if (con != null && con.State == ConnectionState.Open)
+                    con.Close();
+            }
+
+            return cliente;
         }
 
-        // Método 2: Creación de un nuevo cliente
-        public int CrearCliente(Cliente cliente)
+        public string RegistrarCliente(Cliente cliente)
         {
-            int clienteId = 0;
+            string mensaje = string.Empty;
+            SqlConnection con = null;
 
-            // El DNI está mapeado como Documento en la entidad Cliente original, pero usamos DNI aquí
-            string query = "INSERT INTO dbo.Clientes (DNI, Nombres, Apellidos, Email, Telefono, Direccion) " +
-                           "OUTPUT INSERTED.ClienteId " +
-                           "VALUES (@DNI, @Nombres, @Apellidos, @Email, @Telefono, NULL)";
-
-            using (SqlConnection con = conexion.AbrirConexion())
+            try
             {
-                SqlCommand cmd = new SqlCommand(query, con);
-                cmd.CommandType = CommandType.Text;
-
-                cmd.Parameters.AddWithValue("@DNI", cliente.DNI);
-                cmd.Parameters.AddWithValue("@Nombres", cliente.Nombres);
-                cmd.Parameters.AddWithValue("@Apellidos", cliente.Apellidos);
-                cmd.Parameters.AddWithValue("@Email", (object)cliente.Email ?? DBNull.Value);
-                cmd.Parameters.AddWithValue("@Telefono", (object)cliente.Telefono ?? DBNull.Value);
-
-                try
+                using (con = new CD_Conexion().AbrirConexion())
                 {
-                    // ExecuteScalar devuelve la primera columna de la primera fila (en este caso, ClienteId)
-                    clienteId = (int)cmd.ExecuteScalar();
-                }
-                catch (Exception ex)
-                {
-                    throw new Exception("Error al registrar un nuevo cliente: " + ex.Message);
+                    SqlCommand cmd = new SqlCommand("sp_Cliente_Registrar", con);
+                    cmd.CommandType = CommandType.StoredProcedure;
+
+                    cmd.Parameters.AddWithValue("@DNI", cliente.DNI);
+                    cmd.Parameters.AddWithValue("@Nombre", cliente.Nombre);
+                    cmd.Parameters.AddWithValue("@Apellido", cliente.Apellido);
+                    cmd.Parameters.AddWithValue("@Email", (object)cliente.Email ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Telefono", (object)cliente.Telefono ?? DBNull.Value);
+                    cmd.Parameters.AddWithValue("@Direccion", (object)cliente.Direccion ?? DBNull.Value);
+
+                    SqlParameter outputParam = new SqlParameter("@Mensaje", SqlDbType.VarChar, 500);
+                    outputParam.Direction = ParameterDirection.Output;
+                    cmd.Parameters.Add(outputParam);
+
+                    cmd.ExecuteNonQuery();
+
+                    mensaje = outputParam.Value.ToString();
                 }
             }
-            return clienteId;
+            catch (Exception ex)
+            {
+                mensaje = "Error al registrar cliente: " + ex.Message;
+            }
+            finally
+            {
+                if (con != null && con.State == ConnectionState.Open)
+                    con.Close();
+            }
+
+            return mensaje;
         }
     }
 }

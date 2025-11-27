@@ -44,11 +44,14 @@
     <Compile Include="Bahia.cs" />
     <Compile Include="CalendarioCapacidad.cs" />
     <Compile Include="CapacidadDia.cs" />
+    <Compile Include="CategoriaServicio.cs" />
     <Compile Include="Cita.cs" />
     <Compile Include="Cita_2.cs" />
     <Compile Include="Cliente.cs" />
     <Compile Include="Diagnostico.cs" />
+    <Compile Include="DTOs\FiltroServicios.cs" />
     <Compile Include="EstadoBahia.cs" />
+    <Compile Include="FiltroRepuesto.cs" />
     <Compile Include="Garantia.cs" />
     <Compile Include="Marca.cs" />
     <Compile Include="Modelo.cs" />
@@ -56,11 +59,18 @@
     <Compile Include="Presupuesto.cs" />
     <Compile Include="PresupuestoItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Reportes.cs" />
+    <Compile Include="Repuesto.cs" />
+    <Compile Include="RepuestoServicio.cs" />
     <Compile Include="ResumenItem.cs" />
     <Compile Include="Servicio.cs" />
     <Compile Include="Tecnico.cs" />
+    <Compile Include="TipoServicio.cs" />
     <Compile Include="Usuario.cs" />
+    <Compile Include="Utilidades\ResultadoOperacion.cs" />
+    <Compile Include="Utilidades\SincronizadorGlobal.cs" />
     <Compile Include="Vehiculo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

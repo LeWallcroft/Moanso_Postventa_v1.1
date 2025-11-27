@@ -51,13 +51,14 @@
     <Compile Include="CN_Cita.cs" />
     <Compile Include="CN_Cliente.cs" />
     <Compile Include="CN_Diagnostico.cs" />
-    <Compile Include="CN_Marca.cs" />
-    <Compile Include="CN_Modelo.cs" />
     <Compile Include="CN_OrdenTrabajo.cs" />
     <Compile Include="CN_Presupuesto.cs" />
+    <Compile Include="CN_Reportes.cs" />
+    <Compile Include="CN_Repuesto.cs" />
     <Compile Include="CN_Servicio.cs" />
     <Compile Include="CN_Tecnico.cs" />
     <Compile Include="CN_Usuario.cs" />
+    <Compile Include="CN_Validaciones.cs" />
     <Compile Include="CN_Vehiculo.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

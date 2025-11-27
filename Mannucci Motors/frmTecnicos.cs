@@ -1,5 +1,6 @@
 ﻿using CapaLogicaNegocio;
 using CapaDominio;
+using CapaDominio.Utilidades;
 using System;
 using System.Collections.Generic;
 using System.Drawing;
@@ -19,6 +20,40 @@ namespace CapaPresentacion
         public frmTecnicos()
         {
             InitializeComponent();
+
+            // Suscribirse a eventos de sincronización
+            SincronizadorGlobal.EstadoUsuarioCambiado += OnEstadoUsuarioCambiado;
+        }
+
+        // Manejar cuando un usuario técnico cambia de estado
+        private void OnEstadoUsuarioCambiado(int usuarioID, bool activo)
+        {
+            if (this.InvokeRequired)
+            {
+                this.Invoke(new Action<int, bool>(OnEstadoUsuarioCambiado), usuarioID, activo);
+                return;
+            }
+
+            try
+            {
+                // Verificar si algún técnico está asociado a este usuario
+                var tecnicoAfectado = todosLosTecnicos.FirstOrDefault(t => t.UsuariosId == usuarioID);
+                if (tecnicoAfectado != null)
+                {
+                    // Recargar combo de usuarios técnicos
+                    CargarCombos();
+
+                    // Recargar técnicos para reflejar cambios
+                    CargarTecnicos();
+
+                    MessageBox.Show($"Técnico '{tecnicoAfectado.NombreCompleto}' sincronizado: {(activo ? "Activado" : "Desactivado")}",
+                                  "Sincronización", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error en sincronización técnico: {ex.Message}");
+            }
         }
 
         private void frmTecnicos_Load(object sender, EventArgs e)
@@ -26,6 +61,7 @@ namespace CapaPresentacion
             try
             {
                 CargarCombos();
+                CargarComboFiltroEstado(); // ✅ NUEVO: Cargar combo de filtro
                 CargarTecnicos();
                 LimpiarFormulario();
                 ConfigurarDataGridView();
@@ -44,7 +80,7 @@ namespace CapaPresentacion
                 cmbUsuario.Items.Clear();
                 cmbUsuario.Items.Add(new { Text = "SIN ASIGNAR", Value = (int?)null });
 
-                // ✅ USAR EL NUEVO MÉTODO que lista TODOS los usuarios técnicos
+                // USAR EL NUEVO MÉTODO que lista TODOS los usuarios técnicos
                 var usuariosDisponibles = cnTecnico.ListarTodosUsuariosTecnicos();
 
                 // Cargar los usuarios en el combo
@@ -60,12 +96,33 @@ namespace CapaPresentacion
                 cmbUsuario.DisplayMember = "Text";
                 cmbUsuario.ValueMember = "Value";
                 cmbUsuario.SelectedIndex = 0;
-
-                // Resto del código para otros combos...
             }
             catch (Exception ex)
             {
                 MessageBox.Show($"Error al cargar listas: {ex.Message}", "Error",
+                              MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        // ✅ NUEVO MÉTODO: Cargar combo de filtro por estado
+        private void CargarComboFiltroEstado()
+        {
+            try
+            {
+                cmbFiltroEstado.Items.Clear();
+
+                // Agregar opciones de filtro
+                cmbFiltroEstado.Items.Add(new { Text = "TODOS", Value = -1 });
+                cmbFiltroEstado.Items.Add(new { Text = "ACTIVOS", Value = 1 });
+                cmbFiltroEstado.Items.Add(new { Text = "INACTIVOS", Value = 0 });
+
+                cmbFiltroEstado.DisplayMember = "Text";
+                cmbFiltroEstado.ValueMember = "Value";
+                cmbFiltroEstado.SelectedIndex = 0; // Seleccionar "TODOS" por defecto
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Error al cargar filtros: {ex.Message}", "Error",
                               MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
@@ -110,7 +167,7 @@ namespace CapaPresentacion
                     tecnicosFiltrados = tecnicosFiltrados.Where(t =>
                         t.NombreCompleto.ToLower().Contains(busqueda) ||
                         t.Especialidad.ToLower().Contains(busqueda) ||
-                        (t.Usuario?.Email?.ToLower() ?? "").Contains(busqueda)); // ✅ CORRECCIÓN: Manejo seguro de null
+                        (t.Usuario?.Email?.ToLower() ?? "").Contains(busqueda));
                 }
 
                 MostrarTecnicosEnGrid(tecnicosFiltrados.ToList());
@@ -148,24 +205,27 @@ namespace CapaPresentacion
 
         private void AplicarColorFila(DataGridViewRow fila, Tecnico tecnico)
         {
-            // Configurar estilo de selección
-            fila.DefaultCellStyle.SelectionBackColor = Color.LightBlue;
+            // Configurar estilo de selección en rojo claro
+            fila.DefaultCellStyle.SelectionBackColor = Color.FromArgb(255, 192, 192);
             fila.DefaultCellStyle.SelectionForeColor = Color.Black;
 
             if (!tecnico.Activo)
             {
-                fila.DefaultCellStyle.BackColor = Color.LightGray;
-                fila.DefaultCellStyle.ForeColor = Color.DarkGray;
+                // Técnico inactivo - Gris claro
+                fila.DefaultCellStyle.BackColor = Color.FromArgb(240, 240, 240);
+                fila.DefaultCellStyle.ForeColor = Color.Gray;
             }
             else if (!tecnico.Disponible)
             {
-                fila.DefaultCellStyle.BackColor = Color.LightYellow;
-                fila.DefaultCellStyle.ForeColor = Color.Black;
+                // Técnico no disponible - Amarillo muy suave (casi blanco)
+                fila.DefaultCellStyle.BackColor = Color.FromArgb(255, 255, 240);
+                fila.DefaultCellStyle.ForeColor = Color.FromArgb(64, 64, 64);
             }
             else
             {
+                // Técnico activo y disponible - Blanco
                 fila.DefaultCellStyle.BackColor = Color.White;
-                fila.DefaultCellStyle.ForeColor = Color.Black;
+                fila.DefaultCellStyle.ForeColor = Color.FromArgb(64, 64, 64);
             }
         }
 
@@ -176,11 +236,14 @@ namespace CapaPresentacion
             dgvTecnicos.ReadOnly = true;
             dgvTecnicos.AllowUserToAddRows = false;
 
-            // Configurar para mejor visualización
+            // ✅ CORRECCIÓN: Usar solo rojo, gris y blanco
             dgvTecnicos.EnableHeadersVisualStyles = false;
-            dgvTecnicos.ColumnHeadersDefaultCellStyle.BackColor = Color.SteelBlue;
+            dgvTecnicos.ColumnHeadersDefaultCellStyle.BackColor = Color.FromArgb(192, 0, 0); // Rojo
             dgvTecnicos.ColumnHeadersDefaultCellStyle.ForeColor = Color.White;
             dgvTecnicos.ColumnHeadersDefaultCellStyle.Font = new Font("Microsoft Sans Serif", 9, FontStyle.Bold);
+
+            // Configurar color de las líneas de la grilla
+            dgvTecnicos.GridColor = Color.FromArgb(224, 224, 224); // Gris claro
         }
 
         private void LimpiarFormulario()
@@ -197,11 +260,15 @@ namespace CapaPresentacion
             btnGuardar.Text = "GUARDAR";
             btnNuevo.Enabled = true;
             btnInactivar.Enabled = false;
+
+            // ✅ CORRECCIÓN: Usar solo rojo y gris
             btnInactivar.Text = "INACTIVAR";
-            btnInactivar.BackColor = Color.OrangeRed;
+            btnInactivar.BackColor = Color.FromArgb(192, 0, 0); // Rojo
+            btnInactivar.ForeColor = Color.White;
+
             groupBoxDatos.Text = "NUEVO TÉCNICO";
 
-            // ✅ CORRECCIÓN: Limpiar selección del grid
+            // Limpiar selección del grid
             dgvTecnicos.ClearSelection();
         }
 
@@ -214,7 +281,7 @@ namespace CapaPresentacion
             numSalario.Value = tecnico.Salario;
             chkDisponible.Checked = tecnico.Disponible;
 
-            // ✅ CORRECCIÓN: Manejo mejorado de selección de usuario
+            // Manejo mejorado de selección de usuario
             bool usuarioEncontrado = false;
             foreach (dynamic item in cmbUsuario.Items)
             {
@@ -228,7 +295,7 @@ namespace CapaPresentacion
 
             if (!usuarioEncontrado)
             {
-                // ✅ CORRECCIÓN: Si el usuario no está en la lista (puede estar inactivo), mostrar info
+                // Si el usuario no está en la lista (puede estar inactivo), mostrar info
                 cmbUsuario.SelectedIndex = 0;
                 if (tecnico.UsuariosId.HasValue)
                 {
@@ -243,16 +310,18 @@ namespace CapaPresentacion
             btnGuardar.Text = "ACTUALIZAR";
             btnInactivar.Enabled = true;
 
-            // Cambiar texto del botón según estado
+            // ✅ CORRECCIÓN: Cambiar texto y color del botón según estado
             if (tecnico.Activo)
             {
                 btnInactivar.Text = "INACTIVAR";
-                btnInactivar.BackColor = Color.OrangeRed;
+                btnInactivar.BackColor = Color.FromArgb(192, 0, 0); // Rojo
+                btnInactivar.ForeColor = Color.White;
             }
             else
             {
                 btnInactivar.Text = "ACTIVAR";
-                btnInactivar.BackColor = Color.Green;
+                btnInactivar.BackColor = Color.Gray; // Gris
+                btnInactivar.ForeColor = Color.White;
             }
 
             groupBoxDatos.Text = $"EDITANDO TÉCNICO: {tecnico.NombreCompleto}";
@@ -292,17 +361,6 @@ namespace CapaPresentacion
                 return false;
             }
 
-            // ✅ CORRECCIÓN: Validar que si se selecciona usuario, tenga rol Tecnico
-            if (cmbUsuario.SelectedItem != null)
-            {
-                dynamic usuarioSeleccionado = cmbUsuario.SelectedItem;
-                if (usuarioSeleccionado.Value != null)
-                {
-                    // Los usuarios en la lista ya están validados por el stored procedure, 
-                    // pero podemos agregar una validación adicional aquí si es necesario
-                }
-            }
-
             return true;
         }
 
@@ -318,7 +376,7 @@ namespace CapaPresentacion
 
             try
             {
-                // ✅ CORRECCIÓN: Manejo seguro del SelectedItem
+                // Manejo seguro del SelectedItem
                 int? usuarioId = null;
                 if (cmbUsuario.SelectedItem != null)
                 {
@@ -352,10 +410,33 @@ namespace CapaPresentacion
 
                 if (resultado)
                 {
+                    // ✅ CORRECCIÓN: Notificar cambio SIEMPRE que se guarda un técnico
+                    if (modoEdicion)
+                    {
+                        // Obtener el técnico actualizado
+                        var tecnicoActualizado = cnTecnico.ObtenerTecnicoPorId(tecnicoIdSeleccionado);
+                        if (tecnicoActualizado != null)
+                        {
+                            // Notificar cambio de estado del técnico
+                            SincronizadorGlobal.NotificarEstadoTecnicoCambiado(tecnicoIdSeleccionado, tecnicoActualizado.Activo);
+
+                            // Si cambió el usuario asociado, notificar también
+                            if (tecnicoActualizado.UsuariosId.HasValue)
+                            {
+                                SincronizadorGlobal.NotificarEstadoUsuarioCambiado(tecnicoActualizado.UsuariosId.Value, true);
+                            }
+                        }
+                    }
+                    else
+                    {
+                        // Para técnicos nuevos, notificar creación
+                        SincronizadorGlobal.NotificarCambioBahia(); // Esto actualizará formularios relacionados
+                    }
+
                     MessageBox.Show(mensaje, "Éxito",
                                   MessageBoxButtons.OK, MessageBoxIcon.Information);
                     CargarTecnicos();
-                    CargarCombos(); // ✅ CORRECCIÓN: Recargar combo para actualizar lista de usuarios disponibles
+                    CargarCombos();
                     LimpiarFormulario();
                 }
                 else
@@ -392,6 +473,8 @@ namespace CapaPresentacion
                         string mensaje;
                         bool resultado;
 
+                        bool nuevoEstado = !tecnico.Activo;
+
                         if (tecnico.Activo)
                         {
                             resultado = cnTecnico.InactivarTecnico(tecnicoIdSeleccionado, out mensaje);
@@ -403,9 +486,31 @@ namespace CapaPresentacion
 
                         if (resultado)
                         {
+                            // ✅ CORRECCIÓN 1: NOTIFICAR CAMBIO DE ESTADO DEL TÉCNICO (SIEMPRE)
+                            SincronizadorGlobal.NotificarEstadoTecnicoCambiado(tecnicoIdSeleccionado, nuevoEstado);
+
+                            // ✅ CORRECCIÓN 2: SINCRONIZAR USUARIO TANTO PARA ACTIVAR COMO DESACTIVAR
+                            if (tecnico.UsuariosId.HasValue)
+                            {
+                                string mensajeUsuario;
+                                bool resultadoUsuario = cnUsuario.CambiarEstadoUsuario(
+                                    tecnico.UsuariosId.Value, nuevoEstado, out mensajeUsuario);
+
+                                if (resultadoUsuario)
+                                {
+                                    // ✅ CORRECCIÓN 3: NOTIFICAR CAMBIO DE ESTADO DEL USUARIO
+                                    SincronizadorGlobal.NotificarEstadoUsuarioCambiado(tecnico.UsuariosId.Value, nuevoEstado);
+                                }
+                                else
+                                {
+                                    MessageBox.Show($"Técnico {accion.ToLower()} pero hubo un problema al sincronizar el usuario: {mensajeUsuario}",
+                                                  "Advertencia", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                                }
+                            }
+
                             MessageBox.Show(mensaje, "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
                             CargarTecnicos();
-                            CargarCombos(); // ✅ CORRECCIÓN: Recargar combo
+                            CargarCombos();
                             LimpiarFormulario();
                         }
                         else
@@ -435,7 +540,6 @@ namespace CapaPresentacion
 
         private void txtBuscar_TextChanged(object sender, EventArgs e)
         {
-            // ✅ CORRECCIÓN: Usar timer para evitar búsquedas muy frecuentes
             TimerBuscar.Stop();
             TimerBuscar.Start();
         }
@@ -483,7 +587,7 @@ namespace CapaPresentacion
             }
         }
 
-        // ✅ NUEVO: Evento para actualizar lista de usuarios
+        // Evento para actualizar lista de usuarios
         private void btnActualizarListaUsuarios_Click(object sender, EventArgs e)
         {
             CargarCombos();
@@ -491,7 +595,7 @@ namespace CapaPresentacion
                           MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
 
-        // ✅ NUEVO: Evento para ver detalles del técnico
+        // Evento para ver detalles del técnico
         private void btnVerDetalles_Click(object sender, EventArgs e)
         {
             if (tecnicoIdSeleccionado > 0)
@@ -513,6 +617,13 @@ namespace CapaPresentacion
                                   MessageBoxButtons.OK, MessageBoxIcon.Information);
                 }
             }
+        }
+
+        // LIMPIAR SUSCRIPCIONES AL CERRAR
+        protected override void OnFormClosed(FormClosedEventArgs e)
+        {
+            SincronizadorGlobal.EstadoUsuarioCambiado -= OnEstadoUsuarioCambiado;
+            base.OnFormClosed(e);
         }
     }
 }

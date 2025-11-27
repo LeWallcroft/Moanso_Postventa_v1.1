@@ -10,19 +10,17 @@ namespace CapaDatos
     {
         private CD_Conexion conexion = new CD_Conexion();
 
-        // CORREGIDO: Usar procedimiento almacenado para login
         public Usuario Login(string email, string password)
         {
             Usuario usuarioLogueado = null;
 
             using (SqlConnection con = conexion.AbrirConexion())
             {
-                // CORREGIDO: Usar stored procedure en lugar de consulta directa
                 SqlCommand cmd = new SqlCommand("sp_Usuario_Login", con);
                 cmd.CommandType = CommandType.StoredProcedure;
 
                 cmd.Parameters.AddWithValue("@Email", email);
-                cmd.Parameters.AddWithValue("@PasswordHash", password); // Enviar contraseña directamente
+                cmd.Parameters.AddWithValue("@PasswordHash", password);
 
                 using (SqlDataReader reader = cmd.ExecuteReader())
                 {
@@ -42,7 +40,6 @@ namespace CapaDatos
                             Activo = Convert.ToBoolean(reader["Activo"])
                         };
 
-                        // Actualizar último login
                         ActualizarUltimoLogin(usuarioLogueado.UsuariosID);
                     }
                 }
@@ -50,14 +47,12 @@ namespace CapaDatos
             return usuarioLogueado;
         }
 
-        // CORREGIDO: Usar stored procedure para listar usuarios
         public List<Usuario> ListarUsuarios()
         {
             List<Usuario> lista = new List<Usuario>();
 
             using (SqlConnection con = conexion.AbrirConexion())
             {
-                // CORREGIDO: Usar stored procedure
                 SqlCommand cmd = new SqlCommand("sp_Usuario_Listar", con);
                 cmd.CommandType = CommandType.StoredProcedure;
 
@@ -83,7 +78,6 @@ namespace CapaDatos
             return lista;
         }
 
-        // CORREGIDO: Usar stored procedure para registrar usuario
         public bool RegistrarUsuario(Usuario usuario, out string mensaje)
         {
             mensaje = string.Empty;
@@ -91,24 +85,21 @@ namespace CapaDatos
             {
                 using (SqlConnection con = conexion.AbrirConexion())
                 {
-                    // CORREGIDO: Usar stored procedure
                     SqlCommand cmd = new SqlCommand("sp_Usuario_Registrar", con);
                     cmd.CommandType = CommandType.StoredProcedure;
 
                     cmd.Parameters.AddWithValue("@Nombre", usuario.Nombre);
                     cmd.Parameters.AddWithValue("@Apellido", usuario.Apellido);
                     cmd.Parameters.AddWithValue("@Email", usuario.Email);
-                    cmd.Parameters.AddWithValue("@PasswordHash", usuario.PasswordHash); // Contraseña directa
+                    cmd.Parameters.AddWithValue("@PasswordHash", usuario.PasswordHash);
                     cmd.Parameters.AddWithValue("@Rol", usuario.Rol);
 
-                    // CORREGIDO: Agregar parámetro de salida
                     SqlParameter mensajeParam = new SqlParameter("@Mensaje", SqlDbType.VarChar, 500);
                     mensajeParam.Direction = ParameterDirection.Output;
                     cmd.Parameters.Add(mensajeParam);
 
                     cmd.ExecuteNonQuery();
 
-                    // Obtener mensaje del stored procedure
                     mensaje = mensajeParam.Value.ToString();
 
                     return !mensaje.Contains("Error") && !mensaje.Contains("existe");
@@ -121,7 +112,6 @@ namespace CapaDatos
             }
         }
 
-        // CORREGIDO: Usar stored procedure para editar usuario
         public bool EditarUsuario(Usuario usuario, out string mensaje)
         {
             mensaje = string.Empty;
@@ -129,7 +119,6 @@ namespace CapaDatos
             {
                 using (SqlConnection con = conexion.AbrirConexion())
                 {
-                    // CORREGIDO: Usar stored procedure
                     SqlCommand cmd = new SqlCommand("sp_Usuario_Editar", con);
                     cmd.CommandType = CommandType.StoredProcedure;
 
@@ -140,7 +129,6 @@ namespace CapaDatos
                     cmd.Parameters.AddWithValue("@Rol", usuario.Rol);
                     cmd.Parameters.AddWithValue("@Activo", usuario.Activo);
 
-                    // CORREGIDO: Solo enviar password si no es la placeholder
                     if (usuario.PasswordHash != "Dejar en blanco para no cambiar" && !string.IsNullOrEmpty(usuario.PasswordHash))
                     {
                         cmd.Parameters.AddWithValue("@PasswordHash", usuario.PasswordHash);
@@ -150,14 +138,12 @@ namespace CapaDatos
                         cmd.Parameters.AddWithValue("@PasswordHash", DBNull.Value);
                     }
 
-                    // CORREGIDO: Agregar parámetro de salida
                     SqlParameter mensajeParam = new SqlParameter("@Mensaje", SqlDbType.VarChar, 500);
                     mensajeParam.Direction = ParameterDirection.Output;
                     cmd.Parameters.Add(mensajeParam);
 
                     cmd.ExecuteNonQuery();
 
-                    // Obtener mensaje del stored procedure
                     mensaje = mensajeParam.Value.ToString();
 
                     return !mensaje.Contains("Error") && !mensaje.Contains("existe");
@@ -170,41 +156,48 @@ namespace CapaDatos
             }
         }
 
-        // CORREGIDO: Usar stored procedure para eliminar usuario
-        public bool EliminarUsuario(int usuariosID, out string mensaje)
+        // CORREGIDO: Método para cambiar estado del usuario (Habilitar/Inhabilitar)
+        public bool CambiarEstadoUsuario(int usuariosID, bool nuevoEstado, out string mensaje)
         {
             mensaje = string.Empty;
             try
             {
                 using (SqlConnection con = conexion.AbrirConexion())
                 {
-                    // CORREGIDO: Usar stored procedure
-                    SqlCommand cmd = new SqlCommand("sp_Usuario_Eliminar", con);
+                    // USAR EL NUEVO STORED PROCEDURE ESPECÍFICO
+                    SqlCommand cmd = new SqlCommand("sp_Usuario_CambiarEstado", con);
                     cmd.CommandType = CommandType.StoredProcedure;
 
+                    // Solo enviar los parámetros necesarios
                     cmd.Parameters.AddWithValue("@UsuariosID", usuariosID);
+                    cmd.Parameters.AddWithValue("@Activo", nuevoEstado);
 
-                    // CORREGIDO: Agregar parámetro de salida
                     SqlParameter mensajeParam = new SqlParameter("@Mensaje", SqlDbType.VarChar, 500);
                     mensajeParam.Direction = ParameterDirection.Output;
                     cmd.Parameters.Add(mensajeParam);
 
                     cmd.ExecuteNonQuery();
 
-                    // Obtener mensaje del stored procedure
                     mensaje = mensajeParam.Value.ToString();
 
-                    return !mensaje.Contains("Error") && !mensaje.Contains("existe");
+                    // Personalizar mensaje según la acción
+                    if (mensaje.Contains("éxito"))
+                    {
+                        mensaje = nuevoEstado ?
+                            "Usuario habilitado con éxito" :
+                            "Usuario inhabilitado con éxito";
+                    }
+
+                    return !mensaje.Contains("Error");
                 }
             }
             catch (Exception ex)
             {
-                mensaje = $"Error: {ex.Message}";
+                mensaje = $"Error al cambiar estado: {ex.Message}";
                 return false;
             }
         }
 
-        // MÉTODOS NUEVOS ADICIONALES
         public Usuario ObtenerUsuarioPorId(int usuariosID)
         {
             Usuario usuario = null;
@@ -247,28 +240,34 @@ namespace CapaDatos
             mensaje = string.Empty;
             try
             {
+                // Primero obtener el usuario actual para mantener los otros datos
+                Usuario usuarioActual = ObtenerUsuarioPorId(usuariosID);
+
+                if (usuarioActual == null)
+                {
+                    mensaje = "El usuario no existe";
+                    return false;
+                }
+
                 using (SqlConnection con = conexion.AbrirConexion())
                 {
-                    // CORREGIDO: Usar stored procedure para cambiar contraseña
                     SqlCommand cmd = new SqlCommand("sp_Usuario_Editar", con);
                     cmd.CommandType = CommandType.StoredProcedure;
 
                     cmd.Parameters.AddWithValue("@UsuariosID", usuariosID);
-                    cmd.Parameters.AddWithValue("@Nombre", DBNull.Value); // No cambiar nombre
-                    cmd.Parameters.AddWithValue("@Apellido", DBNull.Value); // No cambiar apellido
-                    cmd.Parameters.AddWithValue("@Email", DBNull.Value); // No cambiar email
-                    cmd.Parameters.AddWithValue("@Rol", DBNull.Value); // No cambiar rol
-                    cmd.Parameters.AddWithValue("@Activo", DBNull.Value); // No cambiar estado
-                    cmd.Parameters.AddWithValue("@PasswordHash", nuevaPassword); // CORREGIDO: Contraseña directa
+                    cmd.Parameters.AddWithValue("@Nombre", usuarioActual.Nombre);
+                    cmd.Parameters.AddWithValue("@Apellido", usuarioActual.Apellido);
+                    cmd.Parameters.AddWithValue("@Email", usuarioActual.Email);
+                    cmd.Parameters.AddWithValue("@Rol", usuarioActual.Rol);
+                    cmd.Parameters.AddWithValue("@Activo", usuarioActual.Activo);
+                    cmd.Parameters.AddWithValue("@PasswordHash", nuevaPassword);
 
-                    // CORREGIDO: Agregar parámetro de salida
                     SqlParameter mensajeParam = new SqlParameter("@Mensaje", SqlDbType.VarChar, 500);
                     mensajeParam.Direction = ParameterDirection.Output;
                     cmd.Parameters.Add(mensajeParam);
 
                     cmd.ExecuteNonQuery();
 
-                    // Obtener mensaje del stored procedure
                     mensaje = mensajeParam.Value.ToString();
 
                     return !mensaje.Contains("Error");
@@ -319,7 +318,6 @@ namespace CapaDatos
             return lista;
         }
 
-        // MÉTODOS PRIVADOS DE AYUDA
         private void ActualizarUltimoLogin(int usuariosID)
         {
             try
@@ -341,23 +339,5 @@ namespace CapaDatos
                 // Silenciosamente falla la actualización del último login
             }
         }
-        // AGREGAR este método si no existe (para crear objetos Usuario desde DataReader)
-        private Usuario CrearUsuarioDesdeReader(SqlDataReader reader)
-        {
-            return new Usuario
-            {
-                UsuariosID = Convert.ToInt32(reader["UsuariosID"]),
-                Nombre = reader["Nombre"].ToString(),
-                Apellido = reader["Apellido"].ToString(),
-                Email = reader["Email"].ToString(),
-                PasswordHash = reader["PasswordHash"].ToString(),
-                Rol = reader["Rol"].ToString(),
-                FechaRegistro = Convert.ToDateTime(reader["FechaRegistro"]),
-                UltimoLogin = reader["UltimoLogin"] != DBNull.Value ?
-                            Convert.ToDateTime(reader["UltimoLogin"]) : (DateTime?)null,
-                Activo = Convert.ToBoolean(reader["Activo"])
-            };
-        }
-
     }
 }
