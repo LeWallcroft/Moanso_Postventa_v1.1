@@ -331,5 +331,20 @@ namespace CapaLogicaNegocio
                 return false;
             }
         }
+
+
+
+        public List<Tecnico> ListarTecnicosActivosDisponibles()
+        {
+            try
+            {
+                return cdTecnico.ListarActivosDisponibles();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Error al listar técnicos activos y disponibles: " + ex.Message);
+            }
+        }
+
     }
 }
