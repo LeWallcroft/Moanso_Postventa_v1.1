@@ -56,6 +56,7 @@
     <Compile Include="Marca.cs" />
     <Compile Include="Modelo.cs" />
     <Compile Include="OrdenTrabajo.cs" />
+    <Compile Include="OtActividad.cs" />
     <Compile Include="Presupuesto.cs" />
     <Compile Include="PresupuestoItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

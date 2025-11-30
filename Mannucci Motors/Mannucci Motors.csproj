@@ -57,18 +57,6 @@
     <Compile Include="frmBahias.Designer.cs">
       <DependentUpon>frmBahias.cs</DependentUpon>
     </Compile>
-    <Compile Include="frmDiagnostico.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmDiagnostico.Designer.cs">
-      <DependentUpon>frmDiagnostico.cs</DependentUpon>
-    </Compile>
-    <Compile Include="frmDiagnosticoTablaCliente.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="frmDiagnosticoTablaCliente.Designer.cs">
-      <DependentUpon>frmDiagnosticoTablaCliente.cs</DependentUpon>
-    </Compile>
     <Compile Include="frmDisponibilidad.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -99,6 +87,24 @@
     <Compile Include="frmNuevaCita.Designer.cs">
       <DependentUpon>frmNuevaCita.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmOrdenesTrabajo.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmOrdenesTrabajo.Designer.cs">
+      <DependentUpon>frmOrdenesTrabajo.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmOrdenTrabajoControl.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmOrdenTrabajoControl.Designer.cs">
+      <DependentUpon>frmOrdenTrabajoControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmRegisroActividad.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmRegisroActividad.Designer.cs">
+      <DependentUpon>frmRegisroActividad.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmReportes.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -116,6 +122,12 @@
     </Compile>
     <Compile Include="frmRepuestos.Designer.cs">
       <DependentUpon>frmRepuestos.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmSeleccionTecnico.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSeleccionTecnico.Designer.cs">
+      <DependentUpon>frmSeleccionTecnico.cs</DependentUpon>
     </Compile>
     <Compile Include="frmServicios.cs">
       <SubType>Form</SubType>
@@ -135,22 +147,10 @@
     <Compile Include="frmUsuarios.Designer.cs">
       <DependentUpon>frmUsuarios.cs</DependentUpon>
     </Compile>
-    <Compile Include="OrdenTrabajo.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="OrdenTrabajo.Designer.cs">
-      <DependentUpon>OrdenTrabajo.cs</DependentUpon>
-    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="frmBahias.resx">
       <DependentUpon>frmBahias.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmDiagnostico.resx">
-      <DependentUpon>frmDiagnostico.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="frmDiagnosticoTablaCliente.resx">
-      <DependentUpon>frmDiagnosticoTablaCliente.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmGestionClientes.resx">
       <DependentUpon>frmGestionClientes.cs</DependentUpon>
@@ -161,14 +161,23 @@
     <EmbeddedResource Include="frmMenu.resx">
       <DependentUpon>frmMenu.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmOrdenesTrabajo.resx">
+      <DependentUpon>frmOrdenesTrabajo.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmOrdenTrabajoControl.resx">
+      <DependentUpon>frmOrdenTrabajoControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmRegisroActividad.resx">
+      <DependentUpon>frmRegisroActividad.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmSeleccionTecnico.resx">
+      <DependentUpon>frmSeleccionTecnico.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmServicios.resx">
       <DependentUpon>frmServicios.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmTecnicos.resx">
       <DependentUpon>frmTecnicos.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="OrdenTrabajo.resx">
-      <DependentUpon>OrdenTrabajo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
