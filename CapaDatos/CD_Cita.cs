@@ -10,6 +10,7 @@ using System.Globalization;
 
 namespace CapaDatos
 {
+    //error en el parametro de crear cita
     public class CD_Cita
     {
         private CD_Conexion conexion = new CD_Conexion();
