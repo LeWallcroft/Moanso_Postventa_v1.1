@@ -33,6 +33,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.VisualBasic" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -68,6 +69,12 @@
     </Compile>
     <Compile Include="frmDisponibilidad.Designer.cs">
       <DependentUpon>frmDisponibilidad.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmEntregas.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmEntregas.Designer.cs">
+      <DependentUpon>frmEntregas.cs</DependentUpon>
     </Compile>
     <Compile Include="frmGestionClientes.cs">
       <SubType>Form</SubType>
@@ -173,6 +180,9 @@
     <EmbeddedResource Include="frmControlCalidad.resx">
       <DependentUpon>frmControlCalidad.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmEntregas.resx">
+      <DependentUpon>frmEntregas.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmGestionClientes.resx">
       <DependentUpon>frmGestionClientes.cs</DependentUpon>
     </EmbeddedResource>
@@ -238,6 +248,10 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\CapaDatos\CapaDatos.csproj">
+      <Project>{26513008-9d5b-4f1c-b7a1-a4fc8b8bc8e0}</Project>
+      <Name>CapaDatos</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CapaDominio\CapaDominio.csproj">
       <Project>{088d186e-1107-47d0-b87d-7f95abfe65dd}</Project>
       <Name>CapaDominio</Name>

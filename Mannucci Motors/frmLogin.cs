@@ -68,6 +68,9 @@ namespace Mannucci_Motors
 
                 if (usuarioLogueado != null)
                 {
+                    // CORRECCIÓN: Normalizar el rol para coincidir con la BD
+                    usuarioLogueado.Rol = NormalizarRol(usuarioLogueado.Rol);
+
                     // Guardar la sesión del usuario en ambas ubicaciones para compatibilidad
                     Sesion.UsuarioActual = usuarioLogueado;
                     CN_Usuario.UsuarioActual = usuarioLogueado;
@@ -99,6 +102,26 @@ namespace Mannucci_Motors
                 // Restaurar controles
                 Cursor = Cursors.Default;
                 btnLogin.Enabled = true;
+            }
+        }
+
+        // CORRECCIÓN: Método para normalizar el rol según la BD
+        private string NormalizarRol(string rol)
+        {
+            if (string.IsNullOrEmpty(rol)) return rol;
+
+            switch (rol.ToLower())
+            {
+                case "admin":
+                case "administrador":
+                    return "Administrador";
+                case "asesor":
+                    return "Asesor";
+                case "tecnico":
+                case "técnico":
+                    return "Tecnico";
+                default:
+                    return rol;
             }
         }
 
