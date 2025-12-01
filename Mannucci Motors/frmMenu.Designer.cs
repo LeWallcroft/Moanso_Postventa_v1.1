@@ -38,6 +38,7 @@
             this.mnuAgenda = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuAgendaDisponibilidad = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuTallerDiagnostico = new System.Windows.Forms.ToolStripMenuItem();
+            this.mnuTallerOT = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuAdmin = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuAdminUsuarios = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuAdminBahias = new System.Windows.Forms.ToolStripMenuItem();
@@ -47,7 +48,6 @@
             this.mnuAdminRepuestos = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuAdminReportes = new System.Windows.Forms.ToolStripMenuItem();
             this.panelContainer = new System.Windows.Forms.Panel();
-            this.mnuTallerOT = new System.Windows.Forms.ToolStripMenuItem();
             this.statusMain.SuspendLayout();
             this.menuMain.SuspendLayout();
             this.SuspendLayout();
@@ -141,8 +141,8 @@
             this.mnuAgendaDisponibilidad.ForeColor = System.Drawing.Color.White;
             this.mnuAgendaDisponibilidad.Name = "mnuAgendaDisponibilidad";
             this.mnuAgendaDisponibilidad.ShortcutKeyDisplayString = "Ctrl+D";
-            this.mnuAgendaDisponibilidad.Size = new System.Drawing.Size(210, 22);
-            this.mnuAgendaDisponibilidad.Text = "DISPONIBILIDAD";
+            this.mnuAgendaDisponibilidad.Size = new System.Drawing.Size(183, 22);
+            this.mnuAgendaDisponibilidad.Text = "NUEVA CITA";
             this.mnuAgendaDisponibilidad.Click += new System.EventHandler(this.mnuAgendaDisponibilidad_Click);
             // 
             // mnuTallerDiagnostico
@@ -154,6 +154,16 @@
             this.mnuTallerDiagnostico.Name = "mnuTallerDiagnostico";
             this.mnuTallerDiagnostico.Size = new System.Drawing.Size(70, 20);
             this.mnuTallerDiagnostico.Text = "TALLER";
+            // 
+            // mnuTallerOT
+            // 
+            this.mnuTallerOT.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.mnuTallerOT.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.mnuTallerOT.ForeColor = System.Drawing.Color.White;
+            this.mnuTallerOT.Name = "mnuTallerOT";
+            this.mnuTallerOT.Size = new System.Drawing.Size(194, 22);
+            this.mnuTallerOT.Text = "ORDEN DE TRABAJO";
+            this.mnuTallerOT.Click += new System.EventHandler(this.mnuTallerOT_Click);
             // 
             // mnuAdmin
             // 
@@ -249,16 +259,6 @@
             this.panelContainer.Name = "panelContainer";
             this.panelContainer.Size = new System.Drawing.Size(1000, 581);
             this.panelContainer.TabIndex = 5;
-            // 
-            // mnuTallerOT
-            // 
-            this.mnuTallerOT.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.mnuTallerOT.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.mnuTallerOT.ForeColor = System.Drawing.Color.White;
-            this.mnuTallerOT.Name = "mnuTallerOT";
-            this.mnuTallerOT.Size = new System.Drawing.Size(194, 22);
-            this.mnuTallerOT.Text = "ORDEN DE TRABAJO";
-            this.mnuTallerOT.Click += new System.EventHandler(this.mnuTallerOT_Click);
             // 
             // frmMenu
             // 

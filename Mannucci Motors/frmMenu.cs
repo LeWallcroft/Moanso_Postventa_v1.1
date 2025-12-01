@@ -160,7 +160,7 @@ namespace Mannucci_Motors
             HabilitarTodosLosMenus();
 
             // Luego deshabilitar los que no correspondan
-            if (formularioActual is frmDisponibilidad)
+            if (formularioActual is frmNuevaCita)
             {
                 // Si está en Agenda, deshabilitar otros módulos
                 if (mnuTallerDiagnostico != null) mnuTallerDiagnostico.Enabled = false;
@@ -293,7 +293,7 @@ namespace Mannucci_Motors
                 MostrarMensajeAccesoDenegado();
                 return;
             }
-            OpenMdiSingle<frmDisponibilidad>();
+            OpenMdiSingle<frmNuevaCita>();
         }
            
         private void mnuTallerPresupuestos_Click(object sender, EventArgs e)

@@ -48,28 +48,9 @@ namespace Mannucci_Motors
                 return;
             }
 
-            if (!pnlActvidadesCheklist.Enabled)
-            {
-                MessageBox.Show("Debe comenzar la actividad antes de marcar el checklist.",
-                    "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
-                return;
-            }
-
             try
             {
-                foreach (var act in _actividades)
-                {
-                    if (!_mapCheckBoxPorActividad.TryGetValue(act.OtactividadID, out var chk))
-                        continue;
-
-                    string nuevoEstado = chk.Checked ? "COMPLETADA" : "PENDIENTE";
-
-                    _cnOrdenTrabajo.ActualizarActividad(
-                        act.OtactividadID,
-                        nuevoEstado,
-                        null     // Mismas observaciones para todas (puedes refinar luego)
-                    );
-                }
+                GuardarActividadesInterno();
 
                 MessageBox.Show("Actividades actualizadas correctamente.",
                     "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -117,6 +98,24 @@ namespace Mannucci_Motors
             }
 
         }
+
+        private bool TodasActividadesCompletadas()
+        {
+            if (_actividades == null || _actividades.Count == 0)
+                return false;
+
+            foreach (var act in _actividades)
+            {
+                if (!_mapCheckBoxPorActividad.TryGetValue(act.OtactividadID, out var chk))
+                    continue;
+
+                if (!chk.Checked)
+                    return false;
+            }
+
+            return true;
+        }
+
 
         private void CargarDatosOrdenTrabajo()
         {
@@ -187,13 +186,33 @@ namespace Mannucci_Motors
 
         private void btnComenzarActividad_Click(object sender, EventArgs e)
         {
+            if (_actividades == null || _actividades.Count == 0)
+            {
+                MessageBox.Show("No hay actividades para esta orden.",
+                    "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            // Validar si YA están todas completadas
+            if (TodasActividadesCompletadas())
+            {
+                var r = MessageBox.Show(
+                    "Todas las actividades ya están marcadas como realizadas.\n" +
+                    "¿Desea modificar el checklist?",
+                    "Modificar actividades",
+                    MessageBoxButtons.YesNo,
+                    MessageBoxIcon.Question);
+
+                if (r == DialogResult.No)
+                    return;
+            }
+
             try
             {
-                // Cambiar estado a "En progreso" y marcar fecha de inicio
-                // (ver métodos en CN_OrdenTrabajo más abajo)
+                // Marca inicio de trabajo (FechaInicio + estado EN PROGRESO)
                 _cnOrdenTrabajo.MarcarInicioTrabajo(_ordentrabajoId);
 
-                // Habilitar checklist
+                // Ahora sí se pueden tocar los checks
                 pnlActvidadesCheklist.Enabled = true;
 
                 MessageBox.Show("Se inició la ejecución de las actividades.",
@@ -205,15 +224,53 @@ namespace Mannucci_Motors
                     "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+        private void GuardarActividadesInterno()
+        {
+            if (_actividades == null || _actividades.Count == 0)
+                return;
+
+            foreach (var act in _actividades)
+            {
+                if (!_mapCheckBoxPorActividad.TryGetValue(act.OtactividadID, out var chk))
+                    continue;
+
+                string nuevoEstado = chk.Checked ? "COMPLETADA" : "PENDIENTE";
+
+                // ⬇⬇⬇ AQUÍ EL CAMBIO
+                _cnOrdenTrabajo.ActualizarActividad(
+                    act.OtactividadID,
+                    nuevoEstado,
+                    null   // tiempoReal (si luego lo usas, aquí le pasas el valor)
+                );
+            }
+        }
 
         private void btnActividadesTerminadas_Click(object sender, EventArgs e)
         {
+            if (_actividades == null || _actividades.Count == 0)
+            {
+                MessageBox.Show("No hay actividades para esta orden.",
+                    "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            // 👇 Validar que TODAS estén marcadas
+            if (!TodasActividadesCompletadas())
+            {
+                MessageBox.Show("Aún hay actividades pendientes.\n" +
+                                "Debes marcar todas como realizadas antes de finalizar.",
+                    "Actividades pendientes",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                return;
+            }
+
             try
             {
-                // Guardar estados de las actividades por si acaso
-                button1_Click(sender, e);
+                // 1) Guardar el estado de cada actividad (misma lógica que button1_Click)
+                GuardarActividadesInterno();
 
-                // Marcar fecha fin y estado "Pendiente de control / Para control"
+                // 2) Marcar fecha fin + estado 'Para control'
                 _cnOrdenTrabajo.MarcarActividadesTerminadas(_ordentrabajoId);
 
                 MessageBox.Show("Las actividades se marcaron como terminadas.",

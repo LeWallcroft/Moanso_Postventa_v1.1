@@ -123,6 +123,18 @@
     <Compile Include="frmRepuestos.Designer.cs">
       <DependentUpon>frmRepuestos.cs</DependentUpon>
     </Compile>
+    <Compile Include="frmSeleccionEstado.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSeleccionEstado.Designer.cs">
+      <DependentUpon>frmSeleccionEstado.cs</DependentUpon>
+    </Compile>
+    <Compile Include="frmSeleccionRepuesto.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="frmSeleccionRepuesto.Designer.cs">
+      <DependentUpon>frmSeleccionRepuesto.cs</DependentUpon>
+    </Compile>
     <Compile Include="frmSeleccionTecnico.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -169,6 +181,15 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmRegisroActividad.resx">
       <DependentUpon>frmRegisroActividad.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmReportes.resx">
+      <DependentUpon>frmReportes.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmSeleccionEstado.resx">
+      <DependentUpon>frmSeleccionEstado.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmSeleccionRepuesto.resx">
+      <DependentUpon>frmSeleccionRepuesto.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmSeleccionTecnico.resx">
       <DependentUpon>frmSeleccionTecnico.cs</DependentUpon>

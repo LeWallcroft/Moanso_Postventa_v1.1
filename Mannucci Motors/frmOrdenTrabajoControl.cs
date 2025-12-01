@@ -1,9 +1,12 @@
-﻿using System;
+﻿using CapaDominio;
+using CapaLogicaNegocio;
+using CapaPresentacion;
+using System;
+using System.Collections.Generic;
 using System.Text;
 using System.Windows.Forms;
-using CapaLogicaNegocio;
-using CapaDominio;
-using CapaPresentacion;
+using System.Linq;
+
 
 namespace Mannucci_Motors
 {
@@ -11,7 +14,10 @@ namespace Mannucci_Motors
     {
         private readonly int _ordentrabajoId;
         private readonly CN_OrdenTrabajo _cnOrdenTrabajo = new CN_OrdenTrabajo();
+        private readonly CN_Repuesto _cnRepuesto = new CN_Repuesto();
         private OrdenTrabajo _ordenActual;
+        private OrdenPago _ordenPagoActual;        
+        private List<RepuestoOT> _repuestosOT;
 
         public frmOrdenTrabajoControl(int ordentrabajoId)
         {
@@ -20,14 +26,19 @@ namespace Mannucci_Motors
 
             this.Load += FrmOrdenTrabajoControl_Load;
             btnAgregarTecnico.Click += btnAgregarTecnico_Click_1;
-
             btnTarea.Click += btnTarea_Click;
+            btnCambiarEstado.Click += btnCambiarEstado_Click;
+            btnAgregarRepuesto.Click += btnAgregarRepuesto_Click;
+            btnEliminarRepuesto.Click += btnEliminarRepuesto_Click;
         }
 
         private void FrmOrdenTrabajoControl_Load(object sender, EventArgs e)
         {
             ConfigurarSoloLectura();
             CargarDatosOrdenTrabajo();
+            CargarActividadesOrdenTrabajo();
+            CargarOrdenPagoYRepuestos();
+            CargarRepuestosOT();
         }
 
         private void ConfigurarSoloLectura()
@@ -81,8 +92,7 @@ namespace Mannucci_Motors
                 txtNorden.Text = _ordenActual.OrdentrabajoID.ToString();
                 txtTipoServicio.Text = _ordenActual.TipoServicio;
                 txtFeInicio.Text = _ordenActual.FechaInicio?.ToString("dd/MM/yyyy HH:mm");
-                txtFeTerminado.Text = _ordenActual.FechaFin?.ToString("dd/MM/yyyy HH:mm");
-                txtFeControl.Text = _ordenActual.FechaCreacion.ToString("dd/MM/yyyy HH:mm");
+                txtFeTerminado.Text = _ordenActual.FechaFin?.ToString("dd/MM/yyyy HH:mm");                
 
                 txtFeControl.Text = string.Empty;
                 txtFeEntrega.Text = string.Empty;
@@ -246,6 +256,7 @@ namespace Mannucci_Motors
 
                 if (result == DialogResult.OK)
                 {
+                    CargarDatosOrdenTrabajo();  // Refrescamos datos de la OT
                     // Refrescamos actividades de la OT luego de que el técnico guarde
                     CargarActividadesOrdenTrabajo();
                 }
@@ -287,6 +298,167 @@ namespace Mannucci_Motors
         private void btnGuardarObs_Click(object sender, EventArgs e)
         {
             GuardarObservaciones();
+        }
+
+        private void btnCambiarEstado_Click(object sender, EventArgs e)
+        {
+            using (var frm = new frmSeleccionEstado())
+            {
+                if (frm.ShowDialog() == DialogResult.OK && frm.EstadoSeleccionado != null)
+                {
+                    try
+                    {
+                        _cnOrdenTrabajo.CambiarEstadoOT(_ordentrabajoId, frm.EstadoSeleccionado.EstadootID);
+                        CargarDatosOrdenTrabajo(); // refresca txtEstado
+                    }
+                    catch (Exception ex)
+                    {
+                        MessageBox.Show("Error al cambiar estado: " + ex.Message,
+                            "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    }
+                }
+            }
+        }
+
+
+        private void CargarOrdenPagoYRepuestos()
+        {
+            try
+            {
+                _ordenPagoActual = _cnOrdenTrabajo.ObtenerOrdenPagoPorOrden(_ordentrabajoId);
+
+                if (_ordenPagoActual != null)
+                {
+                    txSerieOrdenPago.Text = string.IsNullOrWhiteSpace(_ordenPagoActual.Serie)
+                        ? GenerarSerieOrdenPago()
+                        : _ordenPagoActual.Serie;
+
+                    txtEstadoOrdePago.Text = _ordenPagoActual.Estado;
+                    rchtxtObsOrdenPago.Text = _ordenPagoActual.Observaciones;
+                }
+                else
+                {
+                    txSerieOrdenPago.Text = GenerarSerieOrdenPago();
+                    txtEstadoOrdePago.Text = "EN PROCESO";
+                    rchtxtObsOrdenPago.Clear();
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar orden de pago: " + ex.Message,
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+
+        private void CargarRepuestosOT()
+        {
+            try
+            {
+                _repuestosOT = _cnOrdenTrabajo.ListarRepuestosPorOrden(_ordentrabajoId);
+
+                dgvRepuestosServicio.AutoGenerateColumns = true;
+                dgvRepuestosServicio.DataSource = _repuestosOT;
+
+                decimal total = 0m;
+                if (_repuestosOT != null)
+                {
+                    foreach (var r in _repuestosOT)
+                        total += r.Subtotal;
+                }
+                txtTotalOrdenPago.Text = total.ToString("N2");
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar repuestos: " + ex.Message,
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private async void btnAgregarRepuesto_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                var repuestosActivos = await _cnRepuesto.ObtenerRepuestosActivosAsync();
+                var disponibles = repuestosActivos
+                    .Where(r => r.TieneStock)
+                    .ToList();
+
+                if (disponibles == null || disponibles.Count == 0)
+                {
+                    MessageBox.Show("No hay repuestos con stock disponible.",
+                        "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
+                using (var frm = new frmSeleccionRepuesto())
+                {
+                    frm.RepuestosDisponibles = disponibles;
+
+                    if (frm.ShowDialog() == DialogResult.OK && frm.RepuestoSeleccionado != null)
+                    {
+                        int cantidad = 1; // de momento fijo
+
+                        _cnOrdenTrabajo.AgregarRepuestoExtra(
+                            _ordentrabajoId,
+                            frm.RepuestoSeleccionado.RepuestoID,
+                            cantidad);
+
+                        CargarRepuestosOT();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al agregar repuesto: " + ex.Message,
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnEliminarRepuesto_Click(object sender, EventArgs e)
+        {
+            if (dgvRepuestosServicio.CurrentRow == null)
+            {
+                MessageBox.Show("Seleccione un repuesto para eliminar.",
+                    "Información", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            var rep = dgvRepuestosServicio.CurrentRow.DataBoundItem as RepuestoOT;
+            if (rep == null) return;
+
+            if (rep.EsDefault)
+            {
+                MessageBox.Show("No se pueden eliminar los repuestos predefinidos del servicio.",
+                    "Operación no permitida",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Warning);
+                return;
+            }
+
+            if (MessageBox.Show("¿Desea eliminar el repuesto seleccionado?",
+                                "Confirmar",
+                                MessageBoxButtons.YesNo,
+                                MessageBoxIcon.Question) != DialogResult.Yes)
+            {
+                return;
+            }
+
+            try
+            {
+                _cnOrdenTrabajo.EliminarRepuestoExtra(rep.OtrepuestoID);
+                CargarRepuestosOT();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al eliminar repuesto: " + ex.Message,
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private string GenerarSerieOrdenPago()
+        {
+            return $"OP-{_ordentrabajoId:000000}";
         }
     }
 }

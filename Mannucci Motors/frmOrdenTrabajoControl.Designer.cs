@@ -55,7 +55,7 @@
             this.label28 = new System.Windows.Forms.Label();
             this.label26 = new System.Windows.Forms.Label();
             this.txtTotalOrdenPago = new System.Windows.Forms.TextBox();
-            this.txtAgregarRepuesto = new System.Windows.Forms.Button();
+            this.btnAgregarRepuesto = new System.Windows.Forms.Button();
             this.dgvRepuestosServicio = new System.Windows.Forms.DataGridView();
             this.label4 = new System.Windows.Forms.Label();
             this.pnlVehiculo = new System.Windows.Forms.Panel();
@@ -84,7 +84,6 @@
             this.rchtxtDatosCliente = new System.Windows.Forms.RichTextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.pnlOT = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
             this.txtEstado = new System.Windows.Forms.TextBox();
             this.label14 = new System.Windows.Forms.Label();
             this.txtFeEntrega = new System.Windows.Forms.TextBox();
@@ -103,6 +102,7 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.btnEliminarRepuesto = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.pnlMenuOT.SuspendLayout();
             this.panel7.SuspendLayout();
@@ -137,6 +137,7 @@
             this.pnlMenuOT.Controls.Add(this.btnTarea);
             this.pnlMenuOT.Controls.Add(this.btnCambiarEstado);
             this.pnlMenuOT.Controls.Add(this.button2);
+            this.pnlMenuOT.Controls.Add(this.btnAgregarRepuesto);
             this.pnlMenuOT.Location = new System.Drawing.Point(12, 3);
             this.pnlMenuOT.Name = "pnlMenuOT";
             this.pnlMenuOT.Size = new System.Drawing.Size(1089, 77);
@@ -168,6 +169,7 @@
             this.btnCambiarEstado.Text = "Cambiar Estado";
             this.btnCambiarEstado.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnCambiarEstado.UseVisualStyleBackColor = true;
+            this.btnCambiarEstado.Click += new System.EventHandler(this.btnCambiarEstado_Click);
             // 
             // button2
             // 
@@ -288,10 +290,10 @@
             // 
             // panel5
             // 
+            this.panel5.Controls.Add(this.btnEliminarRepuesto);
             this.panel5.Controls.Add(this.panel8);
             this.panel5.Controls.Add(this.label26);
             this.panel5.Controls.Add(this.txtTotalOrdenPago);
-            this.panel5.Controls.Add(this.txtAgregarRepuesto);
             this.panel5.Controls.Add(this.dgvRepuestosServicio);
             this.panel5.Controls.Add(this.label4);
             this.panel5.Location = new System.Drawing.Point(798, 90);
@@ -391,18 +393,19 @@
             this.txtTotalOrdenPago.Size = new System.Drawing.Size(84, 20);
             this.txtTotalOrdenPago.TabIndex = 6;
             // 
-            // txtAgregarRepuesto
+            // btnAgregarRepuesto
             // 
-            this.txtAgregarRepuesto.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.txtAgregarRepuesto.Image = ((System.Drawing.Image)(resources.GetObject("txtAgregarRepuesto.Image")));
-            this.txtAgregarRepuesto.ImageAlign = System.Drawing.ContentAlignment.TopLeft;
-            this.txtAgregarRepuesto.Location = new System.Drawing.Point(16, 297);
-            this.txtAgregarRepuesto.Name = "txtAgregarRepuesto";
-            this.txtAgregarRepuesto.Size = new System.Drawing.Size(80, 31);
-            this.txtAgregarRepuesto.TabIndex = 5;
-            this.txtAgregarRepuesto.Text = "Agregar";
-            this.txtAgregarRepuesto.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.txtAgregarRepuesto.UseVisualStyleBackColor = true;
+            this.btnAgregarRepuesto.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnAgregarRepuesto.Image = ((System.Drawing.Image)(resources.GetObject("btnAgregarRepuesto.Image")));
+            this.btnAgregarRepuesto.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnAgregarRepuesto.Location = new System.Drawing.Point(144, 7);
+            this.btnAgregarRepuesto.Name = "btnAgregarRepuesto";
+            this.btnAgregarRepuesto.Size = new System.Drawing.Size(62, 64);
+            this.btnAgregarRepuesto.TabIndex = 5;
+            this.btnAgregarRepuesto.Text = "Agregar Repuesto";
+            this.btnAgregarRepuesto.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnAgregarRepuesto.UseVisualStyleBackColor = true;
+            this.btnAgregarRepuesto.Click += new System.EventHandler(this.btnAgregarRepuesto_Click);
             // 
             // dgvRepuestosServicio
             // 
@@ -660,7 +663,6 @@
             // 
             // pnlOT
             // 
-            this.pnlOT.Controls.Add(this.button1);
             this.pnlOT.Controls.Add(this.txtEstado);
             this.pnlOT.Controls.Add(this.label14);
             this.pnlOT.Controls.Add(this.txtFeEntrega);
@@ -683,19 +685,6 @@
             this.pnlOT.Name = "pnlOT";
             this.pnlOT.Size = new System.Drawing.Size(250, 337);
             this.pnlOT.TabIndex = 0;
-            // 
-            // button1
-            // 
-            this.button1.Image = ((System.Drawing.Image)(resources.GetObject("button1.Image")));
-            this.button1.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.button1.Location = new System.Drawing.Point(120, 142);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(54, 46);
-            this.button1.TabIndex = 18;
-            this.button1.Text = "Eliminar";
-            this.button1.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // txtEstado
             // 
@@ -750,11 +739,11 @@
             // 
             this.btnAgregarTecnico.Image = ((System.Drawing.Image)(resources.GetObject("btnAgregarTecnico.Image")));
             this.btnAgregarTecnico.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnAgregarTecnico.Location = new System.Drawing.Point(180, 142);
+            this.btnAgregarTecnico.Location = new System.Drawing.Point(168, 142);
             this.btnAgregarTecnico.Name = "btnAgregarTecnico";
-            this.btnAgregarTecnico.Size = new System.Drawing.Size(54, 46);
+            this.btnAgregarTecnico.Size = new System.Drawing.Size(66, 46);
             this.btnAgregarTecnico.TabIndex = 11;
-            this.btnAgregarTecnico.Text = "Agregar ";
+            this.btnAgregarTecnico.Text = "Reasignar";
             this.btnAgregarTecnico.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnAgregarTecnico.UseVisualStyleBackColor = true;
             this.btnAgregarTecnico.Click += new System.EventHandler(this.btnAgregarTecnico_Click_1);
@@ -856,6 +845,19 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Orden Trabajo";
             // 
+            // btnEliminarRepuesto
+            // 
+            this.btnEliminarRepuesto.Image = ((System.Drawing.Image)(resources.GetObject("btnEliminarRepuesto.Image")));
+            this.btnEliminarRepuesto.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnEliminarRepuesto.Location = new System.Drawing.Point(16, 300);
+            this.btnEliminarRepuesto.Name = "btnEliminarRepuesto";
+            this.btnEliminarRepuesto.Size = new System.Drawing.Size(77, 34);
+            this.btnEliminarRepuesto.TabIndex = 17;
+            this.btnEliminarRepuesto.Text = "Eliminar";
+            this.btnEliminarRepuesto.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnEliminarRepuesto.UseVisualStyleBackColor = true;
+            this.btnEliminarRepuesto.Click += new System.EventHandler(this.btnEliminarRepuesto_Click);
+            // 
             // frmOrdenTrabajoControl
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -948,7 +950,7 @@
         private System.Windows.Forms.RichTextBox rchtxtActividadesRealizadas;
         private System.Windows.Forms.Label label25;
         private System.Windows.Forms.DataGridView dgvRepuestosServicio;
-        private System.Windows.Forms.Button txtAgregarRepuesto;
+        private System.Windows.Forms.Button btnAgregarRepuesto;
         private System.Windows.Forms.Label label26;
         private System.Windows.Forms.TextBox txtTotalOrdenPago;
         private System.Windows.Forms.TextBox txSerieOrdenPago;
@@ -960,8 +962,8 @@
         private System.Windows.Forms.Label label28;
         private System.Windows.Forms.RichTextBox rchtxtObsOrdenPago;
         private System.Windows.Forms.TextBox txtOperario;
-        private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Button btnEditarObs;
         private System.Windows.Forms.Button btnGuardarObs;
+        private System.Windows.Forms.Button btnEliminarRepuesto;
     }
 }

@@ -120,14 +120,14 @@
   <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
   <data name="btnComenzarActividad.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
     <value>
-        iVBORw0KGgoAAAANSUhEUgAAABkAAAAZCAYAAADE6YVjAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
-        YQUAAAFvSURBVEhLzdYNUcQwEAXgk4AEJOAAJOAAHIADcAAODgfgAByAA3AADmC/u4a7tkmTFmbgzbzJ
-        5Wc32beb9Fb/BSfBm+Bj8D342bX6xo+Di8H5c/AleNn1D4Kg1Tdu3jr9WbgNvgVPN706rLNeZE146JhO
-        3Qrr2d1vehO4C1r4E7CnRBY0FXIugsOubQF7frI5ksBSDj6CV8FWCfl52v7cwa42KUHZkuE12FoM/PWi
-        oaFyLMEmkCR1R2oS8tfLjdCyGnZImyRwQEIlW5KQv55kDKb0Hm4C1qtGtmcGBjBv7hs5J/uYmr8OmtcO
-        0bNbGsk6yPbcwACjSJbkxCMpsaXDjXIyp7qUMePZ1cXYS1qCTbxJcx5N9+Ro+3OH2o2X2Km87SN740E0
-        v/V2kbSYYxpWn+oKJl/hhPRNaJUmwXp2zZ8KJ5mTZOtIVI1gCJoqBlV3EfSHIUWn1TduvnbPqmDshByp
-        MuWs1Tc+KtM/wGr1BWl+YVN5aCYxAAAAAElFTkSuQmCC
+        iVBORw0KGgoAAAANSUhEUgAAABkAAAAZCAYAAADE6YVjAAAABGdBTUEAALGPC/xhBQAAAW9JREFUSEvN
+        1g1RxDAQBeCTgAQk4AAk4AAcgANwAA4OB+AAHIADcAAOYL+7hru2SZMWZuDNvMnlZzfZt5v0Vv8FJ8Gb
+        4GPwPfjZtfrGj4OLwflz8CV42fUPgqDVN27eOv1ZuA2+BU83vTqss15kTXjomE7dCuvZ3W96E7gLWvgT
+        sKdEFjQVci6Cw65tAXt+sjmSwFIOPoJXwVYJ+Xna/tzBrjYpQdmS4TXYWgz89aKhoXIswSaQJHVHahLy
+        18uN0LIadkibJHBAQiVbkpC/nmQMpvQebgLWq0a2ZwYGMG/uGzkn+5iavw6a1w7Rs1sayTrI9tzAAKNI
+        luTEIymxpcONcjKnupQx49nVxdhLWoJNvElzHk335Gj7c4fajZfYqbztI3vjQTS/9XaRtJhjGlaf6gom
+        X+GE9E1olSbBenbNnwonmZNk60hUjWAImioGVXcR9IchRafVN26+ds+qYOyEHKky5azVNz4q0z/AavUF
+        aX5hU3loJjEAAAAASUVORK5CYII=
 </value>
   </data>
   <data name="btnActividadesTerminadas.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">

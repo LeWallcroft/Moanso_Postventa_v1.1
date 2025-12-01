@@ -30,6 +30,8 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(frmRegisroActividad));
             this.panel1 = new System.Windows.Forms.Panel();
+            this.btnComenzarActividad = new System.Windows.Forms.Button();
+            this.btnActividadesTerminadas = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.panel2 = new System.Windows.Forms.Panel();
@@ -57,8 +59,6 @@
             this.txtModelo = new System.Windows.Forms.TextBox();
             this.label15 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
-            this.btnActividadesTerminadas = new System.Windows.Forms.Button();
-            this.btnComenzarActividad = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.panel2.SuspendLayout();
             this.panel3.SuspendLayout();
@@ -78,11 +78,37 @@
             this.panel1.Size = new System.Drawing.Size(449, 68);
             this.panel1.TabIndex = 0;
             // 
+            // btnComenzarActividad
+            // 
+            this.btnComenzarActividad.Image = ((System.Drawing.Image)(resources.GetObject("btnComenzarActividad.Image")));
+            this.btnComenzarActividad.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnComenzarActividad.Location = new System.Drawing.Point(4, 8);
+            this.btnComenzarActividad.Name = "btnComenzarActividad";
+            this.btnComenzarActividad.Size = new System.Drawing.Size(65, 52);
+            this.btnComenzarActividad.TabIndex = 6;
+            this.btnComenzarActividad.Text = "Comenzar";
+            this.btnComenzarActividad.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnComenzarActividad.UseVisualStyleBackColor = true;
+            this.btnComenzarActividad.Click += new System.EventHandler(this.btnComenzarActividad_Click);
+            // 
+            // btnActividadesTerminadas
+            // 
+            this.btnActividadesTerminadas.Image = ((System.Drawing.Image)(resources.GetObject("btnActividadesTerminadas.Image")));
+            this.btnActividadesTerminadas.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnActividadesTerminadas.Location = new System.Drawing.Point(137, 8);
+            this.btnActividadesTerminadas.Name = "btnActividadesTerminadas";
+            this.btnActividadesTerminadas.Size = new System.Drawing.Size(65, 52);
+            this.btnActividadesTerminadas.TabIndex = 5;
+            this.btnActividadesTerminadas.Text = "Realizado";
+            this.btnActividadesTerminadas.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnActividadesTerminadas.UseVisualStyleBackColor = true;
+            this.btnActividadesTerminadas.Click += new System.EventHandler(this.btnActividadesTerminadas_Click);
+            // 
             // button1
             // 
             this.button1.Image = ((System.Drawing.Image)(resources.GetObject("button1.Image")));
             this.button1.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.button1.Location = new System.Drawing.Point(4, 8);
+            this.button1.Location = new System.Drawing.Point(75, 8);
             this.button1.Name = "button1";
             this.button1.Size = new System.Drawing.Size(56, 52);
             this.button1.TabIndex = 0;
@@ -338,32 +364,6 @@
             this.label3.Size = new System.Drawing.Size(56, 13);
             this.label3.TabIndex = 2;
             this.label3.Text = "Vehiculo";
-            // 
-            // btnActividadesTerminadas
-            // 
-            this.btnActividadesTerminadas.Image = ((System.Drawing.Image)(resources.GetObject("btnActividadesTerminadas.Image")));
-            this.btnActividadesTerminadas.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnActividadesTerminadas.Location = new System.Drawing.Point(137, 8);
-            this.btnActividadesTerminadas.Name = "btnActividadesTerminadas";
-            this.btnActividadesTerminadas.Size = new System.Drawing.Size(65, 52);
-            this.btnActividadesTerminadas.TabIndex = 5;
-            this.btnActividadesTerminadas.Text = "Realizado";
-            this.btnActividadesTerminadas.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnActividadesTerminadas.UseVisualStyleBackColor = true;
-            this.btnActividadesTerminadas.Click += new System.EventHandler(this.btnActividadesTerminadas_Click);
-            // 
-            // btnComenzarActividad
-            // 
-            this.btnComenzarActividad.Image = ((System.Drawing.Image)(resources.GetObject("btnComenzarActividad.Image")));
-            this.btnComenzarActividad.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnComenzarActividad.Location = new System.Drawing.Point(66, 8);
-            this.btnComenzarActividad.Name = "btnComenzarActividad";
-            this.btnComenzarActividad.Size = new System.Drawing.Size(65, 52);
-            this.btnComenzarActividad.TabIndex = 6;
-            this.btnComenzarActividad.Text = "Comenzar";
-            this.btnComenzarActividad.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnComenzarActividad.UseVisualStyleBackColor = true;
-            this.btnComenzarActividad.Click += new System.EventHandler(this.btnComenzarActividad_Click);
             // 
             // frmRegisroActividad
             // 
