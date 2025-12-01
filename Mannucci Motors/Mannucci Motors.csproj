@@ -163,6 +163,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmNuevaCita.resx">
       <DependentUpon>frmNuevaCita.cs</DependentUpon>
+    </EmbeddedResource>   
     <EmbeddedResource Include="frmOrdenesTrabajo.resx">
       <DependentUpon>frmOrdenesTrabajo.cs</DependentUpon>
     </EmbeddedResource>
