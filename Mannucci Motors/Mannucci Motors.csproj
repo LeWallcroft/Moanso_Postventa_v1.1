@@ -175,7 +175,7 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmNuevaCita.resx">
       <DependentUpon>frmNuevaCita.cs</DependentUpon>
-    </EmbeddedResource>   
+    </EmbeddedResource>
     <EmbeddedResource Include="frmOrdenesTrabajo.resx">
       <DependentUpon>frmOrdenesTrabajo.cs</DependentUpon>
     </EmbeddedResource>
@@ -205,9 +205,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="frmUsuarios.resx">
       <DependentUpon>frmUsuarios.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="OrdenTrabajo.resx">
-      <DependentUpon>OrdenTrabajo.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
