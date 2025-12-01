@@ -194,5 +194,43 @@ namespace CapaLogicaNegocio
 
             return datos.CrearDesdeCita(citaId, usuarioId, prioridad, kilometrajeEntrada);
         }
+
+
+        public DateTime? ObtenerFechaControl(int ordentrabajoID)
+        {
+            return datos.ObtenerFechaControl(ordentrabajoID);
+        }
+
+        public DateTime? ObtenerFechaEntrega(int ordentrabajoID)
+        {
+            return datos.ObtenerFechaEntrega(ordentrabajoID);
+        }
+
+
+        public void RegistrarControlCalidad(
+             int ordentrabajoID,
+             int usuariosID,
+             string resultado,
+             string observaciones,
+             string xmlChecklist)
+        {
+            if (ordentrabajoID <= 0)
+                throw new ArgumentException("El Id de la OT no es válido.");
+
+            if (usuariosID <= 0)
+                throw new ArgumentException("El Id del usuario no es válido.");
+
+            if (string.IsNullOrWhiteSpace(resultado))
+                throw new ArgumentException("El resultado del control de calidad no es válido.");
+
+            datos.RegistrarControlCalidad(
+                ordentrabajoID,
+                usuariosID,
+                resultado,
+                observaciones ?? string.Empty,
+                xmlChecklist
+            );
+        }
+
     }
 }

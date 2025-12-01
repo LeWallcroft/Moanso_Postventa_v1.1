@@ -34,6 +34,7 @@
             this.btnTarea = new System.Windows.Forms.Button();
             this.btnCambiarEstado = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
+            this.btnAgregarRepuesto = new System.Windows.Forms.Button();
             this.panel7 = new System.Windows.Forms.Panel();
             this.btnGuardarObs = new System.Windows.Forms.Button();
             this.btnEditarObs = new System.Windows.Forms.Button();
@@ -45,6 +46,7 @@
             this.rchtxtActividadesPredifinidas = new System.Windows.Forms.RichTextBox();
             this.label5 = new System.Windows.Forms.Label();
             this.panel5 = new System.Windows.Forms.Panel();
+            this.btnEliminarRepuesto = new System.Windows.Forms.Button();
             this.panel8 = new System.Windows.Forms.Panel();
             this.rchtxtObsOrdenPago = new System.Windows.Forms.RichTextBox();
             this.label30 = new System.Windows.Forms.Label();
@@ -55,7 +57,6 @@
             this.label28 = new System.Windows.Forms.Label();
             this.label26 = new System.Windows.Forms.Label();
             this.txtTotalOrdenPago = new System.Windows.Forms.TextBox();
-            this.btnAgregarRepuesto = new System.Windows.Forms.Button();
             this.dgvRepuestosServicio = new System.Windows.Forms.DataGridView();
             this.label4 = new System.Windows.Forms.Label();
             this.pnlVehiculo = new System.Windows.Forms.Panel();
@@ -102,7 +103,7 @@
             this.label8 = new System.Windows.Forms.Label();
             this.label7 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
-            this.btnEliminarRepuesto = new System.Windows.Forms.Button();
+            this.btnControlCalidad = new System.Windows.Forms.Button();
             this.panel1.SuspendLayout();
             this.pnlMenuOT.SuspendLayout();
             this.panel7.SuspendLayout();
@@ -134,6 +135,7 @@
             // 
             this.pnlMenuOT.BackColor = System.Drawing.Color.White;
             this.pnlMenuOT.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.pnlMenuOT.Controls.Add(this.btnControlCalidad);
             this.pnlMenuOT.Controls.Add(this.btnTarea);
             this.pnlMenuOT.Controls.Add(this.btnCambiarEstado);
             this.pnlMenuOT.Controls.Add(this.button2);
@@ -184,6 +186,20 @@
             this.button2.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // btnAgregarRepuesto
+            // 
+            this.btnAgregarRepuesto.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnAgregarRepuesto.Image = ((System.Drawing.Image)(resources.GetObject("btnAgregarRepuesto.Image")));
+            this.btnAgregarRepuesto.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnAgregarRepuesto.Location = new System.Drawing.Point(144, 7);
+            this.btnAgregarRepuesto.Name = "btnAgregarRepuesto";
+            this.btnAgregarRepuesto.Size = new System.Drawing.Size(62, 64);
+            this.btnAgregarRepuesto.TabIndex = 5;
+            this.btnAgregarRepuesto.Text = "Agregar Repuesto";
+            this.btnAgregarRepuesto.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnAgregarRepuesto.UseVisualStyleBackColor = true;
+            this.btnAgregarRepuesto.Click += new System.EventHandler(this.btnAgregarRepuesto_Click);
             // 
             // panel7
             // 
@@ -301,6 +317,19 @@
             this.panel5.Size = new System.Drawing.Size(303, 337);
             this.panel5.TabIndex = 2;
             // 
+            // btnEliminarRepuesto
+            // 
+            this.btnEliminarRepuesto.Image = ((System.Drawing.Image)(resources.GetObject("btnEliminarRepuesto.Image")));
+            this.btnEliminarRepuesto.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            this.btnEliminarRepuesto.Location = new System.Drawing.Point(16, 300);
+            this.btnEliminarRepuesto.Name = "btnEliminarRepuesto";
+            this.btnEliminarRepuesto.Size = new System.Drawing.Size(77, 34);
+            this.btnEliminarRepuesto.TabIndex = 17;
+            this.btnEliminarRepuesto.Text = "Eliminar";
+            this.btnEliminarRepuesto.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
+            this.btnEliminarRepuesto.UseVisualStyleBackColor = true;
+            this.btnEliminarRepuesto.Click += new System.EventHandler(this.btnEliminarRepuesto_Click);
+            // 
             // panel8
             // 
             this.panel8.Controls.Add(this.rchtxtObsOrdenPago);
@@ -392,20 +421,6 @@
             this.txtTotalOrdenPago.ReadOnly = true;
             this.txtTotalOrdenPago.Size = new System.Drawing.Size(84, 20);
             this.txtTotalOrdenPago.TabIndex = 6;
-            // 
-            // btnAgregarRepuesto
-            // 
-            this.btnAgregarRepuesto.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btnAgregarRepuesto.Image = ((System.Drawing.Image)(resources.GetObject("btnAgregarRepuesto.Image")));
-            this.btnAgregarRepuesto.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnAgregarRepuesto.Location = new System.Drawing.Point(144, 7);
-            this.btnAgregarRepuesto.Name = "btnAgregarRepuesto";
-            this.btnAgregarRepuesto.Size = new System.Drawing.Size(62, 64);
-            this.btnAgregarRepuesto.TabIndex = 5;
-            this.btnAgregarRepuesto.Text = "Agregar Repuesto";
-            this.btnAgregarRepuesto.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnAgregarRepuesto.UseVisualStyleBackColor = true;
-            this.btnAgregarRepuesto.Click += new System.EventHandler(this.btnAgregarRepuesto_Click);
             // 
             // dgvRepuestosServicio
             // 
@@ -743,7 +758,7 @@
             this.btnAgregarTecnico.Name = "btnAgregarTecnico";
             this.btnAgregarTecnico.Size = new System.Drawing.Size(66, 46);
             this.btnAgregarTecnico.TabIndex = 11;
-            this.btnAgregarTecnico.Text = "Reasignar";
+            this.btnAgregarTecnico.Text = "Asignar";
             this.btnAgregarTecnico.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnAgregarTecnico.UseVisualStyleBackColor = true;
             this.btnAgregarTecnico.Click += new System.EventHandler(this.btnAgregarTecnico_Click_1);
@@ -845,18 +860,19 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Orden Trabajo";
             // 
-            // btnEliminarRepuesto
+            // btnControlCalidad
             // 
-            this.btnEliminarRepuesto.Image = ((System.Drawing.Image)(resources.GetObject("btnEliminarRepuesto.Image")));
-            this.btnEliminarRepuesto.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
-            this.btnEliminarRepuesto.Location = new System.Drawing.Point(16, 300);
-            this.btnEliminarRepuesto.Name = "btnEliminarRepuesto";
-            this.btnEliminarRepuesto.Size = new System.Drawing.Size(77, 34);
-            this.btnEliminarRepuesto.TabIndex = 17;
-            this.btnEliminarRepuesto.Text = "Eliminar";
-            this.btnEliminarRepuesto.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            this.btnEliminarRepuesto.UseVisualStyleBackColor = true;
-            this.btnEliminarRepuesto.Click += new System.EventHandler(this.btnEliminarRepuesto_Click);
+            this.btnControlCalidad.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
+            this.btnControlCalidad.Image = ((System.Drawing.Image)(resources.GetObject("btnControlCalidad.Image")));
+            this.btnControlCalidad.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnControlCalidad.Location = new System.Drawing.Point(212, 7);
+            this.btnControlCalidad.Name = "btnControlCalidad";
+            this.btnControlCalidad.Size = new System.Drawing.Size(62, 64);
+            this.btnControlCalidad.TabIndex = 6;
+            this.btnControlCalidad.Text = "Control Calidad";
+            this.btnControlCalidad.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnControlCalidad.UseVisualStyleBackColor = true;
+            this.btnControlCalidad.Click += new System.EventHandler(this.btnControlCalidad_Click);
             // 
             // frmOrdenTrabajoControl
             // 
@@ -867,7 +883,7 @@
             this.ControlBox = false;
             this.Controls.Add(this.panel1);
             this.Name = "frmOrdenTrabajoControl";
-            this.Text = "Detalle Orden de Trabajo";
+            this.Text = "cd ..";
             this.panel1.ResumeLayout(false);
             this.pnlMenuOT.ResumeLayout(false);
             this.panel7.ResumeLayout(false);
@@ -965,5 +981,6 @@
         private System.Windows.Forms.Button btnEditarObs;
         private System.Windows.Forms.Button btnGuardarObs;
         private System.Windows.Forms.Button btnEliminarRepuesto;
+        private System.Windows.Forms.Button btnControlCalidad;
     }
 }

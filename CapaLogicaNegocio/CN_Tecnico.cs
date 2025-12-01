@@ -346,5 +346,18 @@ namespace CapaLogicaNegocio
             }
         }
 
+        public int ObtenerTecnicoIDporUsuarioID(int usuarioId)
+        {
+            var lista = cdTecnico.ListarTodos(); // o ListarActivos()
+
+            var tecnico = lista.Find(t => t.UsuariosId == usuarioId);
+
+            if (tecnico != null)
+                return tecnico.TecnicoID;
+
+            return 0;
+        }
+
+
     }
 }

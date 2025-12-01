@@ -117,34 +117,4 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
-  <data name="button1.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABkAAAAZCAYAAADE6YVjAAAABGdBTUEAALGPC/xhBQAAAJlJREFUSEvt
-        lcEJwzAQBFVCSkgnSSkuJZ04nSQdxB05N8gGP0S0e+CPyMBiydxpOIRxGZp35JWIxZqMBQ2PupSg9i+R
-        oXaqSx1XctmeFq4EmOQTkYVZCX2yqCW5Rm6dzBFZ1JKw572aZ+QnFLUmuXfCwfQukdQkPfY7kQSQlcgC
-        cCXywUdcCbWnf/HU0mMxliQTC/7xmQxPKV8H/XFm9zCfeAAAAABJRU5ErkJggg==
-</value>
-  </data>
-  <data name="btnTarea.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABkAAAAZCAYAAADE6YVjAAAABGdBTUEAALGPC/xhBQAAAYZJREFUSEut
-        1gFRxEAMBdCTgAQkIAEH4AAk4AAcgANwAA7AATgAB+AA8kpzkyu93rb0z/xpp7fN3/xk09usgNPgffA9
-        +B18Cq6G4+Bz8CN4FTwPfgYvg6uAgICCw0lwVQFgSQrAV3CRwFHwLHjdX+0+IajfEywbE5Gheo0i/X0J
-        3vVXgW+D4L6KCjbMxjPimuEPLPSjRRV2TszOHoLVLqhCKaDzXHdgwVuwWjEEAVmOtWoGJ+ZePOu3aBHw
-        4mPw0LpEZtOhRSBhZ3uLWcBO9nZIL1sEElXIe7K76O9RR6ZlHbwgk7lIodeg+qBOytFSu69T3HkwA4TM
-        rIOgPMeqIZpqpDgO339wMIZ68HUuavamws3v7X40pTxAfkd0kvPQVNccGVOou2eP4LLYtuoUWKbLtN6U
-        EBGBDUqjpbmW0q4HZ8y6zCDX8n9W2xsnw8NYhQSza5/axV+/0XkfYF3+OeC7LJYe2t1J2YN1dm3ILQ5c
-        oXh89okFdiy2ZQoCyiiHW1NLtmGz+QESYmpwY54OigAAAABJRU5ErkJggg==
-</value>
-  </data>
-  <data name="btnEditar.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
-    <value>
-        iVBORw0KGgoAAAANSUhEUgAAABkAAAAZCAYAAADE6YVjAAAABGdBTUEAALGPC/xhBQAAAL1JREFUSEvt
-        ldENwjAMRDMSIzACIzACIzACG8AmsAlsQDcAv0onnSzgIzF/edKptVX55Lh12yRxDN1D19CWRDWX0Ctp
-        HypDBktoZzEq6cgLYiCUv63RAPmIziFxCJF7rFEnbuD3GMkA8TJ04UU1XK7KSTzXxScDkbvr4peBdzIN
-        psF3+ID+agCsAorw5TplBpsQRdioTpkB6Kh8e/ouGjYAiqsgf7inxSUGoHm4yOX5DHEKUZSOODpmNDFa
-        ewMPvnmA3RsjKgAAAABJRU5ErkJggg==
-</value>
-  </data>
 </root>
