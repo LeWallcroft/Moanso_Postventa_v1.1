@@ -10,6 +10,7 @@ using System.Globalization;
 
 namespace CapaDatos
 {
+    //error en el parametro de crear cita
     public class CD_Cita
     {
         private CD_Conexion conexion = new CD_Conexion();
@@ -109,59 +110,32 @@ namespace CapaDatos
                 return false;
             }
         }
-       
 
-        public bool RegistrarCita(int vehiculoId, int usuarioId, DateTime fecha, int duracionMinutos, string observaciones, int servicioId, decimal precio, out string mensaje)
+        public bool CrearCita(Cita cita, int capacidadId)
         {
-            mensaje = string.Empty;
-            // 1. Construir el XML para el servicio (El SP lo requiere así)
-            // Estructura: <Servicios><Servicio><ServicioID>1</ServicioID><Cantidad>1</Cantidad><PrecioUnitario>100</PrecioUnitario></Servicio></Servicios>
-            string xmlServicios = $@"
-                <Servicios>
-                    <Servicio>
-                        <ServicioID>{servicioId}</ServicioID>
-                        <Cantidad>1</Cantidad>
-                        <PrecioUnitario>{precio.ToString("0.00", System.Globalization.CultureInfo.InvariantCulture)}</PrecioUnitario>
-                    </Servicio>
-                </Servicios>";
-
-            try
+            using (SqlConnection con = conexion.AbrirConexion())
             {
-                using (SqlConnection con = new CD_Conexion().AbrirConexion())
+                SqlCommand cmd = new SqlCommand("sp_Cita_Crear", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                // Parámetros basados en el SP sp_Cita_Crear
+                cmd.Parameters.AddWithValue("@CapacidadId", capacidadId);
+                cmd.Parameters.AddWithValue("@ClienteId", cita.ClienteId);
+                cmd.Parameters.AddWithValue("@VehiculoId", cita.VehiculoId);
+                cmd.Parameters.AddWithValue("@ServicioId", cita.ServicioId);
+                cmd.Parameters.AddWithValue("@TecnicoId", cita.TecnicoId);
+                cmd.Parameters.AddWithValue("@Fecha", cita.FechaCita.Date);
+
+                try
                 {
-                    SqlCommand cmd = new SqlCommand("sp_RegistrarCita", con);
-                    cmd.CommandType = CommandType.StoredProcedure;
-
-                    // Parámetros obligatorios del SP
-                    cmd.Parameters.AddWithValue("@VehiculoID", vehiculoId);
-                    cmd.Parameters.AddWithValue("@UsuarioID", usuarioId);
-                    cmd.Parameters.AddWithValue("@FechaCita", fecha);
-                    cmd.Parameters.AddWithValue("@DuracionEstimada", duracionMinutos);
-                    cmd.Parameters.AddWithValue("@Observaciones", observaciones);
-                    cmd.Parameters.AddWithValue("@Prioridad", 1); // Prioridad baja por defecto
-
-                    // El parámetro XML
-                    cmd.Parameters.Add("@Servicios", SqlDbType.Xml).Value = xmlServicios;
-
-                    // Ejecutar
-                    // Nota: El SP hace un SELECT al final, así que usamos ExecuteScalar o Reader
-                    // Pero para confirmar éxito, si no lanza error, asumimos que pasó.
                     cmd.ExecuteNonQuery();
-
-                    mensaje = "Cita registrada correctamente.";
-                    return true;
+                    return true; // Si no hay excepción, la transacción fue exitosa
                 }
-            }
-            catch (SqlException sqlex)
-            {
-                // Capturamos errores específicos del SP (como "No hay bahías disponibles")
-                mensaje = sqlex.Message;
-                return false;
-            }
-            catch (Exception ex)
-            {
-                mensaje = "Error en capa datos: " + ex.Message;
-                return false;
+                catch (SqlException ex)
+                {
+                    // El SP usa THROW si falla la validación de cupo o existencia
+                    throw new Exception($"Error en la creación de la cita (BD): {ex.Message}");
+                }
             }
         }
 
