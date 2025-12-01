@@ -36,6 +36,77 @@ namespace CapaDatos
             return lista;
         }
 
+        // MÉTODO: Listar bahías con disponibilidad por fecha
+        public List<Bahia> ListarBahiasPorFecha(DateTime fecha)
+        {
+            List<Bahia> lista = new List<Bahia>();
+
+            // Usamos tu misma lógica de conexión
+            using (SqlConnection con = conexion.AbrirConexion())
+            {
+                SqlCommand cmd = new SqlCommand("sp_Bahias_ListarDisponibilidad", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Fecha", fecha);
+
+                try
+                {
+                    using (SqlDataReader reader = cmd.ExecuteReader())
+                    {
+                        while (reader.Read())
+                        {
+                            // Creamos el objeto manualmente o reusas tu método privado si lo adaptas
+                            Bahia bahia = new Bahia();
+                            bahia.BahiaId = Convert.ToInt32(reader["BahiaID"]);
+                            bahia.Nombre = reader["Nombre"].ToString();
+                            bahia.Descripcion = reader["Descripcion"].ToString();
+                            bahia.Capacidad = Convert.ToInt32(reader["Capacidad"]);
+
+                            // Llenamos el estado (solo nombre para visualizar)
+                            bahia.EstadoBahia = new EstadoBahia { Nombre = reader["EstadoNombre"].ToString() };
+
+                            // Llenamos la nueva propiedad
+                            bahia.CuposDisponibles = Convert.ToInt32(reader["CuposDisponiblesDia"]);
+
+                            lista.Add(bahia);
+                        }
+                    }
+                }
+                catch (Exception ex)
+                {
+                    throw new Exception("Error al listar disponibilidad de bahías: " + ex.Message);
+                }
+            }
+            return lista;
+        }
+
+        public List<BahiaHorarioDTO> ListarHorariosPorFecha(DateTime fecha)
+        {
+            List<BahiaHorarioDTO> lista = new List<BahiaHorarioDTO>();
+            using (SqlConnection con = conexion.AbrirConexion())
+            {
+                SqlCommand cmd = new SqlCommand("sp_Bahias_ListarHorariosDisponibles", con);
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@Fecha", fecha);
+
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        lista.Add(new BahiaHorarioDTO
+                        {
+                            BahiaID = Convert.ToInt32(reader["BahiaID"]),
+                            NombreBahia = reader["NombreBahia"].ToString(),
+                            CapacidadTotal = Convert.ToInt32(reader["Capacidad"]),
+                            HoraInicio = (TimeSpan)reader["HoraInicio"],
+                            HoraFin = (TimeSpan)reader["HoraFin"],
+                            CuposDisponibles = Convert.ToInt32(reader["CapacidadDisponible"])
+                        });
+                    }
+                }
+            }
+            return lista;
+        }
+
         // MÉTODO: Crear bahía completa
         public string CrearBahiaCompleta(string nombre, string descripcion, int capacidad,
                                         int estadoId, int? usuarioId)

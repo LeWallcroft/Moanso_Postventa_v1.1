@@ -293,7 +293,7 @@ namespace Mannucci_Motors
                 MostrarMensajeAccesoDenegado();
                 return;
             }
-            OpenMdiSingle<frmDisponibilidad>();
+            OpenMdiSingle<frmNuevaCita>();
         }
            
         private void mnuTallerPresupuestos_Click(object sender, EventArgs e)

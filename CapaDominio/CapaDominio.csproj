@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Bahia.cs" />
+    <Compile Include="BahiaHorarioDTO.cs" />
     <Compile Include="CalendarioCapacidad.cs" />
     <Compile Include="CapacidadDia.cs" />
     <Compile Include="CategoriaServicio.cs" />

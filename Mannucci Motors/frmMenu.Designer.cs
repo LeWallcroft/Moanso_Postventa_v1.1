@@ -141,6 +141,8 @@
             this.mnuAgendaDisponibilidad.ForeColor = System.Drawing.Color.White;
             this.mnuAgendaDisponibilidad.Name = "mnuAgendaDisponibilidad";
             this.mnuAgendaDisponibilidad.ShortcutKeyDisplayString = "Ctrl+D";
+            this.mnuAgendaDisponibilidad.Size = new System.Drawing.Size(180, 22);
+            this.mnuAgendaDisponibilidad.Text = "Nueva Cita";
             this.mnuAgendaDisponibilidad.Size = new System.Drawing.Size(210, 22);
             this.mnuAgendaDisponibilidad.Text = "DISPONIBILIDAD";
             this.mnuAgendaDisponibilidad.Click += new System.EventHandler(this.mnuAgendaDisponibilidad_Click);
@@ -154,6 +156,36 @@
             this.mnuTallerDiagnostico.Name = "mnuTallerDiagnostico";
             this.mnuTallerDiagnostico.Size = new System.Drawing.Size(70, 20);
             this.mnuTallerDiagnostico.Text = "TALLER";
+            // 
+            // mnuTallerDiagnos
+            // 
+            this.mnuTallerDiagnos.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.mnuTallerDiagnos.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.mnuTallerDiagnos.ForeColor = System.Drawing.Color.White;
+            this.mnuTallerDiagnos.Name = "mnuTallerDiagnos";
+            this.mnuTallerDiagnos.Size = new System.Drawing.Size(194, 22);
+            this.mnuTallerDiagnos.Text = "DIAGNOSTICO";
+            this.mnuTallerDiagnos.Click += new System.EventHandler(this.mnuTallerDiagnos_Click);
+            // 
+            // mnuTallerPresupuestos
+            // 
+            this.mnuTallerPresupuestos.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.mnuTallerPresupuestos.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.mnuTallerPresupuestos.ForeColor = System.Drawing.Color.White;
+            this.mnuTallerPresupuestos.Name = "mnuTallerPresupuestos";
+            this.mnuTallerPresupuestos.Size = new System.Drawing.Size(194, 22);
+            this.mnuTallerPresupuestos.Text = "PRESUPUESTO";
+            this.mnuTallerPresupuestos.Click += new System.EventHandler(this.mnuTallerPresupuestos_Click);
+            // 
+            // mnuTallerOT
+            // 
+            this.mnuTallerOT.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.mnuTallerOT.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.mnuTallerOT.ForeColor = System.Drawing.Color.White;
+            this.mnuTallerOT.Name = "mnuTallerOT";
+            this.mnuTallerOT.Size = new System.Drawing.Size(194, 22);
+            this.mnuTallerOT.Text = "ORDEN DE TRABAJO";
+            this.mnuTallerOT.Click += new System.EventHandler(this.mnuTallerOT_Click);
             // 
             // mnuAdmin
             // 

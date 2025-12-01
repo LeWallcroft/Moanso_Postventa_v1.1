@@ -51,6 +51,7 @@
     <Compile Include="CN_Cita.cs" />
     <Compile Include="CN_Cliente.cs" />
     <Compile Include="CN_Diagnostico.cs" />
+    <Compile Include="CN_Garantia.cs" />
     <Compile Include="CN_OrdenTrabajo.cs" />
     <Compile Include="CN_Presupuesto.cs" />
     <Compile Include="CN_Reportes.cs" />

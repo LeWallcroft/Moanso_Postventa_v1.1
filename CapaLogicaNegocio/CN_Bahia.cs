@@ -22,6 +22,16 @@ namespace CapaLogicaNegocio
             }
         }
 
+        public List<Bahia> ObtenerDisponibilidadPorFecha(DateTime fecha)
+        {
+            return cdBahia.ListarBahiasPorFecha(fecha);
+        }
+
+        public List<BahiaHorarioDTO> ObtenerHorariosDisponibles(DateTime fecha)
+        {
+            return cdBahia.ListarHorariosPorFecha(fecha);
+        }
+
         // MÉTODO: Crear bahía completa
         public bool CrearBahiaCompleta(string nombre, string descripcion, int capacidad,
                                       int estadoId, int? usuarioId, out string mensaje)

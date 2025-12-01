@@ -18,12 +18,18 @@ namespace CapaLogicaNegocio
             return cdCita.ConsultarDisponibilidad(fecha, bahiaId);
         }
 
+        /*
         public bool RegistrarCita(Cita cita, int capacidadId)
         {
             // Validaciones finales (se asume que los IDs ya fueron validados en los pasos anteriores)
             if (capacidadId <= 0) throw new Exception("Error interno: Slot de capacidad no válido.");
 
             return cdCita.CrearCita(cita, capacidadId);
+        }*/
+
+        public bool RegistrarNuevaCita(int vehiculoId, int usuarioId, DateTime fecha, int duracion, string obs, int servicioId, decimal precio, out string mensaje)
+        {
+            return cdCita.RegistrarCita(vehiculoId, usuarioId, fecha, duracion, obs, servicioId, precio, out mensaje);
         }
     }
 }
