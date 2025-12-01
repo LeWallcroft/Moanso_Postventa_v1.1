@@ -14,8 +14,6 @@ namespace CapaDominio
         public TimeSpan HoraInicio { get; set; }
         public TimeSpan HoraFin { get; set; }
         public int CuposDisponibles { get; set; }
-
-        // Propiedad para mostrar bonito en el Grid
         public string HorarioTexto => $"{HoraInicio:hh\\:mm} - {HoraFin:hh\\:mm}";
     }
 }
