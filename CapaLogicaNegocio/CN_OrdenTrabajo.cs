@@ -232,5 +232,17 @@ namespace CapaLogicaNegocio
             );
         }
 
+
+        public void CambiarEstadoOrdenPago(int ordentrabajoId, string nuevoEstado)
+        {
+            if (ordentrabajoId <= 0)
+                throw new ArgumentException("Id de OT no válido.");
+
+            if (string.IsNullOrWhiteSpace(nuevoEstado))
+                throw new ArgumentException("Estado de Orden de Pago no válido.");
+
+            datos.CambiarEstadoOrdenPago(ordentrabajoId, nuevoEstado);
+        }
+
     }
 }

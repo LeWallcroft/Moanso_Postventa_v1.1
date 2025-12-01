@@ -108,7 +108,7 @@ namespace Mannucci_Motors
                     );
                 }
 
-                rbAprobado.Checked = true;
+                
             }
             catch (Exception ex)
             {
@@ -140,7 +140,7 @@ namespace Mannucci_Motors
         {
             try
             {
-                // Validación repuestos
+                // Validar repuestos
                 if (_repuestos == null || _repuestos.Count == 0)
                 {
                     MessageBox.Show("La OT no tiene repuestos registrados.",
@@ -148,41 +148,45 @@ namespace Mannucci_Motors
                     return;
                 }
 
-                // Validar si está aprobando y algún ítem NO cumple
+                // Si APRUEBA validar que no hayan items sin cumplir
                 if (resultado == "APROBADO")
                 {
-                    foreach (DataGridViewRow row in dgvChecklist.Rows)
+                    bool hayNoCumple = dgvChecklist.Rows.Cast<DataGridViewRow>()
+                                      .Any(r => !(bool)r.Cells["colCumple"].Value);
+
+                    if (hayNoCumple)
                     {
-                        bool cumple = row.Cells["colCumple"].Value != null &&
-                                      (bool)row.Cells["colCumple"].Value;
+                        var r = MessageBox.Show(
+                            "Hay ítems que NO cumplen.\n¿Desea aprobar de todas formas?",
+                            "Advertencia",
+                            MessageBoxButtons.YesNo,
+                            MessageBoxIcon.Warning);
 
-                        if (!cumple)
-                        {
-                            var r = MessageBox.Show(
-                                "Hay ítems que NO cumplen.\n¿Deseas aprobar de todas formas?",
-                                "Advertencia",
-                                MessageBoxButtons.YesNo,
-                                MessageBoxIcon.Warning);
-
-                            if (r != DialogResult.Yes)
-                                return;
-
-                            break;
-                        }
+                        if (r != DialogResult.Yes) return;
                     }
                 }
 
-                // Generar XML para Controlcalidaddetalle
-                string xmlChecklist = GenerarXMLChecklist();
+                // Generar XML
+                string xml = GenerarXMLChecklist();
 
-                // Registrar control de calidad vía Capa de Negocio
+                // Registrar control
                 _cnOrdenTrabajo.RegistrarControlCalidad(
                     _ordentrabajoId,
                     _usuarioJefeTallerId,
                     resultado,
                     rtxtObsControl.Text.Trim(),
-                    xmlChecklist
-                );
+                    xml);
+
+                // Cambios de estado según resultado
+                if (resultado == "APROBADO")
+                {
+                    _cnOrdenTrabajo.CambiarEstadoOT(_ordentrabajoId, 5);   // COMPLETADA
+                    _cnOrdenTrabajo.CambiarEstadoOrdenPago(_ordentrabajoId, "EMITIDA");
+                }
+                else if (resultado == "RECTIFICAR")
+                {
+                    _cnOrdenTrabajo.CambiarEstadoOT(_ordentrabajoId, 3);   // EN PROGRESO
+                }
 
                 MessageBox.Show("Control de calidad registrado correctamente.",
                     "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
@@ -196,6 +200,7 @@ namespace Mannucci_Motors
                     "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
+
 
         // =======================
         //   GENERAR XML

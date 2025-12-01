@@ -24,8 +24,6 @@ namespace Mannucci_Motors
             this.btnAprobar = new System.Windows.Forms.Button();
             this.rtxtObsControl = new System.Windows.Forms.RichTextBox();
             this.label7 = new System.Windows.Forms.Label();
-            this.rbRectificar = new System.Windows.Forms.RadioButton();
-            this.rbAprobado = new System.Windows.Forms.RadioButton();
             this.gbChecklist = new System.Windows.Forms.GroupBox();
             this.dgvChecklist = new System.Windows.Forms.DataGridView();
             this.colItem = new System.Windows.Forms.DataGridViewTextBoxColumn();
@@ -76,8 +74,6 @@ namespace Mannucci_Motors
             this.gbResultado.Controls.Add(this.btnAprobar);
             this.gbResultado.Controls.Add(this.rtxtObsControl);
             this.gbResultado.Controls.Add(this.label7);
-            this.gbResultado.Controls.Add(this.rbRectificar);
-            this.gbResultado.Controls.Add(this.rbAprobado);
             this.gbResultado.Location = new System.Drawing.Point(12, 410);
             this.gbResultado.Name = "gbResultado";
             this.gbResultado.Size = new System.Drawing.Size(776, 178);
@@ -132,28 +128,6 @@ namespace Mannucci_Motors
             this.label7.TabIndex = 2;
             this.label7.Text = "Observaciones:";
             // 
-            // rbRectificar
-            // 
-            this.rbRectificar.AutoSize = true;
-            this.rbRectificar.Location = new System.Drawing.Point(122, 23);
-            this.rbRectificar.Name = "rbRectificar";
-            this.rbRectificar.Size = new System.Drawing.Size(101, 17);
-            this.rbRectificar.TabIndex = 1;
-            this.rbRectificar.TabStop = true;
-            this.rbRectificar.Text = "No aprueba (R):";
-            this.rbRectificar.UseVisualStyleBackColor = true;
-            // 
-            // rbAprobado
-            // 
-            this.rbAprobado.AutoSize = true;
-            this.rbAprobado.Location = new System.Drawing.Point(18, 23);
-            this.rbAprobado.Name = "rbAprobado";
-            this.rbAprobado.Size = new System.Drawing.Size(89, 17);
-            this.rbAprobado.TabIndex = 0;
-            this.rbAprobado.TabStop = true;
-            this.rbAprobado.Text = "Aprueba (OK)";
-            this.rbAprobado.UseVisualStyleBackColor = true;
-            // 
             // gbChecklist
             // 
             this.gbChecklist.Controls.Add(this.dgvChecklist);
@@ -166,6 +140,7 @@ namespace Mannucci_Motors
             // 
             // dgvChecklist
             // 
+            this.dgvChecklist.AllowUserToAddRows = false;
             this.dgvChecklist.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvChecklist.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.colItem,
@@ -175,13 +150,11 @@ namespace Mannucci_Motors
             this.dgvChecklist.Dock = System.Windows.Forms.DockStyle.Fill;
             this.dgvChecklist.Location = new System.Drawing.Point(3, 16);
             this.dgvChecklist.Name = "dgvChecklist";
+            this.dgvChecklist.RowHeadersVisible = false;
+            this.dgvChecklist.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dgvChecklist.Size = new System.Drawing.Size(770, 175);
             this.dgvChecklist.TabIndex = 0;
             this.dgvChecklist.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvChecklist_CellContentClick);
-            this.dgvChecklist.AllowUserToAddRows = false;
-            this.dgvChecklist.RowHeadersVisible = false;
-            this.dgvChecklist.SelectionMode = DataGridViewSelectionMode.FullRowSelect;
-
             // 
             // colItem
             // 
@@ -383,8 +356,6 @@ namespace Mannucci_Motors
         private System.Windows.Forms.Button btnAprobar;
         private System.Windows.Forms.RichTextBox rtxtObsControl;
         private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.RadioButton rbRectificar;
-        private System.Windows.Forms.RadioButton rbAprobado;
         private System.Windows.Forms.GroupBox gbChecklist;
         private System.Windows.Forms.DataGridView dgvChecklist;
         private System.Windows.Forms.DataGridViewTextBoxColumn colItem;

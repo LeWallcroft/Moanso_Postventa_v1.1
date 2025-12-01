@@ -388,5 +388,18 @@ namespace CapaDatos
             }
         }
 
+        public void CambiarEstadoOrdenPago(int ordentrabajoID, string nuevoEstado)
+        {
+            using (SqlConnection cn = conexion.AbrirConexion())
+            using (SqlCommand cmd = new SqlCommand("sp_OrdenPago_CambiarEstado", cn))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@OrdentrabajoID", ordentrabajoID);
+                cmd.Parameters.AddWithValue("@Estado", nuevoEstado);
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+
     }
 }
