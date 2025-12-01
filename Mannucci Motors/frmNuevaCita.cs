@@ -521,7 +521,7 @@ namespace Mannucci_Motors
 
                 if (citaId > 0)
                 {
-                    _citaIdGenerada = citaId;  // 👈 GUARDAR ID PARA btnCrearOT
+                    _citaIdGenerada = citaId;  // GUARDAR ID PARA btnCrearOT
 
                     MessageBox.Show(mensaje, "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
