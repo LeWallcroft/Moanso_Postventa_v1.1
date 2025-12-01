@@ -141,7 +141,7 @@
             this.lblClienteDNI.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblClienteDNI.Location = new System.Drawing.Point(850, 60);
             this.lblClienteDNI.Name = "lblClienteDNI";
-            this.lblClienteDNI.Size = new System.Drawing.Size(71, 15);
+            this.lblClienteDNI.Size = new System.Drawing.Size(72, 15);
             this.lblClienteDNI.TabIndex = 10;
             this.lblClienteDNI.Text = "Cliente DNI:";
             // 
@@ -159,7 +159,7 @@
             this.lblTecnico.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTecnico.Location = new System.Drawing.Point(680, 60);
             this.lblTecnico.Name = "lblTecnico";
-            this.lblTecnico.Size = new System.Drawing.Size(54, 15);
+            this.lblTecnico.Size = new System.Drawing.Size(53, 15);
             this.lblTecnico.TabIndex = 8;
             this.lblTecnico.Text = "Técnico:";
             // 
@@ -189,8 +189,7 @@
             this.cmbTipoReporte.Items.AddRange(new object[] {
             "CLIENTES",
             "CITAS",
-            "ORDENES",
-            "DISPONIBILIDAD"});
+            "ORDENES"});
             this.cmbTipoReporte.Location = new System.Drawing.Point(20, 80);
             this.cmbTipoReporte.Name = "cmbTipoReporte";
             this.cmbTipoReporte.Size = new System.Drawing.Size(200, 23);
@@ -203,7 +202,7 @@
             this.lblTipoReporte.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblTipoReporte.Location = new System.Drawing.Point(20, 60);
             this.lblTipoReporte.Name = "lblTipoReporte";
-            this.lblTipoReporte.Size = new System.Drawing.Size(102, 15);
+            this.lblTipoReporte.Size = new System.Drawing.Size(103, 15);
             this.lblTipoReporte.TabIndex = 4;
             this.lblTipoReporte.Text = "Tipo de Reporte:*";
             // 
@@ -241,7 +240,7 @@
             this.lblFechaInicio.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblFechaInicio.Location = new System.Drawing.Point(240, 60);
             this.lblFechaInicio.Name = "lblFechaInicio";
-            this.lblFechaInicio.Size = new System.Drawing.Size(78, 15);
+            this.lblFechaInicio.Size = new System.Drawing.Size(76, 15);
             this.lblFechaInicio.TabIndex = 0;
             this.lblFechaInicio.Text = "Fecha Inicio:";
             // 
@@ -356,8 +355,8 @@
             this.dgvReporte.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             dataGridViewCellStyle2.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle2.BackColor = System.Drawing.Color.White;
-            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            dataGridViewCellStyle2.ForeColor = System.Drawing.SystemColors.ControlText;
+            dataGridViewCellStyle2.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle2.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
             dataGridViewCellStyle2.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(128)))), ((int)(((byte)(128)))));
             dataGridViewCellStyle2.SelectionForeColor = System.Drawing.Color.Black;
             dataGridViewCellStyle2.WrapMode = System.Windows.Forms.DataGridViewTriState.False;
@@ -369,7 +368,7 @@
             this.dgvReporte.ReadOnly = true;
             dataGridViewCellStyle3.Alignment = System.Windows.Forms.DataGridViewContentAlignment.MiddleLeft;
             dataGridViewCellStyle3.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
-            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            dataGridViewCellStyle3.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             dataGridViewCellStyle3.ForeColor = System.Drawing.SystemColors.WindowText;
             dataGridViewCellStyle3.SelectionBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             dataGridViewCellStyle3.SelectionForeColor = System.Drawing.SystemColors.HighlightText;
@@ -412,7 +411,7 @@
             this.lblTotalRegistros.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(0)))), ((int)(((byte)(0)))));
             this.lblTotalRegistros.Location = new System.Drawing.Point(20, 50);
             this.lblTotalRegistros.Name = "lblTotalRegistros";
-            this.lblTotalRegistros.Size = new System.Drawing.Size(152, 20);
+            this.lblTotalRegistros.Size = new System.Drawing.Size(151, 20);
             this.lblTotalRegistros.TabIndex = 1;
             this.lblTotalRegistros.Text = "Total Registros: 0";
             // 
@@ -422,7 +421,7 @@
             this.lblEstadisticas.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblEstadisticas.Location = new System.Drawing.Point(20, 90);
             this.lblEstadisticas.Name = "lblEstadisticas";
-            this.lblEstadisticas.Size = new System.Drawing.Size(76, 15);
+            this.lblEstadisticas.Size = new System.Drawing.Size(75, 15);
             this.lblEstadisticas.TabIndex = 0;
             this.lblEstadisticas.Text = "Estadísticas:";
             // 

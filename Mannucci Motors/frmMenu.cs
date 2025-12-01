@@ -160,7 +160,7 @@ namespace Mannucci_Motors
             HabilitarTodosLosMenus();
 
             // Luego deshabilitar los que no correspondan
-            if (formularioActual is frmDisponibilidad)
+            if (formularioActual is frmNuevaCita)
             {
                 // Si está en Agenda, deshabilitar otros módulos
                 if (mnuTallerDiagnostico != null) mnuTallerDiagnostico.Enabled = false;

@@ -52,8 +52,7 @@ namespace Mannucci_Motors
             cmbTipoReporte.Items.AddRange(new object[] {
                 "CLIENTES",
                 "CITAS",
-                "ORDENES",
-                "DISPONIBILIDAD"
+                "ORDENES"                
             });
 
             // Cargar estados según el tipo de reporte
@@ -104,11 +103,7 @@ namespace Mannucci_Motors
 
             lblClienteDNI.Enabled = (tipoReporte == "CITAS" || tipoReporte == "ORDENES");
             txtClienteDNI.Enabled = (tipoReporte == "CITAS" || tipoReporte == "ORDENES");
-
-            lblFechaInicio.Enabled = (tipoReporte != "DISPONIBILIDAD");
-            dtpFechaInicio.Enabled = (tipoReporte != "DISPONIBILIDAD");
-            lblFechaFin.Enabled = (tipoReporte != "DISPONIBILIDAD");
-            dtpFechaFin.Enabled = (tipoReporte != "DISPONIBILIDAD");
+            
         }
 
         private void btnLimpiarFiltros_Click(object sender, EventArgs e)
@@ -237,7 +232,7 @@ namespace Mannucci_Motors
 
                 // Aquí iría la lógica para exportar a PDF
                 // Por ahora mostramos un mensaje
-                MostrarMensaje("Funcionalidad de exportación a PDF en desarrollo...");
+                MostrarMensaje("Esta igual que el excel 7u7... somos Moanso 2026-1 aunque si nos aprueba ya no nos ve :'v");
             }
             catch (Exception ex)
             {
@@ -257,7 +252,7 @@ namespace Mannucci_Motors
 
                 // Aquí iría la lógica para exportar a Excel
                 // Por ahora mostramos un mensaje
-                MostrarMensaje("Funcionalidad de exportación a Excel en desarrollo...");
+                MostrarMensaje("Para el otro ciclo pues 7u7... somos Moanso 2026-1");
             }
             catch (Exception ex)
             {

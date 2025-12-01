@@ -133,11 +133,66 @@ namespace CapaLogicaNegocio
 
         public void CambiarEstadoOT(int ordentrabajoID, int estadootID)
         {
+
             if (ordentrabajoID <= 0)
-                throw new ArgumentException("El Id de la OT no es válido.");
+                throw new ArgumentException("Id de OT no válido");
+            if (estadootID <= 0)
+                throw new ArgumentException("Id de estado no válido");
 
             datos.CambiarEstadoOT(ordentrabajoID, estadootID);
         }
 
+        public List<EstadoOT> ListarEstadosOT()
+        {
+            return datos.ListarEstadosOT();
+        }
+
+        public OrdenPago ObtenerOrdenPagoPorOrden(int ordentrabajoID)
+        {
+            if (ordentrabajoID <= 0)
+                throw new ArgumentException("El Id de la OT no es válido.");
+
+            return datos.ObtenerOrdenPagoPorOrden(ordentrabajoID);
+        }
+
+        public List<RepuestoOT> ListarRepuestosPorOrden(int ordentrabajoID)
+        {
+            if (ordentrabajoID <= 0)
+                throw new ArgumentException("Id de OT no válido");
+            return datos.ListarRepuestosPorOrden(ordentrabajoID);
+        }
+
+        public void EliminarRepuestoExtra(int otrepuestoID)
+        {
+            if (otrepuestoID <= 0)
+                throw new ArgumentException("Id de detalle no válido");
+            datos.EliminarRepuestoExtra(otrepuestoID);
+        }
+
+        public void AgregarRepuestoExtra(int ordentrabajoID, int repuestoID, int cantidad)
+        {
+            if (ordentrabajoID <= 0)
+                throw new ArgumentException("Id de OT no válido");
+            if (repuestoID <= 0)
+                throw new ArgumentException("Id de repuesto no válido");
+            if (cantidad <= 0)
+                throw new ArgumentException("La cantidad debe ser mayor que cero");
+
+            datos.AgregarRepuestoExtra(ordentrabajoID, repuestoID, cantidad);
+        }
+
+        public int CrearOrdenTrabajoDesdeCita(int citaId, int usuarioId, int prioridad, int? kilometrajeEntrada)
+        {
+            if (citaId <= 0)
+                throw new ArgumentException("Id de cita no válido.", nameof(citaId));
+
+            if (usuarioId <= 0)
+                throw new ArgumentException("Id de usuario no válido.", nameof(usuarioId));
+
+            if (prioridad <= 0)
+                prioridad = 1;
+
+            return datos.CrearDesdeCita(citaId, usuarioId, prioridad, kilometrajeEntrada);
+        }
     }
 }

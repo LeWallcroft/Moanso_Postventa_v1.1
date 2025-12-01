@@ -52,10 +52,12 @@
     <Compile Include="Diagnostico.cs" />
     <Compile Include="DTOs\FiltroServicios.cs" />
     <Compile Include="EstadoBahia.cs" />
+    <Compile Include="EstadoOT.cs" />
     <Compile Include="FiltroRepuesto.cs" />
     <Compile Include="Garantia.cs" />
     <Compile Include="Marca.cs" />
     <Compile Include="Modelo.cs" />
+    <Compile Include="OrdenPago.cs" />
     <Compile Include="OrdenTrabajo.cs" />
     <Compile Include="OtActividad.cs" />
     <Compile Include="Presupuesto.cs" />
@@ -63,6 +65,8 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Reportes.cs" />
     <Compile Include="Repuesto.cs" />
+    <Compile Include="RepuestoOrdenPago.cs" />
+    <Compile Include="RepuestoOT.cs" />
     <Compile Include="RepuestoServicio.cs" />
     <Compile Include="ResumenItem.cs" />
     <Compile Include="Servicio.cs" />

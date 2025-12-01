@@ -196,5 +196,136 @@ namespace CapaDatos
             }
         }
 
+
+
+        public List<EstadoOT> ListarEstadosOT()
+        {
+            var lista = new List<EstadoOT>();
+
+            using (SqlConnection cn = conexion.AbrirConexion())
+            using (SqlCommand cmd = new SqlCommand(
+                "SELECT EstadootID, Nombre, Descripcion FROM Estadoot WHERE Activo = 1 ORDER BY Nombre", cn))
+            {
+                using (SqlDataReader dr = cmd.ExecuteReader())
+                {
+                    while (dr.Read())
+                    {
+                        lista.Add(new EstadoOT
+                        {
+                            EstadootID = Convert.ToInt32(dr["EstadootID"]),
+                            Nombre = dr["Nombre"]?.ToString(),
+                            Descripcion = dr["Descripcion"] == DBNull.Value ? null : dr["Descripcion"].ToString()
+                        });
+                    }
+                }
+            }
+
+            return lista;
+        }
+
+        public OrdenPago ObtenerOrdenPagoPorOrden(int ordentrabajoID)
+        {
+            using (SqlConnection cn = conexion.AbrirConexion())
+            using (SqlCommand cmd = new SqlCommand("sp_OrdenPago_ObtenerPorOT", cn))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@OrdentrabajoID", ordentrabajoID);
+
+                using (SqlDataReader dr = cmd.ExecuteReader())
+                {
+                    if (dr.Read())
+                    {
+                        return new OrdenPago
+                        {
+                            OrdenPagoID = Convert.ToInt32(dr["OrdenPagoID"]),
+                            OrdentrabajoID = Convert.ToInt32(dr["OrdentrabajoID"]),
+                            Serie = dr["Serie"]?.ToString(),
+                            Estado = dr["Estado"]?.ToString(),
+                            Observaciones = dr["Observaciones"] == DBNull.Value ? null : dr["Observaciones"].ToString(),
+                            Total = dr["Total"] == DBNull.Value ? 0m : Convert.ToDecimal(dr["Total"])
+                        };
+                    }
+                }
+            }
+            return null;
+        }
+
+        public List<RepuestoOT> ListarRepuestosPorOrden(int ordentrabajoID)
+        {
+            var lista = new List<RepuestoOT>();
+
+            using (SqlConnection cn = conexion.AbrirConexion())
+            using (SqlCommand cmd = new SqlCommand("sp_Otrepuesto_ListarPorOrdenTrabajo", cn))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@OrdentrabajoID", ordentrabajoID);
+
+                using (SqlDataReader dr = cmd.ExecuteReader())
+                {
+                    while (dr.Read())
+                    {
+                        lista.Add(new RepuestoOT
+                        {
+                            OtrepuestoID = Convert.ToInt32(dr["OtrepuestoID"]),
+                            OrdentrabajoID = Convert.ToInt32(dr["OrdentrabajoID"]),
+                            RepuestoID = Convert.ToInt32(dr["RepuestoID"]),
+                            Codigo = dr["Codigo"]?.ToString(),
+                            Nombre = dr["Nombre"]?.ToString(),
+                            Cantidad = Convert.ToInt32(dr["Cantidad"]),
+                            PrecioUnitario = Convert.ToDecimal(dr["PrecioUnitario"]),
+                            Subtotal = Convert.ToDecimal(dr["Subtotal"]),
+                            EsDefault = Convert.ToBoolean(dr["EsDefault"])
+                        });
+                    }
+                }
+            }
+
+            return lista;
+        }
+
+        public void EliminarRepuestoExtra(int otrepuestoID)
+        {
+            using (SqlConnection cn = conexion.AbrirConexion())
+            using (SqlCommand cmd = new SqlCommand("sp_Otrepuesto_EliminarExtra", cn))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@OtrepuestoID", otrepuestoID);
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        public void AgregarRepuestoExtra(int ordentrabajoID, int repuestoID, int cantidad)
+        {
+            using (SqlConnection cn = conexion.AbrirConexion())
+            using (SqlCommand cmd = new SqlCommand("sp_Otrepuesto_AgregarExtra", cn))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@OrdentrabajoID", ordentrabajoID);
+                cmd.Parameters.AddWithValue("@RepuestoID", repuestoID);
+                cmd.Parameters.AddWithValue("@Cantidad", cantidad);
+                cmd.ExecuteNonQuery();
+            }
+        }
+
+        public int CrearDesdeCita(int citaId, int usuariosId, int prioridad, int? kilometrajeEntrada)
+        {
+            using (SqlConnection cn = conexion.AbrirConexion())
+            using (SqlCommand cmd = new SqlCommand("sp_Ordentrabajo_CrearDesdeCita", cn))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                cmd.Parameters.AddWithValue("@CitaID", citaId);
+                cmd.Parameters.AddWithValue("@UsuariosID", usuariosId);
+                cmd.Parameters.AddWithValue("@Prioridad", prioridad);
+
+                if (kilometrajeEntrada.HasValue)
+                    cmd.Parameters.AddWithValue("@KilometrajeEntrada", kilometrajeEntrada.Value);
+                else
+                    cmd.Parameters.AddWithValue("@KilometrajeEntrada", DBNull.Value);
+
+                object result = cmd.ExecuteScalar();
+                return Convert.ToInt32(result);
+            }
+        }
+
     }
 }

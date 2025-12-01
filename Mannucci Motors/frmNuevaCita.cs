@@ -17,7 +17,6 @@ namespace Mannucci_Motors
 {
     public partial class frmNuevaCita : Form
     {
-
         private int _vehiculoSeleccionadoID;
         private int _clienteSeleccionadoID;
         private int _bahiaSeleccionadaID;
@@ -26,33 +25,68 @@ namespace Mannucci_Motors
 
         private int _idServicioSeleccionado;
         private string _nombreServicioSeleccionado; 
-        private decimal _precioServicio;            
+        private decimal _precioServicio;           
         private string _observacionesCita;
-        private int _duracionServicio;
 
         private TimeSpan _horaInicioSeleccionada;
 
-        private List<BahiaHorarioDTO> _listaBahiasMemoria;
+        private int _duracionServicio;
 
+        private List<BahiaHorarioDTO> _listaBahiasMemoria;
+        private int _citaIdGenerada = 0;
         public frmNuevaCita()
         {
             InitializeComponent();
+
+            // Esto hace que las cabeceras de los tabs sean planas
+            tabControl1.Appearance = TabAppearance.FlatButtons;
+            // Esto reduce el tamaño de las cabeceras a casi cero (0 ancho, 1 alto)
+            tabControl1.ItemSize = new Size(0, 1);
+            // Esto fuerza al control a respetar el tamaño fijo que le dimos arriba
+            tabControl1.SizeMode = TabSizeMode.Fixed;
+
             ConfiguracionInicialCalendario();
             CargarServicios();
-            btnContinuarCalendario.Enabled = false;
+
             txtNombre.Enabled = false;
             txtApellido.Enabled = false;
-            txtDireccion.Enabled = false;
             txtTelefono.Enabled = false;
             txtEmail.Enabled = false;
+            txtDireccion.Enabled = false;
 
             txtPrecio.Enabled = false;
             txtDuracion.Enabled = false;
             txtDescripcion.Enabled = false;
+        }
 
-            tbNuevaCita.Appearance = TabAppearance.FlatButtons;
-            tbNuevaCita.ItemSize = new Size(0, 1);
-            tbNuevaCita.SizeMode = TabSizeMode.Fixed;
+        private void CargarServicios()
+        {
+            try
+            {
+                CN_Servicios objNegocio = new CN_Servicios();
+                List<Servicio> listaServicios = objNegocio.ListarServicios();
+
+                // Configuración para que el ComboBox entienda qué mostrar y qué valor guardar
+                cmbServicios.DataSource = listaServicios;
+                cmbServicios.DisplayMember = "Nombre";      // Lo que ve el usuario
+                cmbServicios.ValueMember = "ServicioID";    // El valor interno (ID)
+
+                // Limpiamos selección inicial para obligar al usuario a elegir
+                cmbServicios.SelectedIndex = -1;
+                LimpiarDetallesServicio();
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al cargar servicios: " + ex.Message);
+            }
+        }
+
+        private void LimpiarDetallesServicio()
+        {
+            txtPrecio.Text = "";
+            txtDuracion.Text = "";
+            txtDescripcion.Text = "";
+            btnContinuarResumen.Enabled = false; // Deshabilitar hasta que seleccione algo
         }
 
         private void ConfiguracionInicialCalendario()
@@ -120,7 +154,6 @@ namespace Mannucci_Motors
             }
         }
 
-        // Método auxiliar para limpiar si no se encuentra
         private void LimpiarCampos()
         {
             txtNombre.Clear();
@@ -179,22 +212,20 @@ namespace Mannucci_Motors
             // Solo habilitar si hay al menos una fila seleccionada
             if (dgvVehiculosRegistrados.SelectedRows.Count > 0)
             {
-                btnContinuarCalendario.Enabled = true;
+                btnContinuar.Enabled = true;
             }
             else
             {
-                btnContinuarCalendario.Enabled = false;
+                btnContinuar.Enabled = false;
             }
         }
 
-        private void btnContinuarCalendario_Click(object sender, EventArgs e)
+        private void btnContinuar_Click(object sender, EventArgs e)
         {
             // 1. Verificar que haya selección (doble seguridad)
             if (dgvVehiculosRegistrados.SelectedRows.Count == 0) return;
 
             // 2. Obtener el ID del vehículo de la fila seleccionada
-            // Usamos DataBoundItem si usaste DataSource, o Cells["nombre"] si llenaste manual.
-            // Como ocultaste la columna "VehiculoID" pero está ahí, podemos leerla:
             int idVehiculoSeleccionado = Convert.ToInt32(dgvVehiculosRegistrados.CurrentRow.Cells["VehiculoID"].Value);
 
             // Obtener datos visuales para el mensaje (opcional, se ve bonito)
@@ -213,19 +244,22 @@ namespace Mannucci_Motors
                     // --- ÉXITO: TIENE GARANTÍA ---
 
                     // Opcional: Guardar el vehículo seleccionado en una variable global o Tag para el siguiente paso
-                    btnContinuarCalendario.Tag = idVehiculoSeleccionado;
+                    btnContinuar.Tag = idVehiculoSeleccionado;
                     _vehiculoSeleccionadoID = idVehiculoSeleccionado;
 
                     MessageBox.Show($"El vehículo {modelo} con placa {placa} tiene garantía ACTIVA.\nProcediendo al siguiente paso...",
                                     "Garantía Validada", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-                    tbNuevaCita.SelectedTab = tabPage2;
+                    tabControl1.SelectedTab = tabPage2;
+                    
                 }
                 else
                 {
                     // --- ERROR: NO TIENE GARANTÍA ---
                     MessageBox.Show($"El vehículo seleccionado ({placa}) NO tiene una garantía vigente o ha expirado.\n\nNo se puede continuar con este tipo de atención.",
                                     "Garantía Inválida", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                    // No cambiamos de pestaña
                 }
             }
             catch (Exception ex)
@@ -260,6 +294,7 @@ namespace Mannucci_Motors
 
         private void CargarComboFiltro()
         {
+            // Evitamos que el evento del combo se dispare mientras lo llenamos
             cmbBahias.SelectedIndexChanged -= cmbBahias_SelectedIndexChanged;
 
             // Filtramos por NombreBahia
@@ -283,11 +318,11 @@ namespace Mannucci_Motors
             if (dgvBahias.Rows.Count > 0)
             {
                 dgvBahias.Columns["BahiaID"].Visible = false;
-                dgvBahias.Columns["HoraInicio"].Visible = false; 
+                dgvBahias.Columns["HoraInicio"].Visible = false; // Ocultamos los TimeSpan crudos
                 dgvBahias.Columns["HoraFin"].Visible = false;
 
                 dgvBahias.Columns["NombreBahia"].HeaderText = "Bahía";
-                dgvBahias.Columns["HorarioTexto"].HeaderText = "Horario"; 
+                dgvBahias.Columns["HorarioTexto"].HeaderText = "Horario"; // <--- NUEVA COLUMNA
                 dgvBahias.Columns["CapacidadTotal"].HeaderText = "Cap. Total";
                 dgvBahias.Columns["CuposDisponibles"].HeaderText = "Cupos";
 
@@ -295,11 +330,22 @@ namespace Mannucci_Motors
             }
         }
 
+        private void cmbBahias_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (_listaBahiasMemoria == null) return;
+            string seleccion = cmbBahias.SelectedItem.ToString();
+
+            if (seleccion == "Todas las Bahías")
+                ActualizarGrid(_listaBahiasMemoria);
+            else
+                ActualizarGrid(_listaBahiasMemoria.Where(b => b.NombreBahia == seleccion).ToList());
+        }
+
         private void dgvBahias_SelectionChanged(object sender, EventArgs e)
         {
             if (dgvBahias.SelectedRows.Count > 0)
             {
-                // Obtenemos el objeto seleccionado
+                // El objeto es de tipo BahiaHorarioDTO
                 BahiaHorarioDTO seleccion = (BahiaHorarioDTO)dgvBahias.CurrentRow.DataBoundItem;
 
                 // VALIDACIÓN: ¿Hay cupo en ese horario específico?
@@ -316,17 +362,6 @@ namespace Mannucci_Motors
             {
                 btnContinuarDetalle.Enabled = false;
             }
-        }
-
-        private void cmbBahias_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if (_listaBahiasMemoria == null) return;
-            string seleccion = cmbBahias.SelectedItem.ToString();
-
-            if (seleccion == "Todas las Bahías")
-                ActualizarGrid(_listaBahiasMemoria);
-            else
-                ActualizarGrid(_listaBahiasMemoria.Where(b => b.NombreBahia == seleccion).ToList());
         }
 
         private void btnContinuarDetalle_Click(object sender, EventArgs e)
@@ -350,12 +385,12 @@ namespace Mannucci_Motors
             MessageBox.Show($"Seleccionado: {seleccion.NombreBahia}\nHorario: {seleccion.HorarioTexto}", "Confirmación");
 
             // AVANZAR AL SIGUIENTE TAB
-            tbNuevaCita.SelectedTab = tabPage3;
+            tabControl1.SelectedTab = tabPage3;
         }
 
-        private void btnAtrasBuscarCliente_Click(object sender, EventArgs e)
+        private void btnAtrasBuscar_Click(object sender, EventArgs e)
         {
-            tbNuevaCita.SelectedTab = tabPage1;
+            tabControl1.SelectedTab = tabPage1; // Asumiendo que tabPage1 es Buscar Cliente
 
             _idBahiaSeleccionada = 0;
             btnContinuarDetalle.Enabled = false;
@@ -402,36 +437,6 @@ namespace Mannucci_Motors
             }
         }
 
-        private void CargarServicios()
-        {
-            try
-            {
-                CN_Servicios objNegocio = new CN_Servicios();
-                List<Servicio> listaServicios = objNegocio.ListarServicios();
-
-                // Configuración para que el ComboBox entienda qué mostrar y qué valor guardar
-                cmbServicios.DataSource = listaServicios;
-                cmbServicios.DisplayMember = "Nombre";      // Lo que ve el usuario
-                cmbServicios.ValueMember = "ServicioID";    // El valor interno (ID)
-
-                // Limpiamos selección inicial para obligar al usuario a elegir
-                cmbServicios.SelectedIndex = -1;
-                LimpiarDetallesServicio();
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error al cargar servicios: " + ex.Message);
-            }
-        }
-
-        private void LimpiarDetallesServicio()
-        {
-            txtPrecio.Text = "";
-            txtDuracion.Text = "";
-            txtDescripcion.Text = "";
-            btnContinuarResumen.Enabled = false; // Deshabilitar hasta que seleccione algo
-        }
-
         private void btnContinuarResumen_Click(object sender, EventArgs e)
         {
             // 1. Validar que se haya seleccionado un servicio
@@ -446,18 +451,19 @@ namespace Mannucci_Motors
 
             MessageBox.Show("Datos del servicio guardados.", "Paso 3 Completado", MessageBoxButtons.OK, MessageBoxIcon.Information);
 
-            // 4. Ir a la pestaña RESUMEN
-            CargarDatosResumen();
-            tbNuevaCita.SelectedTab = tabPage4;
+            // 4. Ir a la pestaña RESUMEN 
+            CargarDatosResumen(); 
+            tabControl1.SelectedTab = tabPage4;
         }
 
         private void btnAtrasCalendario_Click(object sender, EventArgs e)
         {
-            tbNuevaCita.SelectedTab = tabPage2;
+            tabControl1.SelectedTab = tabPage2;
         }
 
         private void CargarDatosResumen()
         {
+            // Creamos una tabla simple para mostrar los datos de forma vertical (Concepto | Valor)
             DataTable dtResumen = new DataTable();
             dtResumen.Columns.Add("Concepto");
             dtResumen.Columns.Add("Valor");
@@ -481,26 +487,31 @@ namespace Mannucci_Motors
             dgvResumen.ColumnHeadersVisible = false;
         }
 
+        private void btnAtrasDetalles_Click(object sender, EventArgs e)
+        {
+            tabControl1.SelectedTab = tabPage3;
+        }
+
         private void btnRegistrarCita_Click(object sender, EventArgs e)
         {
-            DialogResult result = MessageBox.Show("¿Confirmar registro de cita?", "Confirmar", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+            DialogResult result = MessageBox.Show("¿Confirmar registro de cita?", "Confirmar",
+                                           MessageBoxButtons.YesNo, MessageBoxIcon.Question);
             if (result == DialogResult.No) return;
 
             try
             {
                 CN_Cita objCita = new CN_Cita();
-                string mensaje;
-                int usuarioLogueadoId = 1; // Aquí iría tu variable de sesión real
+                CN_OrdenTrabajo objOT = new CN_OrdenTrabajo();
 
-                // COMBINAR FECHA + HORA PARA LA BD
-                // _fechaSeleccionada tiene la fecha (00:00:00)
-                // _horaInicioSeleccionada tiene la hora (ej: 08:00:00)
+                string mensaje;
+                int usuarioLogueadoId = 1; // reemplazar por tu sesión real
+
                 DateTime fechaFinalBD = _fechaSeleccionada.Date + _horaInicioSeleccionada;
 
-                bool exito = objCita.RegistrarNuevaCita(
-                    _vehiculoSeleccionadoID, // Ya lo guardamos en el paso 1
+                int citaId = objCita.RegistrarNuevaCitaYDevolverId(
+                    _vehiculoSeleccionadoID,
                     usuarioLogueadoId,
-                    fechaFinalBD,            // Enviamos la fecha con hora exacta
+                    fechaFinalBD,
                     _duracionServicio,
                     _observacionesCita,
                     _idServicioSeleccionado,
@@ -508,13 +519,20 @@ namespace Mannucci_Motors
                     out mensaje
                 );
 
-                if (exito)
+                if (citaId > 0)
                 {
+                    _citaIdGenerada = citaId;  // GUARDAR ID PARA btnCrearOT
+
                     MessageBox.Show(mensaje, "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+                    btnRegistrarCita.Enabled = false;
+                    btnCrearOT.Enabled = true; // si quieres controlar habilitado/deshabilitado
                 }
+
                 else
                 {
-                    MessageBox.Show("Error al registrar: " + mensaje, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    MessageBox.Show("Error al registrar cita: " + mensaje,
+                        "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 }
             }
             catch (Exception ex)
@@ -525,18 +543,44 @@ namespace Mannucci_Motors
 
         private void btnCancelar_Click(object sender, EventArgs e)
         {
+            // Preguntar confirmación
             DialogResult result = MessageBox.Show(
-            "¿Está seguro de que desea cancelar el proceso?\nSe perderán todos los datos ingresados.",
-            "Cancelar Cita",
-            MessageBoxButtons.YesNo,
-            MessageBoxIcon.Question
-    );
+                "¿Está seguro de que desea cancelar el proceso?\nSe perderán todos los datos ingresados.",
+                "Cancelar Cita",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question
+            );
 
             // Si dice que sí, cerramos el formulario
             if (result == DialogResult.Yes)
             {
                 this.Close();
             }
+        }
+
+        private void btnCrearOT_Click(object sender, EventArgs e)
+        {
+            if (_citaIdGenerada <= 0)
+            {
+                MessageBox.Show("Primero debe registrar la cita antes de crear la OT.",
+                                "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            int usuarioLogueadoId = 1; // tu usuario real
+            int prioridad = 1;
+            int? kmEntrada = null;
+
+            var cnOt = new CN_OrdenTrabajo();
+            int idOT = cnOt.CrearOrdenTrabajoDesdeCita(_citaIdGenerada, usuarioLogueadoId, prioridad, kmEntrada);
+
+            MessageBox.Show($"Orden de trabajo N° {idOT} creada correctamente.",
+                            "Éxito", MessageBoxButtons.OK, MessageBoxIcon.Information);
+
+            // Ahora sí abrir el formulario de listado:
+            frmOrdenesTrabajo formularioOT = new frmOrdenesTrabajo();
+            formularioOT.Show();
+            this.Close();
         }
     }
 }
