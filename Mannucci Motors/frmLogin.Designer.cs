@@ -32,7 +32,6 @@
             this.pnl_titulo_form = new System.Windows.Forms.Panel();
             this.label21 = new System.Windows.Forms.Label();
             this.pictureBox1 = new System.Windows.Forms.PictureBox();
-            this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
             this.txtEmail = new System.Windows.Forms.TextBox();
@@ -52,9 +51,9 @@
             this.pnl_titulo_form.Controls.Add(this.label21);
             this.pnl_titulo_form.Dock = System.Windows.Forms.DockStyle.Top;
             this.pnl_titulo_form.Location = new System.Drawing.Point(0, 0);
-            this.pnl_titulo_form.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pnl_titulo_form.Margin = new System.Windows.Forms.Padding(4);
             this.pnl_titulo_form.Name = "pnl_titulo_form";
-            this.pnl_titulo_form.Size = new System.Drawing.Size(1000, 115);
+            this.pnl_titulo_form.Size = new System.Drawing.Size(1000, 91);
             this.pnl_titulo_form.TabIndex = 10;
             // 
             // label21
@@ -73,26 +72,13 @@
             // 
             this.pictureBox1.BackColor = System.Drawing.Color.White;
             this.pictureBox1.Image = ((System.Drawing.Image)(resources.GetObject("pictureBox1.Image")));
-            this.pictureBox1.Location = new System.Drawing.Point(300, 58);
-            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.pictureBox1.Location = new System.Drawing.Point(199, 8);
+            this.pictureBox1.Margin = new System.Windows.Forms.Padding(4);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(400, 192);
+            this.pictureBox1.Size = new System.Drawing.Size(647, 306);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
             this.pictureBox1.TabIndex = 20;
             this.pictureBox1.TabStop = false;
-            // 
-            // label3
-            // 
-            this.label3.BackColor = System.Drawing.Color.White;
-            this.label3.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label3.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.label3.Location = new System.Drawing.Point(100, 269);
-            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(800, 77);
-            this.label3.TabIndex = 21;
-            this.label3.Text = "MANNUCCI MOTORS";
-            this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // label4
             // 
@@ -100,7 +86,7 @@
             this.label4.BackColor = System.Drawing.Color.White;
             this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label4.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.label4.Location = new System.Drawing.Point(100, 423);
+            this.label4.Location = new System.Drawing.Point(81, 353);
             this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(127, 29);
@@ -113,7 +99,7 @@
             this.label5.BackColor = System.Drawing.Color.White;
             this.label5.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label5.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.label5.Location = new System.Drawing.Point(100, 519);
+            this.label5.Location = new System.Drawing.Point(81, 449);
             this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(190, 29);
@@ -126,8 +112,8 @@
             this.txtEmail.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtEmail.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtEmail.ForeColor = System.Drawing.Color.Black;
-            this.txtEmail.Location = new System.Drawing.Point(300, 413);
-            this.txtEmail.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtEmail.Location = new System.Drawing.Point(281, 343);
+            this.txtEmail.Margin = new System.Windows.Forms.Padding(4);
             this.txtEmail.MaxLength = 150;
             this.txtEmail.Name = "txtEmail";
             this.txtEmail.Size = new System.Drawing.Size(598, 35);
@@ -139,8 +125,8 @@
             this.txtContraseña.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.txtContraseña.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtContraseña.ForeColor = System.Drawing.Color.Black;
-            this.txtContraseña.Location = new System.Drawing.Point(300, 510);
-            this.txtContraseña.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.txtContraseña.Location = new System.Drawing.Point(281, 440);
+            this.txtContraseña.Margin = new System.Windows.Forms.Padding(4);
             this.txtContraseña.MaxLength = 255;
             this.txtContraseña.Name = "txtContraseña";
             this.txtContraseña.PasswordChar = '•';
@@ -154,8 +140,8 @@
             this.btn_Salir.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_Salir.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btn_Salir.ForeColor = System.Drawing.Color.White;
-            this.btn_Salir.Location = new System.Drawing.Point(540, 615);
-            this.btn_Salir.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btn_Salir.Location = new System.Drawing.Point(519, 518);
+            this.btn_Salir.Margin = new System.Windows.Forms.Padding(4);
             this.btn_Salir.Name = "btn_Salir";
             this.btn_Salir.Size = new System.Drawing.Size(200, 67);
             this.btn_Salir.TabIndex = 27;
@@ -170,8 +156,8 @@
             this.btnLogin.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnLogin.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnLogin.ForeColor = System.Drawing.Color.White;
-            this.btnLogin.Location = new System.Drawing.Point(300, 615);
-            this.btnLogin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnLogin.Location = new System.Drawing.Point(281, 518);
+            this.btnLogin.Margin = new System.Windows.Forms.Padding(4);
             this.btnLogin.Name = "btnLogin";
             this.btnLogin.Size = new System.Drawing.Size(230, 67);
             this.btnLogin.TabIndex = 26;
@@ -185,17 +171,16 @@
             this.panelLogin.Controls.Add(this.lblBienvenido);
             this.panelLogin.Controls.Add(this.pictureBox1);
             this.panelLogin.Controls.Add(this.btn_Salir);
-            this.panelLogin.Controls.Add(this.label3);
             this.panelLogin.Controls.Add(this.btnLogin);
             this.panelLogin.Controls.Add(this.label5);
             this.panelLogin.Controls.Add(this.txtContraseña);
             this.panelLogin.Controls.Add(this.label4);
             this.panelLogin.Controls.Add(this.txtEmail);
             this.panelLogin.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.panelLogin.Location = new System.Drawing.Point(0, 115);
-            this.panelLogin.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.panelLogin.Location = new System.Drawing.Point(0, 91);
+            this.panelLogin.Margin = new System.Windows.Forms.Padding(4);
             this.panelLogin.Name = "panelLogin";
-            this.panelLogin.Size = new System.Drawing.Size(1000, 750);
+            this.panelLogin.Size = new System.Drawing.Size(1000, 774);
             this.panelLogin.TabIndex = 28;
             // 
             // lblBienvenido
@@ -203,7 +188,7 @@
             this.lblBienvenido.BackColor = System.Drawing.Color.White;
             this.lblBienvenido.Font = new System.Drawing.Font("Microsoft Sans Serif", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblBienvenido.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
-            this.lblBienvenido.Location = new System.Drawing.Point(100, 346);
+            this.lblBienvenido.Location = new System.Drawing.Point(81, 276);
             this.lblBienvenido.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.lblBienvenido.Name = "lblBienvenido";
             this.lblBienvenido.Size = new System.Drawing.Size(800, 38);
@@ -220,7 +205,7 @@
             this.Controls.Add(this.panelLogin);
             this.Controls.Add(this.pnl_titulo_form);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "frmLogin";
@@ -239,7 +224,6 @@
         private System.Windows.Forms.Panel pnl_titulo_form;
         private System.Windows.Forms.Label label21;
         private System.Windows.Forms.PictureBox pictureBox1;
-        private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.TextBox txtEmail;

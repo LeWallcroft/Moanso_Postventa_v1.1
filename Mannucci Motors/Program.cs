@@ -16,7 +16,7 @@ namespace Mannucci_Motors
         /// </summary>
         [STAThread]
 
-        static void Main()
+        /*static void Main()
         {
            
             Application.EnableVisualStyles();            
@@ -30,13 +30,13 @@ namespace Mannucci_Motors
                 Rol = "administrador"
             };
             Application.Run(new frmMenu());
-        }
-        /*
+        }*/
+        
         static void Main()
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new frmLogin());
-        }*/
+        }
     }
 }

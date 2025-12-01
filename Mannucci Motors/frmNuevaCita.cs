@@ -18,8 +18,6 @@ namespace Mannucci_Motors
     public partial class frmNuevaCita : Form
     {
         private int _vehiculoSeleccionadoID;
-        private int _clienteSeleccionadoID;
-        private int _bahiaSeleccionadaID;
         private DateTime _fechaSeleccionada;
         private int _idBahiaSeleccionada;
 

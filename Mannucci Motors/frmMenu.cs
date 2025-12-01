@@ -139,7 +139,7 @@ namespace Mannucci_Motors
             var formularioActual = this.MdiChildren[0];
 
             // ✅ PARA ADMINISTRADOR: Siempre permitir cambiar entre módulos
-            if (Sesion.UsuarioActual.Rol.ToLower() == "administrador")
+            if (Sesion.UsuarioActual.Rol == "Administrador")
             {
                 // Administrador tiene acceso completo, no deshabilitar menús
                 HabilitarTodosLosMenus();
@@ -154,10 +154,10 @@ namespace Mannucci_Motors
         private void DeshabilitarMenusNoCorrespondientes(Form formularioActual)
         {
             // Solo aplicar esta lógica para roles que no son administrador
-            var rol = Sesion.UsuarioActual.Rol.ToLower();
-            if (rol == "administrador") return;
+            var rol = Sesion.UsuarioActual.Rol;
+            if (rol == "Administrador") return;
 
-            // Habilitar todos primero
+            // Habilitar todos primero según permisos de rol
             HabilitarTodosLosMenus();
 
             // Luego deshabilitar los que no correspondan
@@ -166,6 +166,7 @@ namespace Mannucci_Motors
                 // Si está en Agenda, deshabilitar otros módulos
                 if (mnuTallerDiagnostico != null) mnuTallerDiagnostico.Enabled = false;
                 if (mnuAdmin != null) mnuAdmin.Enabled = false;
+                if (mnuEntrega != null) mnuEntrega.Enabled = false;
             }
             else if (formularioActual is frmServicios)
             {
@@ -173,12 +174,14 @@ namespace Mannucci_Motors
                 if (mnuAgenda != null) mnuAgenda.Enabled = false;
                 if (mnuTallerDiagnostico != null) mnuTallerDiagnostico.Enabled = false;
                 if (mnuAdmin != null) mnuAdmin.Enabled = false;
+                if (mnuEntrega != null) mnuEntrega.Enabled = false;
             }
-            else if ( formularioActual is frmOrdenesTrabajo)
+            else if (formularioActual is frmOrdenesTrabajo)
             {
                 // Si está en Taller, deshabilitar otros módulos
                 if (mnuAgenda != null) mnuAgenda.Enabled = false;
                 if (mnuAdmin != null) mnuAdmin.Enabled = false;
+                if (mnuEntrega != null) mnuEntrega.Enabled = false;
             }
             else if (formularioActual is frmUsuarios || formularioActual is frmTecnicos ||
                      formularioActual is frmBahias || formularioActual is frmGestionClientes)
@@ -186,45 +189,52 @@ namespace Mannucci_Motors
                 // Si está en Admin, deshabilitar otros módulos (solo para no administradores)
                 if (mnuAgenda != null) mnuAgenda.Enabled = false;
                 if (mnuTallerDiagnostico != null) mnuTallerDiagnostico.Enabled = false;
+                if (mnuEntrega != null) mnuEntrega.Enabled = false;
+            }
+            else if (formularioActual is frmEntregas)
+            {
+                // Si está en Entregas, deshabilitar otros módulos
+                if (mnuAgenda != null) mnuAgenda.Enabled = false;
+                if (mnuTallerDiagnostico != null) mnuTallerDiagnostico.Enabled = false;
+                if (mnuAdmin != null) mnuAdmin.Enabled = false;
             }
         }
-
-        // ✅ ELIMINADO: Método DeshabilitarTodosLosMenus (ya no se usa)
 
         // ✅ CORREGIDO: Habilitar todos los menús principales según permisos
         private void HabilitarTodosLosMenus()
         {
-            var rol = Sesion.UsuarioActual.Rol.ToLower();
+            var rol = Sesion.UsuarioActual.Rol;
 
             // ✅ ADMINISTRADOR: Acceso completo a todos los menús
-            if (rol == "administrador")
+            if (rol == "Administrador")
             {
                 if (mnuAgenda != null) mnuAgenda.Enabled = true;
                 if (mnuTallerDiagnostico != null) mnuTallerDiagnostico.Enabled = true;
                 if (mnuAdmin != null) mnuAdmin.Enabled = true;
+                if (mnuEntrega != null) mnuEntrega.Enabled = true;
                 return;
             }
 
             // ✅ ASESOR: Acceso a todo excepto Admin
-            if (rol == "asesor")
+            if (rol == "Asesor")
             {
                 if (mnuAgenda != null) mnuAgenda.Enabled = true;
                 if (mnuTallerDiagnostico != null) mnuTallerDiagnostico.Enabled = true;
                 if (mnuAdmin != null) mnuAdmin.Enabled = false;
+                if (mnuEntrega != null) mnuEntrega.Enabled = true;
                 return;
             }
 
-            // ✅ TÉCNICO: Sin acceso
-            if (rol == "tecnico")
+            // ✅ TÉCNICO: Solo acceso al Taller
+            if (rol == "Tecnico")
             {
                 if (mnuAgenda != null) mnuAgenda.Enabled = false;
-                if (mnuTallerDiagnostico != null) mnuTallerDiagnostico.Enabled = false;
+                if (mnuTallerDiagnostico != null) mnuTallerDiagnostico.Enabled = true; // Solo Taller visible
                 if (mnuAdmin != null) mnuAdmin.Enabled = false;
+                if (mnuEntrega != null) mnuEntrega.Enabled = false;
                 return;
             }
         }
-
-        // ✅ ELIMINADO: Método HabilitarMenuCorrespondiente (reemplazado por nueva lógica)
 
         // ✅ CORREGIDO: Método para mostrar mensaje de bienvenida
         private void MostrarMensajeBienvenida()
@@ -233,10 +243,18 @@ namespace Mannucci_Motors
             {
                 var originalText = lblDateTime.Text;
 
-                var rol = Sesion.UsuarioActual.Rol.ToLower();
-                if (rol == "tecnico")
+                var rol = Sesion.UsuarioActual.Rol;
+                if (rol == "Tecnico")
                 {
-                    lblDateTime.Text = "Usuario Técnico - Acceso limitado al sistema";
+                    lblDateTime.Text = "Usuario Técnico - Acceso limitado a Taller";
+                }
+                else if (rol == "Asesor")
+                {
+                    lblDateTime.Text = "Usuario Asesor - Acceso a Agenda, Taller y Entregas";
+                }
+                else if (rol == "Administrador")
+                {
+                    lblDateTime.Text = "Administrador - Acceso completo al sistema";
                 }
                 else
                 {
@@ -259,65 +277,77 @@ namespace Mannucci_Motors
 
         private void ApplyRolePermissions()
         {
-            // ✅ CORRECCIÓN: Permisos según tu especificación
-            var rol = Sesion.UsuarioActual.Rol.ToLower();
+            // ✅ CORRECCIÓN COMPLETA: Permisos según especificación exacta
+            var rol = Sesion.UsuarioActual.Rol;
 
-            if (rol == "administrador")
+            if (rol == "Administrador")
             {
                 // Administrador: acceso a todo
                 if (mnuAgenda != null) mnuAgenda.Visible = true;
                 if (mnuTallerDiagnostico != null) mnuTallerDiagnostico.Visible = true;
                 if (mnuAdmin != null) mnuAdmin.Visible = true;
+                if (mnuEntrega != null) mnuEntrega.Visible = true;
             }
-            else if (rol == "asesor")
+            else if (rol == "Asesor")
             {
                 // Asesor: acceso a todo excepto Admin
                 if (mnuAgenda != null) mnuAgenda.Visible = true;
                 if (mnuTallerDiagnostico != null) mnuTallerDiagnostico.Visible = true;
                 if (mnuAdmin != null) mnuAdmin.Visible = false;
+                if (mnuEntrega != null) mnuEntrega.Visible = true;
             }
-            else if (rol == "tecnico")
+            else if (rol == "Tecnico")
             {
-                // Técnico: NO tiene acceso al sistema
+                // Técnico: Solo acceso al Taller
                 if (mnuAgenda != null) mnuAgenda.Visible = false;
-                if (mnuTallerDiagnostico != null) mnuTallerDiagnostico.Visible = false;
+                if (mnuTallerDiagnostico != null) mnuTallerDiagnostico.Visible = true;
                 if (mnuAdmin != null) mnuAdmin.Visible = false;
+                if (mnuEntrega != null) mnuEntrega.Visible = false;
             }
         }
 
-
         // ========== EVENTOS DE MENÚ ==========
+
+        // ✅ AGENDA - Solo Administrador y Asesor
         private void mnuAgendaDisponibilidad_Click(object sender, EventArgs e)
         {
-            if (Sesion.UsuarioActual.Rol.ToLower() == "tecnico")
+            if (Sesion.UsuarioActual.Rol == "Tecnico")
             {
                 MostrarMensajeAccesoDenegado();
                 return;
             }
             OpenMdiSingle<frmNuevaCita>();
         }
-           
+
+        // ✅ TALLER - Para todos los roles según sus permisos
         private void mnuTallerPresupuestos_Click(object sender, EventArgs e)
         {
-            if (Sesion.UsuarioActual.Rol.ToLower() == "tecnico")
+            // Verificar permisos
+            if (Sesion.UsuarioActual.Rol == "Tecnico")
             {
+                // Técnico solo puede ver Ordenes de Trabajo
                 MostrarMensajeAccesoDenegado();
                 return;
             }
-            // Mantengo tu código original
+
+            // Para Administrador y Asesor
+            OpenMdiSingle<frmServicios>();
         }
 
         private void mnuTallerOT_Click(object sender, EventArgs e)
         {
-            string rol = Sesion.UsuarioActual.Rol.ToLower();
+            string rol = Sesion.UsuarioActual.Rol;
 
-            if (rol == "tecnico")
+            if (rol == "Tecnico")
             {
                 // OBTENER tecnicoId desde usuario logueado
                 int tecnicoId = ObtenerTecnicoIdDesdeUsuario();
 
-                // ABRIR frmOrdenesTrabajo en modo técnico
-                OpenMdiSingle(() => new frmOrdenesTrabajo(true, tecnicoId));
+                if (tecnicoId > 0)
+                {
+                    // ABRIR frmOrdenesTrabajo en modo técnico
+                    OpenMdiSingle(() => new frmOrdenesTrabajo(true, tecnicoId));
+                }
                 return;
             }
 
@@ -366,11 +396,10 @@ namespace Mannucci_Motors
             ActualizarEstadoMenus();
         }
 
-
-
+        // ✅ ADMIN - Solo Administrador
         private void mnuAdminUsuarios_Click(object sender, EventArgs e)
         {
-            if (Sesion.UsuarioActual.Rol.ToLower() != "administrador")
+            if (Sesion.UsuarioActual.Rol != "Administrador")
             {
                 MostrarMensajeAccesoDenegado();
                 return;
@@ -380,7 +409,7 @@ namespace Mannucci_Motors
 
         private void mnuAdminBahias_Click(object sender, EventArgs e)
         {
-            if (Sesion.UsuarioActual.Rol.ToLower() != "administrador")
+            if (Sesion.UsuarioActual.Rol != "Administrador")
             {
                 MostrarMensajeAccesoDenegado();
                 return;
@@ -390,7 +419,7 @@ namespace Mannucci_Motors
 
         private void mnuAdminTecnicos_Click(object sender, EventArgs e)
         {
-            if (Sesion.UsuarioActual.Rol.ToLower() != "administrador")
+            if (Sesion.UsuarioActual.Rol != "Administrador")
             {
                 MostrarMensajeAccesoDenegado();
                 return;
@@ -400,7 +429,7 @@ namespace Mannucci_Motors
 
         private void mnuAdminReportes_Click(object sender, EventArgs e)
         {
-            if (Sesion.UsuarioActual.Rol.ToLower() != "administrador")
+            if (Sesion.UsuarioActual.Rol != "Administrador")
             {
                 MostrarMensajeAccesoDenegado();
                 return;
@@ -411,7 +440,7 @@ namespace Mannucci_Motors
         // ✅ NUEVOS EVENTOS PARA LOS MENÚS AGREGADOS
         private void mnuAdminClientes_Click(object sender, EventArgs e)
         {
-            if (Sesion.UsuarioActual.Rol.ToLower() != "administrador")
+            if (Sesion.UsuarioActual.Rol != "Administrador")
             {
                 MostrarMensajeAccesoDenegado();
                 return;
@@ -421,7 +450,7 @@ namespace Mannucci_Motors
 
         private void mnuAdminServicios_Click(object sender, EventArgs e)
         {
-            if (Sesion.UsuarioActual.Rol.ToLower() != "administrador")
+            if (Sesion.UsuarioActual.Rol != "Administrador")
             {
                 MostrarMensajeAccesoDenegado();
                 return;
@@ -431,7 +460,7 @@ namespace Mannucci_Motors
 
         private void mnuAdminRepuestos_Click(object sender, EventArgs e)
         {
-            if (Sesion.UsuarioActual.Rol.ToLower() != "administrador")
+            if (Sesion.UsuarioActual.Rol != "Administrador")
             {
                 MostrarMensajeAccesoDenegado();
                 return;
@@ -439,7 +468,30 @@ namespace Mannucci_Motors
             OpenMdiSingle<frmRepuestos>();
         }
 
-        // ✅ NUEVO: Método para mostrar mensaje de acceso denegado
+        // ✅ ENTREGA - Solo Administrador y Asesor (NO Técnico)
+        private void eNTREGAToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (Sesion.UsuarioActual.Rol == "Tecnico")
+            {
+                MostrarMensajeAccesoDenegado();
+                return;
+            }
+
+            // Si tienes un formulario específico para entregas
+            if (typeof(frmEntregas) != null)
+            {
+                OpenMdiSingle<frmEntregas>();
+            }
+            else
+            {
+                MessageBox.Show("El módulo de entregas no está disponible.",
+                              "Módulo no disponible",
+                              MessageBoxButtons.OK,
+                              MessageBoxIcon.Information);
+            }
+        }
+
+        // ✅ MÉTODO PARA MOSTRAR MENSAJE DE ACCESO DENEGADO
         private void MostrarMensajeAccesoDenegado()
         {
             MessageBox.Show("No tiene permisos para acceder a esta función.",
@@ -448,7 +500,7 @@ namespace Mannucci_Motors
                           MessageBoxIcon.Warning);
         }
 
-        // ✅ NUEVO: Verificar si hay formularios abiertos al hacer clic en áreas vacías
+        // ✅ VERIFICAR SI HAY FORMULARIOS ABIERTOS AL HACER CLIC EN ÁREAS VACÍAS
         protected override void OnMouseClick(MouseEventArgs e)
         {
             base.OnMouseClick(e);
@@ -457,6 +509,19 @@ namespace Mannucci_Motors
             {
                 MostrarMensajeBienvenida();
             }
+        }
+
+        private void eNTREGAVEHICULOToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            // Si tienes otro item específico para entrega de vehículos
+            if (Sesion.UsuarioActual.Rol == "Tecnico")
+            {
+                MostrarMensajeAccesoDenegado();
+                return;
+            }
+
+            // Tu código existente para abrir el formulario de entrega de vehículos
+            // OpenMdiSingle<frmEntregaVehiculo>();
         }
     }
 }

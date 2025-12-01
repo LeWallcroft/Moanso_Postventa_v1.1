@@ -49,8 +49,18 @@
     <Compile Include="Cita.cs" />
     <Compile Include="Cita_2.cs" />
     <Compile Include="Cliente.cs" />
+    <Compile Include="DatosEntregaDTO.cs" />
     <Compile Include="Diagnostico.cs" />
+    <Compile Include="DocumentoEntregaRequestDTO.cs" />
     <Compile Include="DTOs\FiltroServicios.cs" />
+    <Compile Include="EntidadControlCalidad.cs" />
+    <Compile Include="EntidadControlCalidadDetalle.cs" />
+    <Compile Include="EntidadDocumentoEntrega.cs" />
+    <Compile Include="EntidadEntrega.cs" />
+    <Compile Include="EntidadEstadoOT.cs" />
+    <Compile Include="EntidadOrdentrabajo.cs" />
+    <Compile Include="EntidadTecnico.cs" />
+    <Compile Include="EntidadUsuario.cs" />
     <Compile Include="EstadoBahia.cs" />
     <Compile Include="EstadoOT.cs" />
     <Compile Include="FiltroRepuesto.cs" />
@@ -70,6 +80,7 @@
     <Compile Include="RepuestoServicio.cs" />
     <Compile Include="ResumenItem.cs" />
     <Compile Include="Servicio.cs" />
+    <Compile Include="SolicitudAprobacionDTO.cs" />
     <Compile Include="Tecnico.cs" />
     <Compile Include="TipoServicio.cs" />
     <Compile Include="Usuario.cs" />
