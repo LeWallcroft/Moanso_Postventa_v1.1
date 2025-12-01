@@ -72,6 +72,7 @@
     <Compile Include="CD_Garantia.cs" />
     <Compile Include="CD_MarcaModelo.cs" />
     <Compile Include="CD_OrdenTrabajo.cs" />
+    <Compile Include="CD_OtActividad.cs" />
     <Compile Include="CD_Presupuesto.cs" />
     <Compile Include="CD_Reportes.cs" />
     <Compile Include="CD_Repuesto.cs" />

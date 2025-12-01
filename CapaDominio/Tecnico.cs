@@ -123,5 +123,11 @@ namespace CapaDominio
                 Activo = this.Activo,
             };
         }
+
+
+
+
+
+
     }
 }

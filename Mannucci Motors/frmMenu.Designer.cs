@@ -38,9 +38,6 @@
             this.mnuAgenda = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuAgendaDisponibilidad = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuTallerDiagnostico = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuTallerDiagnos = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuTallerPresupuestos = new System.Windows.Forms.ToolStripMenuItem();
-            this.mnuTallerOT = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuAdmin = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuAdminUsuarios = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuAdminBahias = new System.Windows.Forms.ToolStripMenuItem();
@@ -50,6 +47,7 @@
             this.mnuAdminRepuestos = new System.Windows.Forms.ToolStripMenuItem();
             this.mnuAdminReportes = new System.Windows.Forms.ToolStripMenuItem();
             this.panelContainer = new System.Windows.Forms.Panel();
+            this.mnuTallerOT = new System.Windows.Forms.ToolStripMenuItem();
             this.statusMain.SuspendLayout();
             this.menuMain.SuspendLayout();
             this.SuspendLayout();
@@ -145,13 +143,13 @@
             this.mnuAgendaDisponibilidad.ShortcutKeyDisplayString = "Ctrl+D";
             this.mnuAgendaDisponibilidad.Size = new System.Drawing.Size(180, 22);
             this.mnuAgendaDisponibilidad.Text = "Nueva Cita";
+            this.mnuAgendaDisponibilidad.Size = new System.Drawing.Size(210, 22);
+            this.mnuAgendaDisponibilidad.Text = "DISPONIBILIDAD";
             this.mnuAgendaDisponibilidad.Click += new System.EventHandler(this.mnuAgendaDisponibilidad_Click);
             // 
             // mnuTallerDiagnostico
             // 
             this.mnuTallerDiagnostico.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.mnuTallerDiagnos,
-            this.mnuTallerPresupuestos,
             this.mnuTallerOT});
             this.mnuTallerDiagnostico.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.mnuTallerDiagnostico.ForeColor = System.Drawing.Color.White;
@@ -284,6 +282,16 @@
             this.panelContainer.Size = new System.Drawing.Size(1000, 581);
             this.panelContainer.TabIndex = 5;
             // 
+            // mnuTallerOT
+            // 
+            this.mnuTallerOT.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(64)))), ((int)(((byte)(64)))), ((int)(((byte)(64)))));
+            this.mnuTallerOT.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.mnuTallerOT.ForeColor = System.Drawing.Color.White;
+            this.mnuTallerOT.Name = "mnuTallerOT";
+            this.mnuTallerOT.Size = new System.Drawing.Size(194, 22);
+            this.mnuTallerOT.Text = "ORDEN DE TRABAJO";
+            this.mnuTallerOT.Click += new System.EventHandler(this.mnuTallerOT_Click);
+            // 
             // frmMenu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
@@ -316,9 +324,6 @@
         private System.Windows.Forms.ToolStripMenuItem mnuAgenda;
         private System.Windows.Forms.ToolStripMenuItem mnuAgendaDisponibilidad;
         private System.Windows.Forms.ToolStripMenuItem mnuTallerDiagnostico;
-        private System.Windows.Forms.ToolStripMenuItem mnuTallerDiagnos;
-        private System.Windows.Forms.ToolStripMenuItem mnuTallerPresupuestos;
-        private System.Windows.Forms.ToolStripMenuItem mnuTallerOT;
         private System.Windows.Forms.ToolStripMenuItem mnuAdmin;
         private System.Windows.Forms.ToolStripMenuItem mnuAdminUsuarios;
         private System.Windows.Forms.ToolStripMenuItem mnuAdminBahias;
@@ -334,5 +339,6 @@
         private System.Windows.Forms.ToolStripMenuItem mnuAdminClientes;
         private System.Windows.Forms.ToolStripMenuItem mnuAdminServicios;
         private System.Windows.Forms.ToolStripMenuItem mnuAdminRepuestos;
+        private System.Windows.Forms.ToolStripMenuItem mnuTallerOT;
     }
 }

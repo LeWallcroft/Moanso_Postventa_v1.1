@@ -386,5 +386,25 @@ namespace CapaDatos
             }
             return string.Join(", ", columns);
         }
+
+
+        public List<Tecnico> ListarActivosDisponibles()
+        {
+            List<Tecnico> lista = new List<Tecnico>();
+            using (SqlConnection con = conexion.AbrirConexion())
+            using (SqlCommand cmd = new SqlCommand("sp_Tecnicos_ListarActivosDisponibles", con))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+                using (SqlDataReader reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        lista.Add(CrearTecnicoDesdeReader(reader));
+                    }
+                }
+            }
+            return lista;
+        }
+
     }
 }

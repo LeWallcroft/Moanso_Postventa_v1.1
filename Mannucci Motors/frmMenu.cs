@@ -31,8 +31,15 @@ namespace Mannucci_Motors
             // SOLO CAMBIO ESTO: Usar Nombre y Apellido en lugar de Username
             if (lblUser != null)
             {
-                string nombreCompleto = $"{Sesion.UsuarioActual.Nombre} {Sesion.UsuarioActual.Apellido}";
-                lblUser.Text = $"Usuario: {nombreCompleto} | Rol: {Sesion.UsuarioActual.Rol}";
+                if (Sesion.UsuarioActual != null)
+                {
+                    string nombreCompleto = $"{Sesion.UsuarioActual.Nombre} {Sesion.UsuarioActual.Apellido}";
+                    lblUser.Text = $"Usuario: {nombreCompleto} | Rol: {Sesion.UsuarioActual.Rol}";
+                }
+                else
+                {
+                    lblUser.Text = "Usuario no disponible";
+                }
             }
 
             // Iniciar reloj (igual que antes)
@@ -166,7 +173,7 @@ namespace Mannucci_Motors
                 if (mnuTallerDiagnostico != null) mnuTallerDiagnostico.Enabled = false;
                 if (mnuAdmin != null) mnuAdmin.Enabled = false;
             }
-            else if (formularioActual is frmDiagnostico || formularioActual is OrdenTrabajo)
+            else if ( formularioActual is frmOrdenesTrabajo)
             {
                 // Si está en Taller, deshabilitar otros módulos
                 if (mnuAgenda != null) mnuAgenda.Enabled = false;
@@ -272,7 +279,7 @@ namespace Mannucci_Motors
             {
                 // Técnico: NO tiene acceso al sistema
                 if (mnuAgenda != null) mnuAgenda.Visible = false;
-                if (mnuTallerDiagnostico != null) mnuTallerDiagnostico.Visible = true;
+                if (mnuTallerDiagnostico != null) mnuTallerDiagnostico.Visible = false;
                 if (mnuAdmin != null) mnuAdmin.Visible = false;
             }
         }
@@ -288,17 +295,7 @@ namespace Mannucci_Motors
             }
             OpenMdiSingle<frmNuevaCita>();
         }
-
-        private void mnuTallerDiagnos_Click(object sender, EventArgs e)
-        {
-            if (Sesion.UsuarioActual.Rol.ToLower() == "tecnico")
-            {
-                MostrarMensajeAccesoDenegado();
-                return;
-            }
-            OpenMdiSingle<frmDiagnostico>();
-        }
-
+           
         private void mnuTallerPresupuestos_Click(object sender, EventArgs e)
         {
             if (Sesion.UsuarioActual.Rol.ToLower() == "tecnico")
@@ -316,7 +313,7 @@ namespace Mannucci_Motors
                 MostrarMensajeAccesoDenegado();
                 return;
             }
-            OpenMdiSingle<OrdenTrabajo>();
+            OpenMdiSingle<frmOrdenesTrabajo>();
         }
 
         private void mnuAdminUsuarios_Click(object sender, EventArgs e)
