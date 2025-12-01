@@ -13,6 +13,7 @@ namespace CapaDominio
         public DateTime FechaCreacion { get; set; }
         public DateTime? FechaModificacion { get; set; }
         public bool Activo { get; set; }
+        public int CuposDisponibles { get; set; }
 
         // Propiedad de navegación para EstadoBahia
         public EstadoBahia EstadoBahia { get; set; }

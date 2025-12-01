@@ -161,11 +161,17 @@
     <EmbeddedResource Include="frmMenu.resx">
       <DependentUpon>frmMenu.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="frmNuevaCita.resx">
+      <DependentUpon>frmNuevaCita.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="frmServicios.resx">
       <DependentUpon>frmServicios.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="frmTecnicos.resx">
       <DependentUpon>frmTecnicos.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="frmUsuarios.resx">
+      <DependentUpon>frmUsuarios.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="OrdenTrabajo.resx">
       <DependentUpon>OrdenTrabajo.cs</DependentUpon>

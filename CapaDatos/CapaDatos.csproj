@@ -69,6 +69,7 @@
     <Compile Include="CD_Cliente.cs" />
     <Compile Include="CD_Conexion.cs" />
     <Compile Include="CD_Diagnostico.cs" />
+    <Compile Include="CD_Garantia.cs" />
     <Compile Include="CD_MarcaModelo.cs" />
     <Compile Include="CD_OrdenTrabajo.cs" />
     <Compile Include="CD_Presupuesto.cs" />
