@@ -18,10 +18,18 @@ namespace Mannucci_Motors
         private OrdenTrabajo _ordenActual;
         private OrdenPago _ordenPagoActual;        
         private List<RepuestoOT> _repuestosOT;
+        private readonly bool _esJefeTaller;
+        private readonly int _usuarioActualId;
+        
 
-        public frmOrdenTrabajoControl(int ordentrabajoId)
+        public frmOrdenTrabajoControl(int ordentrabajoId, bool esJefeTaller, int usuarioActualId)
         {
             InitializeComponent();
+            _ordentrabajoId = ordentrabajoId;
+            _esJefeTaller = esJefeTaller;
+            _usuarioActualId = usuarioActualId;
+            
+
             _ordentrabajoId = ordentrabajoId;
 
             this.Load += FrmOrdenTrabajoControl_Load;
@@ -30,6 +38,7 @@ namespace Mannucci_Motors
             btnCambiarEstado.Click += btnCambiarEstado_Click;
             btnAgregarRepuesto.Click += btnAgregarRepuesto_Click;
             btnEliminarRepuesto.Click += btnEliminarRepuesto_Click;
+            btnControlCalidad.Click += btnControlCalidad_Click;
         }
 
         private void FrmOrdenTrabajoControl_Load(object sender, EventArgs e)
@@ -144,6 +153,15 @@ namespace Mannucci_Motors
                     "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
                 Close();
             }
+
+            var fechaControl = _cnOrdenTrabajo.ObtenerFechaControl(_ordentrabajoId);
+            txtFeControl.Text = fechaControl?.ToString("dd/MM/yyyy HH:mm") ?? "";
+
+            var fechaEntrega = _cnOrdenTrabajo.ObtenerFechaEntrega(_ordentrabajoId);
+            txtFeEntrega.Text = fechaEntrega?.ToString("dd/MM/yyyy HH:mm") ?? "";
+
+
+
         }
 
         private void CargarActividadesOrdenTrabajo()
@@ -459,6 +477,49 @@ namespace Mannucci_Motors
         private string GenerarSerieOrdenPago()
         {
             return $"OP-{_ordentrabajoId:000000}";
+        }
+
+        private void btnControlCalidad_Click(object sender, EventArgs e)
+        {
+            try            
+            {
+                
+
+                // Estado debe ser PARA CONTROL
+                string estado = (txtEstado.Text ?? "").Trim().ToUpperInvariant();
+                if (estado != "PARA CONTROL")
+                {
+                    MessageBox.Show("La OT debe estar en estado PARA CONTROL para realizar el control de calidad.",
+                        "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                    return;
+                }
+
+                // Validar repuestos (por si acaso, además de lo que hará el SP)
+                if (_repuestosOT == null || _repuestosOT.Count == 0)
+                {
+                    MessageBox.Show("La OT no tiene repuestos/insumos registrados.",
+                        "Aviso", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                    return;
+                }
+
+                int tecnicoControl = _ordenActual.TecnicoID ?? 0;
+
+                using (var frm = new frmControlCalidad(_ordentrabajoId, tecnicoControl))
+                {
+                    var result = frm.ShowDialog();
+                    if (result == DialogResult.OK)
+                    {
+                        // Refrescamos
+                        CargarDatosOrdenTrabajo();
+                        CargarRepuestosOT();
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Error al abrir el control de calidad: " + ex.Message,
+                    "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }

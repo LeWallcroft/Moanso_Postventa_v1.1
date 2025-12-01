@@ -32,7 +32,6 @@
             this.pnlMenuOT = new System.Windows.Forms.Panel();
             this.button1 = new System.Windows.Forms.Button();
             this.btnTarea = new System.Windows.Forms.Button();
-            this.btnResumen = new System.Windows.Forms.Button();
             this.btnEditar = new System.Windows.Forms.Button();
             this.panel1 = new System.Windows.Forms.Panel();
             this.dgvListasOTs = new System.Windows.Forms.DataGridView();
@@ -47,7 +46,6 @@
             this.pnlMenuOT.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
             this.pnlMenuOT.Controls.Add(this.button1);
             this.pnlMenuOT.Controls.Add(this.btnTarea);
-            this.pnlMenuOT.Controls.Add(this.btnResumen);
             this.pnlMenuOT.Controls.Add(this.btnEditar);
             this.pnlMenuOT.Location = new System.Drawing.Point(11, 12);
             this.pnlMenuOT.Name = "pnlMenuOT";
@@ -81,19 +79,6 @@
             this.btnTarea.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnTarea.UseVisualStyleBackColor = true;
             this.btnTarea.Click += new System.EventHandler(this.btnTarea_Click);
-            // 
-            // btnResumen
-            // 
-            this.btnResumen.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Center;
-            this.btnResumen.Image = ((System.Drawing.Image)(resources.GetObject("btnResumen.Image")));
-            this.btnResumen.ImageAlign = System.Drawing.ContentAlignment.TopCenter;
-            this.btnResumen.Location = new System.Drawing.Point(143, 7);
-            this.btnResumen.Name = "btnResumen";
-            this.btnResumen.Size = new System.Drawing.Size(60, 64);
-            this.btnResumen.TabIndex = 1;
-            this.btnResumen.Text = "Detalle";
-            this.btnResumen.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnResumen.UseVisualStyleBackColor = true;
             // 
             // btnEditar
             // 
@@ -148,7 +133,6 @@
 
         private System.Windows.Forms.Panel pnlMenuOT;
         private System.Windows.Forms.Button btnEditar;
-        private System.Windows.Forms.Button btnResumen;
         private System.Windows.Forms.Button btnTarea;
         private System.Windows.Forms.Button button1;
         private System.Windows.Forms.Panel panel1;

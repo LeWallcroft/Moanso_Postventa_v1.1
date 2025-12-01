@@ -327,5 +327,66 @@ namespace CapaDatos
             }
         }
 
+
+        public DateTime? ObtenerFechaControl(int ordentrabajoID)
+        {
+            using (SqlConnection cn = conexion.AbrirConexion())
+            using (SqlCommand cmd = new SqlCommand(@"
+                    SELECT TOP 1 c.FechaControl
+                    FROM Controlcalidad c
+                    INNER JOIN Entregavehiculo e ON e.ControlcalidadID = c.ControlcalidadID
+                    WHERE e.OrdentrabajoID = @id
+                    ORDER BY c.ControlcalidadID DESC", cn))
+            {
+                cmd.Parameters.AddWithValue("@id", ordentrabajoID);
+                var result = cmd.ExecuteScalar();
+                if (result == null || result == DBNull.Value) return null;
+                return Convert.ToDateTime(result);
+            }
+        }
+
+
+
+        public DateTime? ObtenerFechaEntrega(int ordentrabajoID)
+        {
+            using (SqlConnection cn = conexion.AbrirConexion())
+            using (SqlCommand cmd = new SqlCommand(@"
+                    SELECT TOP 1 FechaEntrega
+                    FROM Entregavehiculo
+                    WHERE OrdentrabajoID = @id
+                    ORDER BY EntregavehiculoID DESC", cn))
+            {
+                cmd.Parameters.AddWithValue("@id", ordentrabajoID);
+                var result = cmd.ExecuteScalar();
+                if (result == null || result == DBNull.Value) return null;
+                return Convert.ToDateTime(result);
+            }
+        }
+
+
+
+        public void RegistrarControlCalidad(
+              int ordentrabajoID,
+              int usuariosID,
+              string resultado,
+              string observaciones,
+              string xmlChecklist)
+        {
+            using (SqlConnection cn = conexion.AbrirConexion())
+            using (SqlCommand cmd = new SqlCommand("sp_Controlcalidad_Procesar", cn))
+            {
+                cmd.CommandType = CommandType.StoredProcedure;
+
+                cmd.Parameters.AddWithValue("@OrdentrabajoID", ordentrabajoID);
+                cmd.Parameters.AddWithValue("@TecnicoID", usuariosID); 
+                cmd.Parameters.AddWithValue("@Resultado", resultado);
+                cmd.Parameters.AddWithValue("@Observaciones",
+                    string.IsNullOrWhiteSpace(observaciones) ? (object)DBNull.Value : observaciones);
+                cmd.Parameters.AddWithValue("@Checklist", xmlChecklist);
+
+                cmd.ExecuteNonQuery();
+            }
+        }
+
     }
 }

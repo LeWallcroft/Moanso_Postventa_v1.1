@@ -1,4 +1,5 @@
-﻿using CapaPresentacion;
+﻿using CapaLogicaNegocio;
+using CapaPresentacion;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -308,13 +309,64 @@ namespace Mannucci_Motors
 
         private void mnuTallerOT_Click(object sender, EventArgs e)
         {
-            if (Sesion.UsuarioActual.Rol.ToLower() == "tecnico")
+            string rol = Sesion.UsuarioActual.Rol.ToLower();
+
+            if (rol == "tecnico")
             {
-                MostrarMensajeAccesoDenegado();
+                // OBTENER tecnicoId desde usuario logueado
+                int tecnicoId = ObtenerTecnicoIdDesdeUsuario();
+
+                // ABRIR frmOrdenesTrabajo en modo técnico
+                OpenMdiSingle(() => new frmOrdenesTrabajo(true, tecnicoId));
                 return;
             }
-            OpenMdiSingle<frmOrdenesTrabajo>();
+
+            // Para administrador / asesor
+            OpenMdiSingle(() => new frmOrdenesTrabajo(false, null));
         }
+
+        private int ObtenerTecnicoIdDesdeUsuario()
+        {
+            CN_Tecnico cnTec = new CN_Tecnico();
+            int usuarioId = Sesion.UsuarioActual.UsuariosID;
+
+            int tecnicoId = cnTec.ObtenerTecnicoIDporUsuarioID(usuarioId);
+
+            if (tecnicoId <= 0)
+            {
+                MessageBox.Show("No se encontró un técnico asociado al usuario actual.",
+                                "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            return tecnicoId;
+        }
+
+        private void OpenMdiSingle(Func<Form> factory)
+        {
+            var existing = this.MdiChildren.FirstOrDefault(f => f.GetType() == factory().GetType());
+
+            if (existing != null)
+            {
+                existing.BringToFront();
+                existing.Focus();
+                return;
+            }
+
+            CerrarTodosLosFormularios();
+
+            var frm = factory();
+            frm.MdiParent = this;
+            frm.WindowState = FormWindowState.Maximized;
+            frm.FormClosed += ChildForm_FormClosed;
+
+            frm.Show();
+            frm.BringToFront();
+            frm.Focus();
+
+            ActualizarEstadoMenus();
+        }
+
+
 
         private void mnuAdminUsuarios_Click(object sender, EventArgs e)
         {
